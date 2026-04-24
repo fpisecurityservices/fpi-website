@@ -87,15 +87,2101 @@
 <body>
 <div id="root"></div>
 
-<script type="text/babel" src="responsive.jsx"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="SiteHeader.jsx"></script>
-<script type="text/babel" src="SiteHero.jsx"></script>
-<script type="text/babel" src="SiteSections.jsx"></script>
-<script type="text/babel" src="SiteServices.jsx"></script>
-<script type="text/babel" src="SiteIndustries.jsx"></script>
-<script type="text/babel" src="SiteLocations.jsx"></script>
-<script type="text/babel" src="SiteContact.jsx"></script>
+<script type="text/babel">
+// FPI Security — Shared Responsive Hook
+const useResponsive = () => {
+  const [width, setWidth] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return {
+    isMobile: width < 768,
+    isTablet: width >= 768 && width < 1024,
+    isDesktop: width >= 1024,
+    width,
+  };
+};
+
+Object.assign(window, { useResponsive });
+
+</script>
+<script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;height:22px;
+    border-radius:6px;cursor:default;padding:0}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((key, val) => {
+    setValues((prev) => ({ ...prev, [key]: val }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel"
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel">
+// FPI Security — Site Header (responsive)
+const SiteHeader = ({ activePage, onNavigate, direction = 'command' }) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { isMobile } = useResponsive();
+
+  React.useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handler);
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  // Close mobile menu on page change
+  React.useEffect(() => { setMobileOpen(false); }, [activePage]);
+
+  const isLight = direction === 'clarity';
+  const headerBg = isLight ? 'rgba(255,255,255,0.97)' : 'rgba(13,42,63,0.97)';
+  const textColor = isLight ? '#1A1E26' : '#fff';
+  const navColor = isLight ? '#4E5A6E' : 'rgba(255,255,255,0.7)';
+  const borderColor = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)';
+
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'services', label: 'Services' },
+    { id: 'industries', label: 'Industries' },
+    { id: 'locations', label: 'Locations' },
+    { id: 'about', label: 'About' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
+  const go = id => { onNavigate(id); setMobileOpen(false); };
+
+  return (
+    <header style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+      background: headerBg,
+      borderBottom: `1px solid ${borderColor}`,
+      backdropFilter: 'blur(12px)',
+      transition: 'background 0.2s',
+    }}>
+      {/* Main bar */}
+      <div style={{
+        maxWidth: 1280, margin: '0 auto',
+        padding: isMobile ? '0 20px' : '0 32px',
+        height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+      }}>
+        {/* Logo */}
+        <button onClick={() => go('home')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <img src="assets/logo-transparent.png" alt="FPI Security Services" style={{
+            height: 36, objectFit: 'contain',
+            filter: isLight ? 'none' : 'brightness(0) invert(1)',
+          }} />
+        </button>
+
+        {/* Desktop nav */}
+        {!isMobile && (
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {navItems.map(item => (
+              <button key={item.id} onClick={() => go(item.id)} style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 500,
+                color: activePage === item.id ? '#006090' : navColor,
+                padding: '6px 12px', borderRadius: 4,
+                transition: 'color 0.15s', letterSpacing: '0.01em',
+              }}
+              onMouseEnter={e => { if (activePage !== item.id) e.currentTarget.style.color = textColor; }}
+              onMouseLeave={e => { if (activePage !== item.id) e.currentTarget.style.color = navColor; }}
+              >{item.label}</button>
+            ))}
+          </nav>
+        )}
+
+        {/* Desktop right */}
+        {!isMobile && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+            <a href="tel:8003744316" style={{
+              display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none',
+              fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+              color: isLight ? '#006090' : 'rgba(255,255,255,0.9)',
+            }}>
+              <i data-lucide="phone" style={{ width: 15, height: 15 }}></i>
+              (800) 374-4316
+            </a>
+            <button onClick={() => go('contact')} style={{
+              background: '#006090', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600,
+              padding: '8px 18px', borderRadius: 4, border: 'none', cursor: 'pointer',
+              letterSpacing: '0.04em', whiteSpace: 'nowrap',
+              boxShadow: '0 2px 10px rgba(0,96,144,0.3)', transition: 'background 0.15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+            onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+            >Get a Quote</button>
+          </div>
+        )}
+
+        {/* Mobile: phone + hamburger */}
+        {isMobile && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <a href="tel:8003744316" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 36, height: 36, borderRadius: 8,
+              background: isLight ? '#E8EDF4' : 'rgba(255,255,255,0.1)',
+              color: '#006090', textDecoration: 'none',
+            }}>
+              <i data-lucide="phone" style={{ width: 16, height: 16 }}></i>
+            </a>
+            <button onClick={() => setMobileOpen(o => !o)} style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 4,
+              color: textColor, display: 'flex', alignItems: 'center',
+            }}>
+              <i data-lucide={mobileOpen ? 'x' : 'menu'} style={{ width: 24, height: 24 }}></i>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Mobile dropdown */}
+      {isMobile && mobileOpen && (
+        <div style={{
+          background: isLight ? '#fff' : '#0D2A3F',
+          borderTop: `1px solid ${borderColor}`,
+          padding: '12px 20px 24px',
+        }}>
+          {navItems.map(item => (
+            <button key={item.id} onClick={() => go(item.id)} style={{
+              display: 'block', width: '100%', textAlign: 'left',
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: "'Barlow', sans-serif", fontSize: 16, fontWeight: activePage === item.id ? 700 : 500,
+              color: activePage === item.id ? '#006090' : textColor,
+              padding: '12px 4px',
+              borderBottom: `1px solid ${borderColor}`,
+            }}>{item.label}</button>
+          ))}
+          <button onClick={() => go('contact')} style={{
+            display: 'block', width: '100%', marginTop: 16,
+            background: '#006090', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+            padding: '13px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em',
+          }}>Get a Quote</button>
+        </div>
+      )}
+    </header>
+  );
+};
+
+Object.assign(window, { SiteHeader });
+
+</script>
+<script type="text/babel">
+// FPI Security — Hero Section (responsive)
+const SiteHero = ({ onNavigate, direction = 'command' }) => {
+  const isCommand = direction === 'command';
+  if (isCommand) return <HeroCommand onNavigate={onNavigate} />;
+  return <HeroClarity onNavigate={onNavigate} />;
+};
+
+/* ─── Direction A: Command ─────────────────────────────── */
+const HeroCommand = ({ onNavigate }) => {
+  const { isMobile, isTablet } = useResponsive();
+  return (
+    <section style={{
+      minHeight: '100vh', position: 'relative', overflow: 'hidden',
+      display: 'flex', alignItems: 'center', paddingTop: 68,
+      background: '#0D2A3F',
+    }}>
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: "url('uploads/Two Armed Guards-63de0d99.png')",
+        backgroundSize: 'cover', backgroundPosition: 'center 20%',
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(100deg, rgba(13,42,63,0.97) 0%, rgba(13,42,63,0.88) 45%, rgba(13,42,63,0.3) 100%)',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: 180,
+        background: 'linear-gradient(to top, rgba(13,42,63,0.6), transparent)',
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto', padding: isMobile ? '60px 24px' : '80px 48px', width: '100%' }}>
+        <div style={{ maxWidth: 640 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+            <div style={{ width: 28, height: 2, background: '#006090' }} />
+            <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8' }}>
+              Pembroke Pines, FL &amp; Dallas, TX
+            </span>
+          </div>
+
+          <h1 style={{
+            fontFamily: "'Rajdhani', sans-serif",
+            fontSize: isMobile ? 52 : isTablet ? 62 : 76,
+            fontWeight: 700, color: '#fff', lineHeight: 1.0,
+            letterSpacing: '-0.02em', marginBottom: 20, textWrap: 'balance',
+          }}>
+            Security Built<br />
+            <span style={{ color: '#4A7FA8' }}>Around You.</span>
+          </h1>
+
+          <p style={{
+            fontFamily: "'Barlow', sans-serif",
+            fontSize: isMobile ? 15 : 18,
+            color: '#8998B1', lineHeight: 1.65, marginBottom: 36, maxWidth: 480,
+          }}>
+            A trusted private security guard company serving South Florida and Dallas, TX. Commercial security guards, 24-hour patrol, remote video surveillance, and a proprietary tech platform — all customized to your property.
+          </p>
+
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+              background: '#006090', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+              letterSpacing: '0.04em', boxShadow: '0 4px 20px rgba(0,96,144,0.4)',
+              transition: 'background 0.15s', flex: isMobile ? '1' : 'none',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+            onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+            >Request a Free Consultation</button>
+            <a href="tel:8003744316" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              background: 'rgba(255,255,255,0.07)', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 24px', borderRadius: 4,
+              border: '1.5px solid rgba(255,255,255,0.18)',
+              letterSpacing: '0.04em', textDecoration: 'none',
+              transition: 'background 0.15s', flex: isMobile ? '1' : 'none',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.07)'}
+            >
+              <i data-lucide="phone" style={{ width: 15, height: 15 }}></i>
+              (800) 374-4316
+            </a>
+          </div>
+
+          {!isMobile && (
+            <div style={{ display: 'flex', gap: 40, marginTop: 56, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap' }}>
+              {[['24/7', 'Live Monitoring'], ['2', 'Locations'], ['6+', 'Service Lines'], ['100%', 'Custom Plans']].map(([val, lbl]) => (
+                <div key={lbl}>
+                  <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 36, fontWeight: 700, color: '#fff', lineHeight: 1 }}>{val}</div>
+                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4A7FA8', marginTop: 5 }}>{lbl}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ─── Direction B: Clarity ─────────────────────────────── */
+const HeroClarity = ({ onNavigate }) => {
+  const { isMobile, isTablet } = useResponsive();
+  return (
+    <section style={{
+      minHeight: '100vh', position: 'relative', overflow: 'hidden',
+      display: 'flex', alignItems: 'center', paddingTop: 68,
+      background: '#F4F6F8',
+    }}>
+      <div style={{
+        maxWidth: 1280, margin: '0 auto',
+        padding: isMobile ? '60px 24px' : '80px 48px',
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: isMobile ? 40 : 64, alignItems: 'center',
+      }}>
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#E8EDF4', borderRadius: 20, padding: '5px 14px', marginBottom: 22 }}>
+            <i data-lucide="map-pin" style={{ width: 12, height: 12, color: '#006090' }}></i>
+            <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#006090' }}>Pembroke Pines, FL &amp; Dallas, TX</span>
+          </div>
+          <h1 style={{
+            fontFamily: "'Rajdhani', sans-serif",
+            fontSize: isMobile ? 52 : isTablet ? 56 : 68,
+            fontWeight: 700, color: '#0F3554', lineHeight: 1.0,
+            letterSpacing: '-0.02em', marginBottom: 18, textWrap: 'balance',
+          }}>
+            Your Property.<br />
+            <span style={{ color: '#006090' }}>Our Priority.</span>
+          </h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#4E5A6E', lineHeight: 1.7, marginBottom: 32, maxWidth: 460 }}>
+            FPI Security delivers fully customized security solutions — from private security guards and 24-hour patrols to remote surveillance and CCTV monitoring systems — backed by our proprietary tech platform.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+              background: '#006090', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+              letterSpacing: '0.04em', boxShadow: '0 4px 20px rgba(0,96,144,0.3)',
+              transition: 'background 0.15s', flex: isMobile ? '1' : 'none',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+            onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+            >Get a Free Consultation</button>
+            <button onClick={() => onNavigate('services')} style={{
+              background: '#fff', color: '#1A1E26',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 24px', borderRadius: 4, cursor: 'pointer',
+              border: '1.5px solid #C8D0DA', letterSpacing: '0.04em',
+              transition: 'border-color 0.15s', flex: isMobile ? '1' : 'none',
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = '#006090'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = '#C8D0DA'}
+            >View Services</button>
+          </div>
+          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            {['Licensed & Insured', 'Armed & Unarmed', '24/7 Operations'].map(b => (
+              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <i data-lucide="check-circle" style={{ width: 14, height: 14, color: '#006090' }}></i>
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#4E5A6E', fontWeight: 500 }}>{b}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {!isMobile && (
+          <div style={{ position: 'relative', height: 520 }}>
+            <div style={{ position: 'absolute', top: 0, right: 0, width: '85%', height: '75%', borderRadius: 12, overflow: 'hidden', boxShadow: '0 16px 48px rgba(0,0,0,0.18)' }}>
+              <img src="uploads/Armed Guard Lobby-825c5341.png" alt="FPI Security armed officer" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
+            </div>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '52%', height: '42%', borderRadius: 10, overflow: 'hidden', boxShadow: '0 12px 36px rgba(0,0,0,0.15)', border: '3px solid #fff' }}>
+              <img src="uploads/Residential Golf Cart Patrol-b71ef93c.png" alt="FPI Security residential patrol" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div style={{
+              position: 'absolute', top: '60%', right: -16,
+              background: '#0F3554', borderRadius: 10, padding: '16px 20px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)', minWidth: 140,
+            }}>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 32, fontWeight: 700, color: '#fff', lineHeight: 1 }}>24/7</div>
+              <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4A7FA8', marginTop: 4 }}>Live Monitoring</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+Object.assign(window, { SiteHero });
+
+</script>
+<script type="text/babel">
+// FPI Security — Trust Bar, About, CTA Strip, Footer (responsive)
+
+/* ── Trust Bar ───────────────────────────────────────────── */
+const TrustBar = ({ direction = 'command' }) => {
+  const { isMobile } = useResponsive();
+  const isLight = direction === 'clarity';
+  const bg = isLight ? '#fff' : '#0A2236';
+  const border = isLight ? '1px solid #E2E6ED' : 'none';
+  const shadow = isLight ? '0 2px 12px rgba(0,0,0,.06)' : 'none';
+  const textColor = isLight ? '#1A1E26' : '#CBD5E0';
+
+  const items = [
+    { icon: 'shield-check', label: 'Licensed & Insured' },
+    { icon: 'badge-check', label: 'Armed & Unarmed Officers' },
+    { icon: 'clock', label: '24/7 Operations' },
+    { icon: 'phone', label: '(800) 374-4316' },
+    { icon: 'map-pin', label: 'FL & TX' },
+  ];
+
+  if (isMobile) return null;
+
+  return (
+    <div style={{ background: bg, borderBottom: border, boxShadow: shadow, padding: '14px 24px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
+        {items.map((item, i) => (
+          <React.Fragment key={item.label}>
+            {i > 0 && <div style={{ width: 1, height: 16, background: isLight ? '#E2E6ED' : 'rgba(255,255,255,0.1)', flexShrink: 0 }} />}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <i data-lucide={item.icon} style={{ width: 14, height: 14, color: '#006090', flexShrink: 0 }}></i>
+              <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, color: textColor, whiteSpace: 'nowrap' }}>{item.label}</span>
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── About Section ────────────────────────────────────────── */
+const AboutSection = ({ direction = 'command', onNavigate }) => {
+  const { isMobile } = useResponsive();
+  const isLight = direction === 'clarity';
+  const bg = isLight ? '#F4F6F8' : '#0D2A3F';
+  const headingColor = isLight ? '#0F3554' : '#fff';
+  const bodyColor = isLight ? '#4E5A6E' : '#7090B0';
+  const eyebrowColor = isLight ? '#006090' : '#4A7FA8';
+  const statValueColor = isLight ? '#006090' : '#fff';
+  const statLabelColor = isLight ? '#8A96A8' : '#4A7FA8';
+
+  return (
+    <section style={{ background: bg, padding: isMobile ? '64px 24px' : '96px 48px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 72, alignItems: 'center' }}>
+        {!isMobile && (
+          <div style={{ position: 'relative', height: 480 }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '88%', height: '72%', borderRadius: 10, overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}>
+              <img src="uploads/Office Building with Supervisor-c670ba06.png" alt="FPI Security supervisor with officers" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '52%', height: '46%', borderRadius: 10, overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.16)', border: `3px solid ${isLight ? '#fff' : '#0D2A3F'}` }}>
+              <img src="uploads/Two Guard High Rise Lobby-b8e7df31.png" alt="FPI officers at luxury high-rise lobby" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+            </div>
+          </div>
+        )}
+        <div>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: eyebrowColor, marginBottom: 12 }}>About FPI Security</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 36 : 46, fontWeight: 700, color: headingColor, marginBottom: 20, lineHeight: 1.05 }}>
+            Personal Service.<br />Enterprise Capability.
+          </h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 16 }}>
+            FPI Security Services is a leading private security company serving Miami, South Florida, and Dallas, TX. We invest the time to understand your property, your people, and your risk profile — then build a fully customized security solution around it.
+          </p>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 36 }}>
+            Headquartered in Pembroke Pines, FL with offices in Dallas, TX, we combine highly trained private security guards with commercial security patrol services and a custom-built technology platform — delivering security systems that actually work.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 36, paddingBottom: 36, borderBottom: `1px solid ${isLight ? '#E2E6ED' : 'rgba(255,255,255,0.1)'}` }}>
+            {[['Pembroke Pines, FL', 'Headquarters'], ['Dallas, TX', 'Regional Office'], ['Proprietary', 'Tech Platform']].map(([v, l]) => (
+              <div key={l}>
+                <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 16 : 20, fontWeight: 700, color: statValueColor }}>{v}</div>
+                <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: statLabelColor, marginTop: 3 }}>{l}</div>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            background: '#006090', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+            padding: '12px 26px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em', transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+          onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+          >Request a Consultation</button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── CTA Strip ────────────────────────────────────────────── */
+const CTAStrip = ({ onNavigate }) => {
+  const { isMobile } = useResponsive();
+  return (
+    <section style={{ position: 'relative', overflow: 'hidden', padding: isMobile ? '64px 24px' : '80px 48px', textAlign: 'center' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('uploads/Event Guards-ea496454.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,42,63,0.95) 0%, rgba(0,96,144,0.88) 100%)' }} />
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 680, margin: '0 auto' }}>
+        <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 36 : 46, fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.05 }}>Ready to Elevate Your Security?</h2>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 14 : 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65, marginBottom: 32 }}>
+          Tell us about your property and we'll build a custom security plan that fits your needs and budget. No contracts, no one-size-fits-all.
+        </p>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            background: '#fff', color: '#006090',
+            fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700,
+            padding: '14px 34px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em', boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+            transition: 'transform 0.15s, box-shadow 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.25)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)'; }}
+          >Get a Free Consultation</button>
+          <a href="tel:8003744316" style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            background: 'transparent', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+            padding: '14px 28px', borderRadius: 4,
+            border: '1.5px solid rgba(255,255,255,0.4)',
+            letterSpacing: '0.04em', textDecoration: 'none',
+            transition: 'border-color 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.8)'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'}
+          >
+            <i data-lucide="phone" style={{ width: 15, height: 15 }}></i>
+            (800) 374-4316
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Footer ───────────────────────────────────────────────── */
+const SiteFooter = ({ onNavigate }) => {
+  const { isMobile, isTablet } = useResponsive();
+  const cols = isMobile ? '1fr' : isTablet ? '1fr 1fr' : '2fr 1fr 1fr 1fr';
+  return (
+    <footer style={{ background: '#07192A', padding: isMobile ? '48px 24px 24px' : '60px 48px 28px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: cols, gap: isMobile ? 36 : 48, marginBottom: 40 }}>
+          <div>
+            <img src="assets/logo-transparent.png" alt="FPI Security Services" style={{ height: 38, objectFit: 'contain', marginBottom: 14, filter: 'brightness(0) invert(1)' }} />
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#4A7FA8', lineHeight: 1.7, maxWidth: 260, marginBottom: 18 }}>
+              Personalized, tech-forward security solutions for properties across Pembroke Pines, FL and Dallas, TX.
+            </p>
+            <a href="tel:8003744316" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#fff', fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700 }}>
+              <i data-lucide="phone" style={{ width: 16, height: 16, color: '#006090' }}></i>
+              (800) 374-4316
+            </a>
+          </div>
+          {[
+            { heading: 'Services', links: [
+              { label: 'Security Officers', id: 'services' },
+              { label: 'Mobile Patrol', id: 'services' },
+              { label: 'Remote Video Monitoring', id: 'services' },
+              { label: 'Access Control', id: 'services' },
+              { label: 'Autonomous Surveillance', id: 'services' },
+            ]},
+            { heading: 'Industries', links: [
+              { label: 'HOA & Residential', id: 'industries' },
+              { label: 'Retail & Shopping Centers', id: 'industries' },
+              { label: 'Construction Sites', id: 'industries' },
+              { label: 'Commercial Office', id: 'industries' },
+              { label: 'Healthcare & Medical', id: 'industries' },
+            ]},
+            { heading: 'Company', links: [
+              { label: 'About FPI', id: 'about' },
+              { label: 'Locations', id: 'locations' },
+              { label: 'Technology', id: 'services' },
+              { label: 'Contact', id: 'contact' },
+              { label: 'Request a Quote', id: 'contact' },
+            ]},
+          ].map(col => (
+            <div key={col.heading}>
+              <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 14 }}>{col.heading}</div>
+              {col.links.map(l => (
+                <button key={l.label} onClick={() => onNavigate(l.id)} style={{
+                  display: 'block', background: 'none', border: 'none', cursor: 'pointer',
+                  fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#567090',
+                  marginBottom: 10, padding: 0, textAlign: 'left', transition: 'color 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = '#8998B1'}
+                onMouseLeave={e => e.currentTarget.style.color = '#567090'}
+                >{l.label}</button>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>© 2025 FPI Security Services. All rights reserved. | Licensed & Insured</span>
+          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>Pembroke Pines, FL · Dallas, TX</span>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+/* ── About Page ───────────────────────────────────────────── */
+const AboutPage = ({ onNavigate }) => {
+  const { isMobile, isTablet } = useResponsive();
+  const values = [
+    { icon: 'shield-check', title: 'Integrity', desc: 'We do what we say. Every officer, every shift, every client.' },
+    { icon: 'eye', title: 'Vigilance', desc: 'Proactive, attentive security — never passive, never reactive.' },
+    { icon: 'star', title: 'Excellence', desc: 'High standards across hiring, training, technology, and service delivery.' },
+    { icon: 'users', title: 'Partnership', desc: 'We build long-term relationships, not transactional contracts.' },
+  ];
+  const stats = [
+    { value: '24/7', label: 'Operations Center' },
+    { value: '2', label: 'Office Locations' },
+    { value: '6+', label: 'Service Lines' },
+    { value: '100%', label: 'Custom Programs' },
+  ];
+  const gallery = [
+    { src: 'uploads/Two Guard High Rise Lobby-b8e7df31.png', caption: 'Luxury High-Rise Security' },
+    { src: 'uploads/Male Guard Lobby-f9cc8769.png', caption: 'Corporate Lobby Security' },
+    { src: 'uploads/Event Guards-ea496454.png', caption: 'Special Event Security' },
+    { src: 'uploads/Two Armed Guards-63de0d99.png', caption: 'Armed Officers & Patrol Fleet' },
+    { src: 'uploads/Residential Golf Cart Patrol-b71ef93c.png', caption: 'Residential Community Patrol' },
+    { src: 'uploads/Office Building with Supervisor-c670ba06.png', caption: 'Field Supervision & Oversight' },
+  ];
+  const pad = isMobile ? '24px' : '48px';
+
+  return (
+    <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      {/* Hero Banner */}
+      <div style={{ position: 'relative', overflow: 'hidden', minHeight: isMobile ? 300 : 420, display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('uploads/Monitoring Center-5633d731.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(7,25,42,0.97) 0%, rgba(13,42,63,0.88) 50%, rgba(13,42,63,0.5) 100%)' }} />
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto', padding: isMobile ? '60px 24px' : '80px 48px', width: '100%' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>About FPI Security</div>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 44 : 62, fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 18, maxWidth: 700 }}>
+            Built on Integrity.<br />Driven by Excellence.
+          </h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#8998B1', lineHeight: 1.7, maxWidth: 560 }}>
+            FPI Security Services was founded on a simple belief — every property deserves a security program built specifically for it, backed by people who genuinely care about doing the job right.
+          </p>
+        </div>
+      </div>
+
+      {/* Mission Bar */}
+      <div style={{ background: '#006090', padding: isMobile ? '36px 24px' : '44px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'flex-start', gap: 20 }}>
+          {!isMobile && <i data-lucide="quote" style={{ width: 36, height: 36, color: 'rgba(255,255,255,0.35)', flexShrink: 0 }}></i>}
+          <p style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 20 : 26, fontWeight: 600, color: '#fff', lineHeight: 1.45, margin: 0 }}>
+            Our mission is to provide professional security services with integrity, vigilance, and excellence — customized to every client, every property, every time.
+          </p>
+        </div>
+      </div>
+
+      {/* Our Story */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '56px 24px' : '88px 48px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 36 : 80, alignItems: 'center' }}>
+        <div>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 14 }}>Our Story</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: '#0F3554', marginBottom: 20, lineHeight: 1.05 }}>Personal Service.<br />Enterprise Capability.</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.8, marginBottom: 16 }}>
+            FPI Security Services was built on the belief that the security industry needed a different kind of company — one small enough to care deeply about every client, and capable enough to deliver at an enterprise level.
+          </p>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.8, marginBottom: 16 }}>
+            Headquartered in Pembroke Pines, FL, we serve Miami-Dade, Broward, and Palm Beach counties — and expanded to Dallas, TX in 2024.
+          </p>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.8 }}>
+            What sets us apart is our investment in technology. We built a proprietary platform from scratch — because off-the-shelf software couldn't meet our standards.
+          </p>
+        </div>
+        {!isMobile && (
+          <div style={{ position: 'relative', height: 500 }}>
+            <div style={{ position: 'absolute', top: 0, right: 0, width: '90%', height: '70%', borderRadius: 10, overflow: 'hidden', boxShadow: '0 16px 48px rgba(0,0,0,0.15)' }}>
+              <img src="uploads/Office Building with Supervisor-c670ba06.png" alt="FPI supervisor with team" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '55%', height: '44%', borderRadius: 10, overflow: 'hidden', boxShadow: '0 12px 36px rgba(0,0,0,0.14)', border: '3px solid #fff' }}>
+              <img src="uploads/Female Guard Guardhouse-a32ab5f4.png" alt="FPI officer at guardhouse" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Stats */}
+      <div style={{ background: '#0D2A3F', padding: isMobile ? '48px 24px' : '72px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4, 1fr)', gap: isMobile ? 32 : 48, textAlign: 'center' }}>
+          {stats.map(s => (
+            <div key={s.label}>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 44 : 56, fontWeight: 700, color: '#fff', lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4A7FA8', marginTop: 8 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Core Values */}
+      <div style={{ background: '#F4F6F8', padding: isMobile ? '56px 24px' : '88px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>What We Stand For</div>
+            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: '#0F3554', lineHeight: 1.05 }}>Our Core Values</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: isMobile ? 16 : 24 }}>
+            {values.map(v => (
+              <div key={v.title} style={{ background: '#fff', borderRadius: 10, padding: isMobile ? '24px 18px' : '32px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: '1px solid #E2E6ED' }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#E8EDF4', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+                  <i data-lucide={v.icon} style={{ width: 20, height: 20, color: '#006090' }}></i>
+                </div>
+                <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 18 : 22, fontWeight: 700, color: '#0F3554', marginBottom: 8 }}>{v.title}</h3>
+                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#647184', lineHeight: 1.65 }}>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Photo Gallery */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '56px 24px' : '88px 48px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 44 }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>FPI in the Field</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: '#0F3554', lineHeight: 1.05 }}>Our Officers. Our Properties.</h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(3, 1fr)', gap: isMobile ? 10 : 16 }}>
+          {gallery.map((p, i) => (
+            <div key={i} style={{ borderRadius: 8, overflow: 'hidden', position: 'relative', height: isMobile ? 160 : (i === 0 || i === 3 ? 380 : 260), boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
+              <img src={p.src} alt={p.caption} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              {!isMobile && (
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top, rgba(7,25,42,0.85), transparent)', padding: '24px 18px 16px' }}>
+                  <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, color: '#fff' }}>{p.caption}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Why FPI */}
+      <div style={{ background: '#0F3554', padding: isMobile ? '56px 24px' : '88px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 36 : 80, alignItems: 'center' }}>
+          <div>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 14 }}>Why Choose FPI</div>
+            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: '#fff', marginBottom: 24, lineHeight: 1.05 }}>A Different Kind of Security Company</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              {[
+                ['Truly customized programs', 'No cookie-cutter contracts. Every program is built from scratch around your property, risk profile, and budget.'],
+                ['Technology-first operations', 'Our proprietary platform gives clients real-time visibility — live GPS, incident reports, client dashboards, and analytics.'],
+                ['Personal attention, enterprise scale', 'You deal with decision-makers, not account managers. We stay accountable because we are invested in your outcome.'],
+                ['Rigorous officer selection', 'We screen, background-check, and train every officer to your specific post orders before they set foot on your property.'],
+              ].map(([title, desc]) => (
+                <div key={title} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ width: 22, height: 22, background: 'rgba(0,96,144,0.3)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                    <i data-lucide="check" style={{ width: 12, height: 12, color: '#4A7FA8' }}></i>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#7090B0', lineHeight: 1.65 }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {!isMobile && (
+            <div style={{ borderRadius: 10, overflow: 'hidden', boxShadow: '0 16px 48px rgba(0,0,0,0.3)', height: 480 }}>
+              <img src="uploads/Armed Guard Lobby-825c5341.png" alt="FPI armed security officer" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{ padding: isMobile ? '56px 24px' : '80px 48px', textAlign: 'center', background: '#fff' }}>
+        <div style={{ maxWidth: 560, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 42, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Ready to Work Together?</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>Tell us about your property and we will build a security program around it — typically within 24 hours.</p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+              background: '#006090', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+              letterSpacing: '0.04em', boxShadow: '0 4px 20px rgba(0,96,144,0.3)',
+              transition: 'background 0.15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+            onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+            >Request a Consultation</button>
+            <button onClick={() => onNavigate('services')} style={{
+              background: '#fff', color: '#1A1E26',
+              fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+              padding: '14px 24px', borderRadius: 4, cursor: 'pointer',
+              border: '1.5px solid #C8D0DA', letterSpacing: '0.04em',
+              transition: 'border-color 0.15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = '#006090'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = '#C8D0DA'}
+            >View Our Services</button>
+          </div>
+        </div>
+      </div>
+
+      <SiteFooter onNavigate={onNavigate} />
+    </div>
+  );
+};
+
+Object.assign(window, { TrustBar, AboutSection, AboutPage, CTAStrip, SiteFooter });
+
+</script>
+<script type="text/babel">
+// FPI Security — Services Section + Individual Service Page
+
+const SERVICES_DATA = [
+  {
+    id: 'officers',
+    icon: 'shield',
+    title: 'Security Officers',
+    shortDesc: 'Professional private security guards and commercial security guard services — armed and unarmed, deployed with custom post orders for your property.',
+    fullDesc: 'Our private security guards are the face of your property\'s safety program. Every officer is screened, background-checked, and trained to your specific post orders and protocols. From front-desk concierge security to armed patrol, we provide 24-hour security guard service with the right personnel for your environment.',
+    tags: ['On-Site', 'Armed/Unarmed', 'Custom Uniforms', '24-Hour Service'],
+    bullets: ['Thorough background screening and vetting', 'Site-specific training and orientation', 'Armed and unarmed private security guards', 'Custom uniform programs available', 'Supervisory oversight and daily reporting', 'Rapid deployment for new assignments'],
+    photo: 'uploads/Male Guard Lobby-f9cc8769.png',
+    photoAlt: 'FPI security officer at lobby desk',
+    seoKeywords: 'security guard companies near me, private security guards Miami, commercial security guard service, 24-hour security guard service, security guards Miami',
+  },
+  {
+    id: 'patrol',
+    icon: 'car',
+    title: 'Mobile Patrol',
+    shortDesc: 'Marked security patrol vehicles providing visible deterrence, perimeter sweeps, and rapid response across single and multi-site properties.',
+    fullDesc: 'Our security patrols provide a highly visible presence across your properties. Regular checks, perimeter sweeps, and rapid incident response — ideal for multi-site coverage, construction sites, retail centers, and HOA communities. GPS-tracked and available around the clock.',
+    tags: ['Security Patrols', 'Multi-Site', 'Rapid Response', 'GPS Tracked'],
+    bullets: ['Branded, marked security patrol vehicles', 'GPS-tracked routes with live dashboard', 'Scheduled and randomized patrol patterns', 'Incident documentation with photos', 'After-hours and overnight coverage', 'Rapid response capability'],
+    photo: 'uploads/Patrol Tahoe-2668d00f.png',
+    photoAlt: 'FPI Security marked patrol vehicle',
+    seoKeywords: 'security patrols South Florida, mobile patrol security Miami, security patrol services Dallas TX',
+  },
+  {
+    id: 'remote',
+    icon: 'video',
+    title: 'Remote Video Monitoring',
+    shortDesc: 'CCTV monitoring service with live remote operators 24/7. Video surveillance services with real-time alerts, talk-down audio, and direct dispatch integration.',
+    fullDesc: 'Our remote surveillance service provides 24/7 live video monitoring by trained operators who actively watch your cameras — not just record them. As a leading video surveillance service and CCTV monitoring provider, our virtual guard services respond instantly through audio talk-down, dispatch integration, and full incident documentation.',
+    tags: ['CCTV Monitoring', 'Virtual Guard', 'Remote Surveillance', '24/7 Live'],
+    bullets: ['Live virtual guard operators — not just recording', 'Proactive CCTV monitoring with audio deterrence', 'Real-time incident alerts and documentation', 'Direct integration with local dispatch', 'Scalable video surveillance systems', 'Monthly analytics reporting'],
+    photo: 'uploads/Video Monitoring-2ab3f587.png',
+    photoAlt: 'FPI Security remote video monitoring',
+    seoKeywords: 'CCTV monitoring service Miami, video surveillance services South Florida, remote surveillance, virtual guard services, security video monitoring systems',
+  },
+  {
+    id: 'access',
+    icon: 'camera',
+    title: 'Access Control & Surveillance Systems',
+    shortDesc: 'Expert installation of security camera surveillance systems, access control, and integrated security solutions — designed, installed, and maintained by our in-house technical team.',
+    fullDesc: 'FPI is a trusted security systems provider offering professional installation of cutting-edge surveillance camera technology and access control tailored to your property. From high-definition security camera technology networks to keypad and card-reader entry systems, we handle everything from design through ongoing maintenance — ensuring your security systems are always at peak performance.',
+    tags: ['Security Camera Surveillance', 'Access Control', 'Security Systems', 'Maintenance & Support'],
+    bullets: ['High-definition security camera surveillance systems', 'Remote monitoring with smart analytics', 'Keypad, card reader, fob, and mobile credential access', 'Biometric entry options available', 'Enterprise-grade equipment by certified technicians', 'Full audit trails and real-time entry monitoring', 'Client portal for access management', 'Ongoing maintenance and support packages'],
+    photo: 'uploads/ChatGPT Image Apr 24, 2026, 09_49_34 AM.png',
+    photoAlt: 'FPI Security technician installing camera and access control system',
+    seoKeywords: 'security camera surveillance companies Miami, security systems providers South Florida, surveillance camera technology, security camera technology, access control installation Miami',
+  },
+  {
+    id: 'autonomous',
+    icon: 'bot',
+    title: 'Autonomous Surveillance',
+    shortDesc: 'AI-powered autonomous surveillance solutions that extend your security coverage — combining robotic patrols with live remote surveillance monitoring.',
+    fullDesc: 'FPI deploys autonomous robotic security devices as part of a complete security solution. These AI-assisted units patrol defined areas, detect anomalies, and feed data directly into our remote surveillance operations platform — supplementing your private security guards at a fraction of the staffing cost.',
+    tags: ['Robotics', 'AI-Assisted', 'Extended Coverage', 'Cost-Effective'],
+    bullets: ['Autonomous mobile patrol robots', 'AI-powered anomaly detection', 'Real-time video and audio feeds', 'Direct integration with our ops platform', 'Extends coverage without additional headcount', 'Ideal for large campuses and parking areas'],
+    photo: 'uploads/Monitoring Center-5633d731.png',
+    photoAlt: 'FPI autonomous security surveillance',
+    seoKeywords: 'autonomous security robots South Florida, AI security surveillance Miami',
+  },
+  {
+    id: 'tech',
+    icon: 'cpu',
+    title: 'Proprietary Tech Platform',
+    shortDesc: 'Our custom-built platform powers dispatch, reporting, real-time monitoring, and client dashboards — built for how we operate.',
+    fullDesc: 'We built our own technology platform because off-the-shelf software couldn\'t meet our standards. Every feature — from live GPS dispatch to client-facing reporting — was designed specifically for how FPI operates. Our clients get real-time visibility into their security programs.',
+    tags: ['Client Portal', 'Live Dashboard', 'GPS Dispatch', 'Custom Reports'],
+    bullets: ['Real-time GPS tracking for all patrol units', 'Live incident reporting with photo documentation', 'Client-facing dashboard with 24/7 access', 'Integrated dispatch with automated alerts', 'Post order compliance monitoring', 'Monthly and on-demand analytics reporting'],
+    photo: 'uploads/Virtual Guard-a9a7f0ee.png',
+    photoAlt: 'FPI Security virtual guard monitoring station',
+    seoKeywords: 'security technology platform, security management software, client security dashboard',
+  },
+];
+
+/* ── Service Card ─────────────────────────────────────────── */
+const ServiceCard = ({ service, onSelect, direction = 'command' }) => {
+  const isLight = direction === 'clarity';
+  const [hovered, setHovered] = React.useState(false);
+  const bg = isLight ? '#fff' : '#0F3554';
+  const border = isLight
+    ? (hovered ? '1px solid #006090' : '1px solid #E2E6ED')
+    : (hovered ? '1px solid rgba(0,96,144,0.5)' : '1px solid rgba(39,81,106,0.4)');
+  const headingColor = isLight ? '#1A1E26' : '#fff';
+  const bodyColor = isLight ? '#647184' : '#7090B0';
+  const iconBg = isLight ? '#E8EDF4' : 'rgba(0,96,144,0.2)';
+
+  return (
+    <div
+      onClick={() => onSelect(service.id)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: bg, borderRadius: 8, padding: '28px 24px',
+        border, cursor: 'pointer',
+        boxShadow: hovered ? (isLight ? '0 8px 28px rgba(0,96,144,0.12)' : '0 8px 28px rgba(0,0,0,0.25)') : (isLight ? '0 2px 12px rgba(0,0,0,.06)' : 'none'),
+        transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
+        transition: 'all 0.2s',
+        display: 'flex', flexDirection: 'column', gap: 14,
+      }}
+    >
+      <div style={{ width: 44, height: 44, borderRadius: 8, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <i data-lucide={service.icon} style={{ width: 22, height: 22, color: '#006090' }}></i>
+      </div>
+      <div>
+        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 21, fontWeight: 700, color: headingColor, marginBottom: 8, lineHeight: 1.15 }}>{service.title}</h3>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: bodyColor, lineHeight: 1.65 }}>{service.shortDesc}</p>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
+        {service.tags.map(t => (
+          <span key={t} style={{
+            fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600,
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+            background: isLight ? '#E8EDF4' : 'rgba(0,96,144,0.15)',
+            color: isLight ? '#27516A' : '#4A7FA8',
+            padding: '3px 8px', borderRadius: 4,
+          }}>{t}</span>
+        ))}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#006090', fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, marginTop: 4 }}>
+        <span>Learn more</span>
+        <i data-lucide="arrow-right" style={{ width: 14, height: 14, transform: hovered ? 'translateX(4px)' : 'translateX(0)', transition: 'transform 0.15s' }}></i>
+      </div>
+    </div>
+  );
+};
+
+/* ── Services Section (home) ──────────────────────────────── */
+const ServicesSection = ({ onNavigate, direction = 'command' }) => {
+  const { isMobile, isTablet } = useResponsive();
+  const isLight = direction === 'clarity';
+  const cols = isMobile ? '1fr' : isTablet ? 'repeat(2,1fr)' : 'repeat(3, 1fr)';
+  return (
+    <section id="services" style={{ background: isLight ? '#fff' : '#F4F6F8', padding: isMobile ? '64px 24px' : '96px 48px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ marginBottom: isMobile ? 36 : 52, textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>What We Offer</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 48, fontWeight: 700, color: '#0F3554', marginBottom: 14, lineHeight: 1.05 }}>Comprehensive Security Solutions</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
+            Every engagement is built around your property. We combine people, technology, and intelligence for security that actually fits.
+          </p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 18 }}>
+          {SERVICES_DATA.map(s => (
+            <ServiceCard key={s.id} service={s} direction={direction} onSelect={id => onNavigate('service-' + id)} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Service Detail Page ──────────────────────────────────── */
+const ServiceDetailPage = ({ serviceId, onNavigate }) => {
+  const service = SERVICES_DATA.find(s => s.id === serviceId) || SERVICES_DATA[0];
+  const others = SERVICES_DATA.filter(s => s.id !== serviceId).slice(0, 3);
+
+  return (
+    <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      {/* Header banner */}
+      <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: '56px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <button onClick={() => onNavigate('services')} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: '#4A7FA8', fontFamily: "'Barlow', sans-serif", fontSize: 13, cursor: 'pointer', marginBottom: 20, padding: 0 }}>
+            <i data-lucide="arrow-left" style={{ width: 14, height: 14 }}></i>
+            All Services
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 14 }}>
+            <div style={{ width: 48, height: 48, background: 'rgba(0,96,144,0.3)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <i data-lucide={service.icon} style={{ width: 24, height: 24, color: '#4A7FA8' }}></i>
+            </div>
+            <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 48, fontWeight: 700, color: '#fff', lineHeight: 1.05 }}>{service.title}</h1>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {service.tags.map(t => (
+              <span key={t} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'rgba(0,96,144,0.2)', color: '#8998B1', padding: '4px 10px', borderRadius: 4 }}>{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: typeof useResponsive !== 'undefined' && useResponsive().isMobile ? '40px 24px' : '56px 48px', display: 'grid', gridTemplateColumns: typeof useResponsive !== 'undefined' && useResponsive().isMobile ? '1fr' : '1fr 1fr', gap: 48 }}>
+        <div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 32, fontWeight: 700, color: '#0F3554', marginBottom: 16, lineHeight: 1.1 }}>What's Included</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.75, marginBottom: 28 }}>{service.fullDesc}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
+            {service.bullets.map(b => (
+              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <div style={{ width: 20, height: 20, background: '#E8EDF4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                  <i data-lucide="check" style={{ width: 11, height: 11, color: '#006090' }}></i>
+                </div>
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.6 }}>{b}</span>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            background: '#006090', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+            padding: '13px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em', transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+          onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+          >Get a Custom Quote</button>
+        </div>
+
+        <div>
+          <div style={{ borderRadius: 10, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', marginBottom: 32 }}>
+            <img src={service.photo} alt={service.photoAlt} style={{ width: '100%', height: 340, objectFit: 'cover' }} />
+          </div>
+          {/* Quick contact card */}
+          <div style={{ background: '#F4F6F8', borderRadius: 10, padding: '28px 24px', border: '1px solid #E2E6ED' }}>
+            <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 22, fontWeight: 700, color: '#0F3554', marginBottom: 10 }}>Talk to a Security Expert</h3>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#647184', marginBottom: 20, lineHeight: 1.6 }}>We'll assess your property and build a custom {service.title.toLowerCase()} program within 24 hours.</p>
+            <a href="tel:8003744316" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#006090', fontFamily: "'Barlow', sans-serif", fontSize: 16, fontWeight: 700, marginBottom: 12 }}>
+              <i data-lucide="phone" style={{ width: 18, height: 18 }}></i>
+              (800) 374-4316
+            </a>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#8A96A8' }}>Available 24/7 for urgent requests</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Other services */}
+      <div style={{ background: '#F4F6F8', padding: '56px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 30, fontWeight: 700, color: '#0F3554', marginBottom: 28 }}>Other Services</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: typeof useResponsive !== 'undefined' && useResponsive().isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
+            {others.map(s => (
+              <ServiceCard key={s.id} service={s} direction="clarity" onSelect={id => onNavigate('service-' + id)} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Services Overview Page ───────────────────────────────── */
+const ServicesPage = ({ onNavigate }) => {
+  const { isMobile, isTablet } = useResponsive();
+  const cols = isMobile ? '1fr' : isTablet ? 'repeat(2,1fr)' : 'repeat(3, 1fr)';
+  return (
+    <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '48px 24px' : '64px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>What We Offer</div>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Services</h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>From on-site officers to autonomous surveillance — every service is customized to your property and risk profile.</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '40px 24px' : '56px 48px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 22 }}>
+          {SERVICES_DATA.map(s => (
+            <ServiceCard key={s.id} service={s} direction="clarity" onSelect={id => onNavigate('service-' + id)} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Object.assign(window, { ServicesSection, ServiceDetailPage, ServicesPage, SERVICES_DATA });
+
+</script>
+<script type="text/babel">
+// FPI Security — Industries Section + Page
+
+const INDUSTRIES_DATA = [
+  {
+    id: 'hoa',
+    icon: 'home',
+    title: 'HOA & Residential Communities',
+    shortDesc: 'Gate officers, patrol services, and access control for HOAs, condominiums, and gated communities across South Florida.',
+    fullDesc: 'Residential communities require a security partner who understands the balance between safety and community feel. Our officers are trained in hospitality-forward security — professional, approachable, and effective.',
+    keywords: 'HOA security South Florida, residential security Miami, gated community security officers',
+    services: ['Security Officers', 'Mobile Patrol', 'Access Control', 'Remote Video'],
+    photo: 'uploads/Female Guard Guardhouse-a32ab5f4.png',
+  },
+  {
+    id: 'retail',
+    icon: 'shopping-bag',
+    title: 'Retail & Shopping Centers',
+    shortDesc: 'Loss prevention, uniformed deterrence, and incident response for retail stores, plazas, and shopping centers.',
+    fullDesc: 'Retail environments face constant loss prevention challenges. FPI officers deter theft, manage crowds, and respond to incidents — all while maintaining a welcoming environment for your customers.',
+    keywords: 'retail security South Florida, loss prevention Miami, shopping center security',
+    services: ['Security Officers', 'Mobile Patrol', 'Remote Video', 'Access Control'],
+    photo: 'uploads/RIO Mini Retail.png',
+  },
+  {
+    id: 'construction',
+    icon: 'hard-hat',
+    title: 'Construction Sites',
+    shortDesc: 'Overnight and weekend patrol for active construction sites — protecting equipment, materials, and your investment.',
+    fullDesc: 'Construction sites are prime targets for theft and vandalism after hours. Our patrol officers and remote monitoring solutions protect your site around the clock, giving you peace of mind and protecting your project timeline.',
+    keywords: 'construction site security South Florida, construction patrol Miami, site security Dallas TX',
+    services: ['Mobile Patrol', 'Remote Video', 'Autonomous Surveillance', 'Security Officers'],
+    photo: 'uploads/PPE Detection.png',
+  },
+  {
+    id: 'commercial',
+    icon: 'building-2',
+    title: 'Commercial Office Buildings',
+    shortDesc: 'Lobby security, access management, and workplace safety programs for office parks and commercial real estate.',
+    fullDesc: 'Office buildings and commercial properties need security that projects professionalism while maintaining effective safety protocols. Our officers manage lobby access, enforce visitor policies, and respond to workplace incidents.',
+    keywords: 'office building security South Florida, commercial security Miami, lobby security officers',
+    services: ['Security Officers', 'Access Control', 'Remote Video', 'Mobile Patrol'],
+    photo: 'uploads/Male Guard Lobby-f9cc8769.png',
+  },
+  {
+    id: 'healthcare',
+    icon: 'heart-pulse',
+    title: 'Healthcare & Medical',
+    shortDesc: 'HIPAA-aware security personnel trained in de-escalation and emergency response for hospitals, clinics, and medical campuses.',
+    fullDesc: 'Healthcare environments require specially trained security professionals who understand patient privacy, de-escalation techniques, and emergency response protocols. FPI officers receive healthcare-specific training before deployment.',
+    keywords: 'healthcare security South Florida, hospital security Miami, medical campus security',
+    services: ['Security Officers', 'Access Control', 'Remote Video'],
+    photo: 'uploads/Hospital Guard.png',
+  },
+  {
+    id: 'warehouse',
+    icon: 'warehouse',
+    title: 'Warehouses & Industrial',
+    shortDesc: 'Perimeter security, gate control, and overnight patrol for warehouses, logistics facilities, and industrial properties.',
+    fullDesc: 'Warehouses and industrial facilities require robust perimeter security, gate management, and after-hours patrol. FPI provides uniformed officers and autonomous surveillance solutions optimized for large footprint facilities.',
+    keywords: 'warehouse security South Florida, industrial security Miami, logistics facility security',
+    services: ['Mobile Patrol', 'Security Officers', 'Autonomous Surveillance', 'Access Control'],
+    photo: 'uploads/Industrial Surveillance.png',
+    photoPosition: 'right center',
+  },
+  {
+    id: 'dealership',
+    icon: 'car',
+    title: 'Car Dealerships',
+    shortDesc: 'Autonomous surveillance and mobile patrol protecting vehicle inventory, lot perimeters, and after-hours dealership assets.',
+    fullDesc: 'Car dealerships represent millions in exposed inventory — vehicles parked in open lots are prime targets for theft and vandalism. FPI deploys autonomous surveillance towers and patrol officers to deter threats and provide 24/7 visibility across your lot.',
+    keywords: 'car dealership security South Florida, auto lot security Miami, dealership patrol services',
+    services: ['Autonomous Surveillance', 'Mobile Patrol', 'Remote Video', 'Security Officers'],
+    photo: 'uploads/RIO Mini Dealership.png',
+  },
+  {
+    id: 'hospitality',
+    icon: 'hotel',
+    title: 'Hospitality & Hotels',
+    shortDesc: 'Guest-forward security programs for hotels, resorts, and hospitality venues balancing safety with exceptional guest experience.',
+    fullDesc: 'Security at hospitality properties must blend seamlessly with the guest experience. Our officers are trained in hospitality standards — they protect guests and assets while serving as positive brand ambassadors for your property.',
+    keywords: 'hotel security South Florida, resort security Miami, hospitality security services',
+    services: ['Security Officers', 'Access Control', 'Remote Video'],
+    photo: 'uploads/Residential Security Officer-6779728e.png',
+  },
+];
+
+/* ── Industry Card ────────────────────────────────────────── */
+const IndustryCard = ({ industry, onSelect, direction = 'command' }) => {
+  const [hovered, setHovered] = React.useState(false);
+  const isLight = direction === 'clarity';
+  const bg = isLight ? '#fff' : '#0F3554';
+  const headingColor = isLight ? '#0F3554' : '#fff';
+  const bodyColor = isLight ? '#647184' : '#7090B0';
+  const iconBg = isLight ? '#E8EDF4' : 'rgba(0,96,144,0.2)';
+
+  return (
+    <div
+      onClick={() => onSelect && onSelect(industry.id)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: bg, borderRadius: 8, padding: '24px 22px',
+        border: isLight
+          ? (hovered ? '1px solid #006090' : '1px solid #E2E6ED')
+          : (hovered ? '1px solid rgba(0,96,144,0.5)' : '1px solid rgba(39,81,106,0.35)'),
+        cursor: onSelect ? 'pointer' : 'default',
+        boxShadow: hovered ? '0 6px 24px rgba(0,96,144,0.12)' : (isLight ? '0 2px 10px rgba(0,0,0,0.05)' : 'none'),
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        transition: 'all 0.2s',
+      }}
+    >
+      <div style={{ width: 40, height: 40, borderRadius: 8, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+        <i data-lucide={industry.icon} style={{ width: 20, height: 20, color: '#006090' }}></i>
+      </div>
+      <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 19, fontWeight: 700, color: headingColor, marginBottom: 8, lineHeight: 1.2 }}>{industry.title}</h3>
+      <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: bodyColor, lineHeight: 1.65 }}>{industry.shortDesc}</p>
+    </div>
+  );
+};
+
+/* ── Industries Strip (homepage) ──────────────────────────── */
+const IndustriesStrip = ({ onNavigate, direction = 'command' }) => {
+  const { isMobile, isTablet } = useResponsive();
+  const isLight = direction === 'clarity';
+  const bg = isLight ? '#F4F6F8' : '#0A2236';
+  const headingColor = isLight ? '#0F3554' : '#fff';
+  const bodyColor = isLight ? '#647184' : '#7090B0';
+
+  return (
+    <section style={{ background: bg, padding: isMobile ? '64px 24px' : '96px 48px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: isMobile ? 36 : 64, alignItems: 'start' }}>
+          <div>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>Industries We Serve</div>
+            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: headingColor, marginBottom: 16, lineHeight: 1.05 }}>
+              Security for Every Property Type
+            </h2>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 24 }}>
+              From gated communities to construction sites, we understand the unique security challenges of each environment — and build programs specifically for them.
+            </p>
+            <button onClick={() => onNavigate('industries')} style={{
+              background: '#006090', color: '#fff',
+              fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+              padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
+              letterSpacing: '0.04em', transition: 'background 0.15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+            onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+            >See All Industries</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : isTablet ? 'repeat(2,1fr)' : 'repeat(3, 1fr)', gap: 14 }}>
+            {INDUSTRIES_DATA.slice(0, 6).map(ind => (
+              <IndustryCard key={ind.id} industry={ind} direction={direction} onSelect={id => onNavigate('industries')} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Industries Full Page ─────────────────────────────────── */
+const IndustriesPage = ({ onNavigate }) => {
+  const { isMobile } = useResponsive();
+  return (
+  <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+    {/* Hero banner */}
+    <div style={{ position: 'relative', overflow: 'hidden', padding: isMobile ? '56px 24px' : '72px 48px' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('assets/photo-lobby-team.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,42,63,0.96) 0%, rgba(15,53,84,0.88) 100%)' }} />
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Industries Served</div>
+        <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>We Know Your Industry</h1>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#7090B0', maxWidth: 560, lineHeight: 1.7 }}>
+          Generic security programs don't work. We specialize in the unique demands of each property type — from luxury residences to warehouse logistics.
+        </p>
+      </div>
+    </div>
+
+    {/* Industry cards */}
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '40px 24px' : '64px 48px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: isMobile ? 20 : 32 }}>
+        {INDUSTRIES_DATA.map(ind => (
+          <div key={ind.id} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 0, background: '#F4F6F8', borderRadius: 10, overflow: 'hidden', border: '1px solid #E2E6ED' }}>
+            <div style={{ padding: isMobile ? '24px 20px' : '32px 28px' }}>
+              <div style={{ width: 44, height: 44, borderRadius: 8, background: '#E8EDF4', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+                <i data-lucide={ind.icon} style={{ width: 22, height: 22, color: '#006090' }}></i>
+              </div>
+              <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 22 : 24, fontWeight: 700, color: '#0F3554', marginBottom: 10, lineHeight: 1.15 }}>{ind.title}</h2>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#4E5A6E', lineHeight: 1.7, marginBottom: 14 }}>{ind.fullDesc}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
+                {ind.services.map(s => (
+                  <span key={s} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#E8EDF4', color: '#27516A', padding: '3px 8px', borderRadius: 4 }}>{s}</span>
+                ))}
+              </div>
+              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+                background: '#006090', color: '#fff',
+                fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600,
+                padding: '9px 20px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                letterSpacing: '0.04em', transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+              onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+              >Get a Quote</button>
+            </div>
+            <div style={{ overflow: 'hidden', minHeight: isMobile ? 200 : 240 }}>
+              <img src={ind.photo} alt={ind.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: ind.photoPosition || 'center', display: 'block', minHeight: isMobile ? 200 : 240 }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* CTA */}
+    <div style={{ background: '#0D2A3F', padding: isMobile ? '56px 24px' : '64px 48px', textAlign: 'center' }}>
+      <div style={{ maxWidth: 560, margin: '0 auto' }}>
+        <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Don't See Your Industry?</h2>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.7, marginBottom: 28 }}>We customize security programs for any property type. Tell us about your needs and we'll build a solution around you.</p>
+        <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+          background: '#006090', color: '#fff',
+          fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+          padding: '13px 32px', borderRadius: 4, border: 'none', cursor: 'pointer',
+          letterSpacing: '0.04em', transition: 'background 0.15s',
+        }}
+        onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+        onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+        >Request a Custom Security Plan</button>
+      </div>
+    </div>
+  </div>
+  );
+};
+
+Object.assign(window, { IndustriesStrip, IndustriesPage, INDUSTRIES_DATA });
+
+</script>
+<script type="text/babel">
+// FPI Security — Locations Page + Tech Section
+
+const TechSection = ({ direction = 'command' }) => {
+  const { isMobile } = useResponsive();
+  const isLight = direction === 'clarity';
+  const bg = isLight ? '#0F3554' : '#0D2A3F';
+  return (
+    <section style={{ background: bg, padding: isMobile ? '64px 24px' : '96px 48px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 72, alignItems: 'center' }}>
+        <div>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 14 }}>Our Technology</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 46, fontWeight: 700, color: '#fff', marginBottom: 18, lineHeight: 1.05 }}>
+            Built From the Ground Up for Security Operations
+          </h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.75, marginBottom: 30 }}>
+            Off-the-shelf security software couldn't meet our standards. We built our own platform — every feature designed specifically for how we operate and what our clients need.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[
+              'Real-time GPS tracking for all patrol units',
+              'Live incident reporting with photo documentation',
+              'Client-facing dashboard with 24/7 access',
+              'Integrated dispatch with automated alerts',
+              'Post order compliance monitoring',
+              'Monthly and on-demand analytics reports',
+            ].map(feat => (
+              <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 20, height: 20, background: 'rgba(0,96,144,0.25)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <i data-lucide="check" style={{ width: 11, height: 11, color: '#006090' }}></i>
+                </div>
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#8998B1' }}>{feat}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr', gap: isMobile ? 12 : 16 }}>
+          {[
+            { icon: 'monitor', label: 'Client Dashboard', desc: 'Real-time visibility across all your sites' },
+            { icon: 'radio', label: 'Live Dispatch', desc: 'Instant officer communication and response' },
+            { icon: 'file-text', label: 'Incident Reports', desc: 'Automated documentation with photos' },
+            { icon: 'map-pin', label: 'GPS Tracking', desc: 'Live patrol routes and timestamps' },
+            { icon: 'bell', label: 'Automated Alerts', desc: 'Push notifications for critical events' },
+            { icon: 'lock', label: 'Access Control', desc: 'Integrated entry management and audit logs' },
+          ].map(item => (
+            <div key={item.label} style={{
+              background: 'rgba(27,70,104,0.4)', border: '1px solid rgba(39,81,106,0.5)',
+              borderRadius: 8, padding: '18px 16px',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(27,70,104,0.65)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(27,70,104,0.4)'}
+            >
+              <div style={{ width: 34, height: 34, background: 'rgba(0,96,144,0.2)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                <i data-lucide={item.icon} style={{ width: 17, height: 17, color: '#4A7FA8' }}></i>
+              </div>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{item.label}</div>
+              <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#4A7FA8', lineHeight: 1.5 }}>{item.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Locations Page ───────────────────────────────────────── */
+const LocationsPage = ({ onNavigate }) => {
+  const { isMobile } = useResponsive();
+  const locations = [
+    {
+      city: 'Pembroke Pines, FL',
+      label: 'Headquarters',
+      description: 'FPI Security Services is headquartered in Pembroke Pines, FL — centrally located to serve Miami-Dade, Broward, and Palm Beach counties. Our state-of-the-art operations center runs 24/7, dispatching officers, monitoring live feeds, and managing client programs across South Florida.',
+      coverage: ['Pembroke Pines', 'Miami-Dade County', 'Broward County', 'Palm Beach County', 'Fort Lauderdale', 'Boca Raton', 'Coral Gables', 'Aventura'],
+      phone: '(800) 374-4316',
+      email: 'info@fpisecurity.com',
+      photo: 'uploads/Pembroke Pines.jpg',
+      keywords: 'security services Pembroke Pines, security guards South Florida, security company Fort Lauderdale, security services Broward County',
+    },
+    {
+      city: 'Dallas, TX',
+      label: 'Regional Office',
+      description: 'FPI expanded to Dallas, TX in 2024, bringing the same personalized, tech-forward approach that made us South Florida\'s trusted security partner. We serve the greater DFW metroplex with the full suite of FPI services — from uniformed officers to mobile patrol and remote video monitoring.',
+      coverage: ['Dallas', 'Fort Worth', 'Plano', 'Irving', 'Arlington', 'Frisco', 'McKinney', 'Garland'],
+      phone: '(800) 374-4316',
+      email: 'dallas@fpisecurity.com',
+      photo: 'uploads/Dallas.png',
+      keywords: 'security services Dallas TX, security guards Dallas, security company DFW, security services Fort Worth',
+    },
+  ];
+
+  return (
+    <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      {/* Banner */}
+      <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '56px 24px' : '72px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Our Locations</div>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Where We Operate</h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 17, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>
+            Headquartered in Pembroke Pines, FL with a growing presence in Dallas — personalized service in two of the country's most dynamic markets.
+          </p>
+        </div>
+      </div>
+
+      {/* Location cards */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '40px 24px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: isMobile ? 28 : 48 }}>
+        {locations.map((loc, i) => (
+          <div key={loc.city} style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: 0, borderRadius: 12, overflow: 'hidden',
+            boxShadow: '0 6px 32px rgba(0,0,0,0.10)', border: '1px solid #E2E6ED',
+          }}>
+            {/* On mobile always show image on top; on desktop alternate */}
+            {!isMobile && i % 2 !== 0 && (
+              <div style={{ overflow: 'hidden' }}>
+                <img src={loc.photo} alt={`FPI Security ${loc.city}`} style={{ width: '100%', height: '100%', objectFit: 'cover', minHeight: 400, display: 'block' }} />
+              </div>
+            )}
+            {/* Content */}
+            <div style={{ padding: isMobile ? '32px 24px' : '48px 44px', background: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: '#E8EDF4', color: '#006090', padding: '4px 10px', borderRadius: 4 }}>{loc.label}</span>
+              </div>
+              <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#0F3554', marginBottom: 12, lineHeight: 1.05 }}>{loc.city}</h2>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.75, marginBottom: 22 }}>{loc.description}</p>
+              <div style={{ marginBottom: 22 }}>
+                <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A96A8', marginBottom: 10 }}>Coverage Areas</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                  {loc.coverage.map(area => (
+                    <span key={area} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#4E5A6E', background: '#F4F6F8', padding: '4px 10px', borderRadius: 4, border: '1px solid #E2E6ED' }}>{area}</span>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 20, borderTop: '1px solid #E2E6ED', marginBottom: 20 }}>
+                <a href={`tel:${loc.phone.replace(/\D/g, '')}`} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#006090', fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700 }}>
+                  <i data-lucide="phone" style={{ width: 16, height: 16 }}></i>
+                  {loc.phone}
+                </a>
+                <a href={`mailto:${loc.email}`} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#4E5A6E', fontFamily: "'Barlow', sans-serif", fontSize: 14 }}>
+                  <i data-lucide="mail" style={{ width: 16, height: 16, color: '#4A7FA8' }}></i>
+                  {loc.email}
+                </a>
+              </div>
+              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+                background: '#006090', color: '#fff', alignSelf: 'flex-start',
+                fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+                padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                letterSpacing: '0.04em', transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+              onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+              >Request a Quote in {loc.city}</button>
+            </div>
+            {/* Photo right (desktop even, or mobile always) */}
+            {(isMobile || i % 2 === 0) && (
+              <div style={{ overflow: 'hidden', minHeight: isMobile ? 240 : 'unset' }}>
+                <img src={loc.photo} alt={`FPI Security ${loc.city}`} style={{ width: '100%', height: '100%', objectFit: 'cover', minHeight: isMobile ? 240 : 400, display: 'block' }} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom CTA */}
+      <div style={{ background: '#F4F6F8', padding: '64px 48px', textAlign: 'center', borderTop: '1px solid #E2E6ED' }}>
+        <div style={{ maxWidth: 540, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 38, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Outside Our Coverage Area?</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>We're growing. Contact us to discuss whether we can serve your location.</p>
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            background: '#006090', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+            padding: '12px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em', transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+          onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+          >Get in Touch</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Object.assign(window, { TechSection, LocationsPage });
+
+</script>
+<script type="text/babel">
+// FPI Security — Contact Page (enhanced)
+const SiteContact = ({ onNavigate }) => {
+  const [form, setForm] = React.useState({
+    name: '', company: '', email: '', phone: '',
+    service: '', industry: '', location: '', message: '', submitted: false,
+  });
+  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const submit = e => {
+    e.preventDefault();
+    setForm(f => ({ ...f, submitted: true }));
+  };
+
+  const inputStyle = {
+    fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#1A1E26',
+    background: '#fff', border: '1.5px solid #C8D0DA', borderRadius: 4,
+    padding: '11px 14px', outline: 'none', width: '100%',
+    transition: 'border-color 0.15s',
+  };
+  const labelStyle = {
+    fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 600,
+    color: '#262C38', letterSpacing: '0.02em', display: 'block', marginBottom: 6,
+  };
+
+  return (
+    <div style={{ background: '#F4F6F8', minHeight: '100vh', paddingTop: 68 }}>
+      {/* Banner */}
+      <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: '64px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Get In Touch</div>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 52, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Request a Free Consultation</h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 16, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>
+            Tell us about your property and security needs. We'll respond within one business day with a customized proposal — no obligations.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '56px 48px', display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 56 }}>
+        {/* Left sidebar */}
+        <div>
+          {/* Photo */}
+          <div style={{ borderRadius: 10, overflow: 'hidden', marginBottom: 32, boxShadow: '0 6px 24px rgba(0,0,0,0.12)' }}>
+            <img src="assets/photo-lobby-officer.png" alt="FPI Security Officer" style={{ width: '100%', height: 260, objectFit: 'cover', objectPosition: 'center 15%', display: 'block' }} />
+          </div>
+
+          <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 26, fontWeight: 700, color: '#0F3554', marginBottom: 10 }}>We'll Build a Plan Around You</h3>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>
+            Every property is different. We take the time to understand your specific risks and requirements before presenting a solution.
+          </p>
+
+          {/* Contact details */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+            {[
+              { icon: 'phone', label: 'Call Us Anytime', value: '(800) 374-4316', href: 'tel:8003744316' },
+              { icon: 'mail', label: 'Email', value: 'info@fpisecurity.com', href: 'mailto:info@fpisecurity.com' },
+              { icon: 'map-pin', label: 'Pembroke Pines, FL', value: 'Pembroke Pines, FL' },
+              { icon: 'map-pin', label: 'Dallas Office', value: 'Dallas, TX' },
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                <div style={{ width: 38, height: 38, background: '#E8EDF4', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <i data-lucide={item.icon} style={{ width: 17, height: 17, color: '#006090' }} />
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A96A8', marginBottom: 2 }}>{item.label}</div>
+                  {item.href
+                    ? <a href={item.href} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#006090', fontWeight: 600, textDecoration: 'none' }}>{item.value}</a>
+                    : <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#262C38' }}>{item.value}</div>
+                  }
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust indicators */}
+          <div style={{ background: '#fff', borderRadius: 8, padding: '20px', border: '1px solid #E2E6ED' }}>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A96A8', marginBottom: 14 }}>Why FPI</div>
+            {['Licensed & fully insured', 'Armed & unarmed options', 'Proprietary technology platform', 'Custom programs — not templates', '24/7 availability'].map(item => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <i data-lucide="check-circle" style={{ width: 15, height: 15, color: '#006090', flexShrink: 0 }} />
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#4E5A6E' }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Form */}
+        <div style={{ background: '#fff', borderRadius: 12, padding: '40px 36px', boxShadow: '0 4px 24px rgba(0,0,0,.07)', border: '1px solid #E2E6ED' }}>
+          {form.submitted ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <div style={{ width: 60, height: 60, background: '#E8F5EE', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                <i data-lucide="check" style={{ width: 28, height: 28, color: '#2A9D5C' }} />
+              </div>
+              <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 32, fontWeight: 700, color: '#0F3554', marginBottom: 10 }}>Request Received</h3>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.6, marginBottom: 12 }}>
+                Thank you for reaching out. A member of our team will contact you within one business day.
+              </p>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4A7FA8', marginBottom: 32 }}>
+                For urgent requests, call us directly at <a href="tel:8003744316" style={{ color: '#006090', fontWeight: 700, textDecoration: 'none' }}>(800) 374-4316</a>
+              </p>
+              <button onClick={() => { setForm({ name:'',company:'',email:'',phone:'',service:'',industry:'',location:'',message:'',submitted:false }); onNavigate('home'); }}
+                style={{ background: '#006090', color: '#fff', fontFamily: "'Barlow',sans-serif", fontSize: 14, fontWeight: 600, padding: '11px 28px', borderRadius: 4, border: 'none', cursor: 'pointer' }}>
+                Back to Home
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 28, fontWeight: 700, color: '#0F3554', marginBottom: 4 }}>Tell Us About Your Needs</h2>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#8A96A8', marginBottom: 8, marginTop: -8 }}>All fields marked * are required. We respond within 1 business day.</p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={labelStyle}>Full Name *</label>
+                  <input style={inputStyle} required value={form.name} onChange={set('name')} placeholder="John Smith"
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Company / Property</label>
+                  <input style={inputStyle} value={form.company} onChange={set('company')} placeholder="Your company or property name"
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
+                <div>
+                  <label style={labelStyle}>Email Address *</label>
+                  <input style={inputStyle} type="email" required value={form.email} onChange={set('email')} placeholder="you@company.com"
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Phone Number</label>
+                  <input style={inputStyle} value={form.phone} onChange={set('phone')} placeholder="(305) 000-0000"
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
+                <div>
+                  <label style={labelStyle}>Service Needed</label>
+                  <select style={{ ...inputStyle, color: form.service ? '#1A1E26' : '#8A96A8' }} value={form.service} onChange={set('service')}
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'}>
+                    <option value="">Select a service...</option>
+                    <option>Security Officers</option>
+                    <option>Mobile Patrol</option>
+                    <option>Remote Video Monitoring</option>
+                    <option>Access Control</option>
+                    <option>Autonomous Surveillance</option>
+                    <option>Multiple Services</option>
+                    <option>Not Sure — Need Guidance</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Industry / Property Type</label>
+                  <select style={{ ...inputStyle, color: form.industry ? '#1A1E26' : '#8A96A8' }} value={form.industry} onChange={set('industry')}
+                    onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'}>
+                    <option value="">Select your industry...</option>
+                    <option>HOA / Residential Community</option>
+                    <option>Retail / Shopping Center</option>
+                    <option>Construction Site</option>
+                    <option>Commercial Office</option>
+                    <option>Healthcare / Medical</option>
+                    <option>Warehouse / Industrial</option>
+                    <option>Hospitality / Hotel</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label style={labelStyle}>Location (City/State)</label>
+                <input style={inputStyle} value={form.location} onChange={set('location')} placeholder="e.g. Miami, FL or Dallas, TX"
+                  onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+              </div>
+
+              <div>
+                <label style={labelStyle}>Tell Us About Your Property & Security Needs</label>
+                <textarea style={{ ...inputStyle, minHeight: 110, resize: 'vertical' }} value={form.message} onChange={set('message')}
+                  placeholder="Describe your property size, current security setup, main concerns, and what you're looking for..."
+                  onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
+              </div>
+
+              <button type="submit" style={{
+                background: '#006090', color: '#fff',
+                fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
+                padding: '14px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                letterSpacing: '0.04em', transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+              onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+              >Submit Consultation Request</button>
+
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#8A96A8', textAlign: 'center', lineHeight: 1.5 }}>
+                By submitting, you agree to be contacted by FPI Security Services regarding your request. We never share your information.
+              </p>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Object.assign(window, { SiteContact });
+
+</script>
 
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
@@ -109,7 +2195,7 @@ const StickyQuoteBtn = ({ onNavigate }) => {
     return () => window.removeEventListener('scroll', h);
   }, []);
   return (
-    <button onClick={() => onNavigate('contact')} style={{
+    <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
       position: 'fixed', bottom: 28, right: 28, zIndex: 900,
       background: '#006090', color: '#fff',
       fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 700,
@@ -147,13 +2233,12 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const App = () => {
-  const [page, setPage] = useState(() => localStorage.getItem('fpi_page') || 'home');
+  const [page, setPage] = useState('home');
   const [tweaks, setTweaks] = useTweaks(TWEAK_DEFAULTS);
   const direction = tweaks.direction;
 
   const navigate = (p) => {
     setPage(p);
-    localStorage.setItem('fpi_page', p);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
