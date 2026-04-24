@@ -1,0 +1,198 @@
+/*
+ * FPI Security Services — Design Tokens
+ * ======================================
+ * Source: Logo, brand photography, marketing materials
+ * Fonts: Rajdhani (display, substitutes brand geometric sans),
+ *        Barlow (body, close match to Canva brand sans),
+ *        JetBrains Mono (mono / data)
+ * Google Fonts substitution — see README ICONOGRAPHY section
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Base Color Palette ──────────────────────────────────────── */
+:root {
+  /* Brand Blues — derived from FPI logo gradient */
+  --color-brand-900: #0D2A3F;   /* deepest navy anchor */
+  --color-brand-800: #0F3554;   /* dark navy */
+  --color-brand-700: #1B4668;   /* deep steel blue */
+  --color-brand-600: #27516A;   /* mid gradient (logo) */
+  --color-brand-500: #006090;   /* primary brand blue */
+  --color-brand-400: #4A7FA8;   /* medium-light steel */
+  --color-brand-300: #7090B0;   /* steel blue-gray */
+  --color-brand-200: #8998B1;   /* logo light gradient */
+  --color-brand-100: #BCC5D4;   /* pale steel */
+  --color-brand-50:  #E8EDF4;   /* near-white blue tint */
+
+  /* Neutral Scale */
+  --color-neutral-950: #0E1014;
+  --color-neutral-900: #1A1E26;
+  --color-neutral-800: #262C38;
+  --color-neutral-700: #3A4252;
+  --color-neutral-600: #4E5A6E;
+  --color-neutral-500: #647184;
+  --color-neutral-400: #8A96A8;
+  --color-neutral-300: #AAB4C2;
+  --color-neutral-200: #C8D0DA;
+  --color-neutral-100: #E2E6ED;
+  --color-neutral-50:  #F4F6F8;
+  --color-white:       #FFFFFF;
+
+  /* Semantic / UI Colors */
+  --color-success:     #2A9D5C;
+  --color-warning:     #E0862A;
+  --color-danger:      #C0392B;
+  --color-info:        --color-brand-500;
+
+  /* ─── Semantic Aliases ─────────────────────────────────────── */
+  --fg-primary:        var(--color-neutral-900);
+  --fg-secondary:      var(--color-neutral-600);
+  --fg-muted:          var(--color-neutral-400);
+  --fg-inverse:        var(--color-white);
+
+  --bg-page:           var(--color-white);
+  --bg-subtle:         var(--color-neutral-50);
+  --bg-brand:          var(--color-brand-500);
+  --bg-brand-dark:     var(--color-brand-800);
+  --bg-dark:           var(--color-neutral-900);
+
+  --border-default:    var(--color-neutral-200);
+  --border-subtle:     var(--color-neutral-100);
+  --border-brand:      var(--color-brand-500);
+
+  /* ─── Typography ───────────────────────────────────────────── */
+  --font-display:      'Rajdhani', 'Arial Narrow', sans-serif;
+  --font-body:         'Barlow', 'Arial', sans-serif;
+  --font-mono:         'JetBrains Mono', 'Courier New', monospace;
+
+  --fw-light:          300;
+  --fw-regular:        400;
+  --fw-medium:         500;
+  --fw-semibold:       600;
+  --fw-bold:           700;
+
+  /* Type scale (px base 16) */
+  --text-xs:           0.75rem;    /* 12px */
+  --text-sm:           0.875rem;   /* 14px */
+  --text-base:         1rem;       /* 16px */
+  --text-lg:           1.125rem;   /* 18px */
+  --text-xl:           1.25rem;    /* 20px */
+  --text-2xl:          1.5rem;     /* 24px */
+  --text-3xl:          1.875rem;   /* 30px */
+  --text-4xl:          2.25rem;    /* 36px */
+  --text-5xl:          3rem;       /* 48px */
+  --text-6xl:          3.75rem;    /* 60px */
+
+  --leading-tight:     1.15;
+  --leading-snug:      1.3;
+  --leading-normal:    1.5;
+  --leading-relaxed:   1.65;
+
+  --tracking-tight:    -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.05em;
+  --tracking-wider:    0.1em;
+  --tracking-widest:   0.18em;
+
+  /* ─── Spacing ──────────────────────────────────────────────── */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+  --space-20:  5rem;
+  --space-24:  6rem;
+
+  /* ─── Radii ────────────────────────────────────────────────── */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ──────────────────────────────────────────────── */
+  --shadow-xs:   0 1px 2px rgba(0,0,0,0.08);
+  --shadow-sm:   0 2px 6px rgba(0,0,0,0.10);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.16);
+  --shadow-xl:   0 16px 48px rgba(0,0,0,0.20);
+  --shadow-brand: 0 4px 20px rgba(0,96,144,0.25);
+}
+
+/* ─── Semantic Type Styles ──────────────────────────────────── */
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: pretty;
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: pretty;
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--leading-snug);
+  color: var(--fg-primary);
+  text-wrap: pretty;
+}
+
+h4, .h4 {
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--leading-snug);
+  color: var(--fg-primary);
+}
+
+p, .body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--fg-secondary);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-regular);
+  line-height: var(--leading-normal);
+  color: var(--fg-muted);
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--color-neutral-50);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--color-brand-600);
+}
