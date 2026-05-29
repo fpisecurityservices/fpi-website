@@ -1,13 +1,30 @@
 // FPI Security — Contact Page (enhanced)
 const SiteContact = ({ onNavigate }) => {
+  const { isMobile } = useResponsive();
   const [form, setForm] = React.useState({
     name: '', company: '', email: '', phone: '',
     service: '', industry: '', location: '', message: '', submitted: false,
   });
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault();
+    try {
+      await fetch('https://fpisecurity.app.n8n.cloud/webhook/fpi-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          company: form.company,
+          email: form.email,
+          phone: form.phone,
+          service: form.service,
+          industry: form.industry,
+          location: form.location,
+          message: form.message,
+        }),
+      });
+    } catch (_) {}
     setForm(f => ({ ...f, submitted: true }));
   };
 
