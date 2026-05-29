@@ -739,7 +739,7 @@ const HeroCommand = ({ onNavigate }) => {
           </p>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            <button onClick={() => onNavigate('contact')} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -817,7 +817,7 @@ const HeroClarity = ({ onNavigate }) => {
             FPI Security delivers fully customized security solutions — from private security guards and 24-hour patrols to remote surveillance and CCTV monitoring systems — backed by our proprietary tech platform.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
-            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            <button onClick={() => onNavigate('contact')} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -956,7 +956,7 @@ const AboutSection = ({ direction = 'command', onNavigate }) => {
               </div>
             ))}
           </div>
-          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+          <button onClick={() => onNavigate('contact')} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
             padding: '12px 26px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -984,7 +984,7 @@ const CTAStrip = ({ onNavigate }) => {
           Tell us about your property and we'll build a custom security plan that fits your needs and budget. No contracts, no one-size-fits-all.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+          <button onClick={() => onNavigate('contact')} style={{
             background: '#fff', color: '#006090',
             fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700,
             padding: '14px 34px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1251,7 +1251,7 @@ const AboutPage = ({ onNavigate }) => {
           <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 42, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Ready to Work Together?</h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>Tell us about your property and we will build a security program around it — typically within 24 hours.</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+            <button onClick={() => onNavigate('contact')} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1346,6 +1346,18 @@ const SERVICES_DATA = [
     photo: 'uploads/Monitoring Center-5633d731.png',
     photoAlt: 'FPI autonomous security surveillance',
     seoKeywords: 'autonomous security robots South Florida, AI security surveillance Miami',
+  },
+  {
+    id: 'maintenance',
+    icon: 'wrench',
+    title: 'Service & Maintenance',
+    shortDesc: 'We keep your access control and surveillance systems running at peak performance — with proactive servicing, repairs, and ongoing technical support.',
+    fullDesc: 'Your security systems are only as good as their last service. FPI provides comprehensive maintenance and support for access control and surveillance systems we install and manage. Our in-house technical team handles everything from routine inspections and software updates to emergency repairs — so your systems never let you down when it matters most.',
+    tags: ['Preventive Maintenance', 'Emergency Repairs', 'System Inspections', 'Technical Support'],
+    bullets: ['Scheduled preventive maintenance visits', 'Camera and access control system inspections', 'Firmware and software updates', 'Emergency repair response', 'Equipment replacement and upgrades', 'Remote diagnostics and troubleshooting', 'Maintenance logs and service documentation'],
+    photo: 'uploads/ChatGPT Image Apr 24, 2026, 09_49_34 AM.png',
+    photoAlt: 'FPI Security technician servicing surveillance and access control systems',
+    seoKeywords: 'security system maintenance Miami, access control repair South Florida, surveillance camera service, security system support',
   },
 ];
 
@@ -1497,7 +1509,7 @@ const ServiceDetailPage = ({ serviceId, onNavigate }) => {
               </div>
             ))}
           </div>
-          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+          <button onClick={() => onNavigate('contact')} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
             padding: '13px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1795,7 +1807,7 @@ const IndustriesPage = ({ onNavigate }) => {
                   <span key={s} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#E8EDF4', color: '#27516A', padding: '3px 8px', borderRadius: 4 }}>{s}</span>
                 ))}
               </div>
-              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+              <button onClick={() => onNavigate('contact')} style={{
                 background: '#006090', color: '#fff',
                 fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600,
                 padding: '9px 20px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1818,7 +1830,7 @@ const IndustriesPage = ({ onNavigate }) => {
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Don't See Your Industry?</h2>
         <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.7, marginBottom: 28 }}>We customize security programs for any property type. Tell us about your needs and we'll build a solution around you.</p>
-        <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+        <button onClick={() => onNavigate('contact')} style={{
           background: '#006090', color: '#fff',
           fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
           padding: '13px 32px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1982,7 +1994,7 @@ const LocationsPage = ({ onNavigate }) => {
                   {loc.email}
                 </a>
               </div>
-              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+              <button onClick={() => onNavigate('contact')} style={{
                 background: '#006090', color: '#fff', alignSelf: 'flex-start',
                 fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
                 padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -2007,7 +2019,7 @@ const LocationsPage = ({ onNavigate }) => {
         <div style={{ maxWidth: 540, margin: '0 auto' }}>
           <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 38, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Outside Our Coverage Area?</h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>We're growing. Contact us to discuss whether we can serve your location.</p>
-          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+          <button onClick={() => onNavigate('contact')} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
             padding: '12px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -2028,14 +2040,26 @@ Object.assign(window, { TechSection, LocationsPage });
 <script type="text/babel">
 // FPI Security — Contact Page (enhanced)
 const SiteContact = ({ onNavigate }) => {
+  const { isMobile } = useResponsive();
   const [form, setForm] = React.useState({
     name: '', company: '', email: '', phone: '',
     service: '', industry: '', location: '', message: '', submitted: false,
   });
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault();
+    try {
+      await fetch('https://fpisecurity.app.n8n.cloud/webhook/fpi-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name, company: form.company, email: form.email,
+          phone: form.phone, service: form.service, industry: form.industry,
+          location: form.location, message: form.message,
+        }),
+      });
+    } catch (_) {}
     setForm(f => ({ ...f, submitted: true }));
   };
 
@@ -2243,7 +2267,7 @@ const StickyQuoteBtn = ({ onNavigate }) => {
     return () => window.removeEventListener('scroll', h);
   }, []);
   return (
-    <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
+    <button onClick={() => onNavigate('contact')} style={{
       position: 'fixed', bottom: 28, right: 28, zIndex: 900,
       background: '#006090', color: '#fff',
       fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 700,
