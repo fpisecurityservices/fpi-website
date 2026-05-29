@@ -1221,7 +1221,7 @@ const AboutPage = ({ onNavigate }) => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
                 ['Truly customized programs', 'No cookie-cutter contracts. Every program is built from scratch around your property, risk profile, and budget.'],
-                ['Technology-first operations', 'Our proprietary platform gives clients real-time visibility — live GPS, incident reports, client dashboards, and analytics.'],
+                ['Technology-first operations', 'Our proprietary platform is built in-house — giving our team the tools to respond faster, document better, and serve clients more effectively than off-the-shelf software ever could.'],
                 ['Personal attention, enterprise scale', 'You deal with decision-makers, not account managers. We stay accountable because we are invested in your outcome.'],
                 ['Rigorous officer selection', 'We screen, background-check, and train every officer to your specific post orders before they set foot on your property.'],
               ].map(([title, desc]) => (
@@ -1306,7 +1306,7 @@ const SERVICES_DATA = [
     shortDesc: 'Marked security patrol vehicles providing visible deterrence, perimeter sweeps, and rapid response across single and multi-site properties.',
     fullDesc: 'Our security patrols provide a highly visible presence across your properties. Regular checks, perimeter sweeps, and rapid incident response — ideal for multi-site coverage, construction sites, retail centers, and HOA communities. GPS-tracked and available around the clock.',
     tags: ['Security Patrols', 'Multi-Site', 'Rapid Response', 'GPS Tracked'],
-    bullets: ['Branded, marked security patrol vehicles', 'GPS-tracked routes with live dashboard', 'Scheduled and randomized patrol patterns', 'Incident documentation with photos', 'After-hours and overnight coverage', 'Rapid response capability'],
+    bullets: ['Branded, marked security patrol vehicles', 'GPS-tracked routes for full accountability', 'Scheduled and randomized patrol patterns', 'Incident documentation with photos', 'After-hours and overnight coverage', 'Rapid response capability'],
     photo: 'uploads/Patrol Tahoe-2668d00f.png',
     photoAlt: 'FPI Security marked patrol vehicle',
     seoKeywords: 'security patrols South Florida, mobile patrol security Miami, security patrol services Dallas TX',
@@ -1330,7 +1330,7 @@ const SERVICES_DATA = [
     shortDesc: 'Expert installation of security camera surveillance systems, access control, and integrated security solutions — designed, installed, and maintained by our in-house technical team.',
     fullDesc: 'FPI is a trusted security systems provider offering professional installation of cutting-edge surveillance camera technology and access control tailored to your property. From high-definition security camera technology networks to keypad and card-reader entry systems, we handle everything from design through ongoing maintenance — ensuring your security systems are always at peak performance.',
     tags: ['Security Camera Surveillance', 'Access Control', 'Security Systems', 'Maintenance & Support'],
-    bullets: ['High-definition security camera surveillance systems', 'Remote monitoring with smart analytics', 'Keypad, card reader, fob, and mobile credential access', 'Biometric entry options available', 'Enterprise-grade equipment by certified technicians', 'Full audit trails and real-time entry monitoring', 'Client portal for access management', 'Ongoing maintenance and support packages'],
+    bullets: ['High-definition security camera surveillance systems', 'Remote monitoring with smart analytics', 'Keypad, card reader, fob, and mobile credential access', 'Biometric entry options available', 'Enterprise-grade equipment by certified technicians', 'Full audit trails and real-time entry monitoring', 'Ongoing maintenance and support packages'],
     photo: 'uploads/ChatGPT Image Apr 24, 2026, 09_49_34 AM.png',
     photoAlt: 'FPI Security technician installing camera and access control system',
     seoKeywords: 'security camera surveillance companies Miami, security systems providers South Florida, surveillance camera technology, security camera technology, access control installation Miami',
@@ -1441,18 +1441,18 @@ const ServicesSection = ({ onNavigate, direction = 'command' }) => {
               <i data-lucide="cpu" style={{ width: 13, height: 13, color: '#4A7FA8' }}></i>
               <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4A7FA8' }}>The FPI Advantage</span>
             </div>
-            <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 28 : 36, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 12 }}>Technology We Built.<br />So You Benefit.</h3>
+            <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 28 : 36, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 12 }}>Built-In Technology.<br />Better Service Delivery.</h3>
             <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#7090B0', lineHeight: 1.75, marginBottom: 20 }}>
-              We build our tools internally — so every feature is designed around how we actually serve clients, not how a software vendor thinks security should work.
+              We build our tools internally — so our team operates faster, documents more accurately, and stays better coordinated across every property we serve.
             </p>
-            <button onClick={() => onNavigate('contact')} style={{ background: '#006090', color: '#fff', fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, padding: '10px 22px', borderRadius: 4, border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}>See It In Action</button>
+            <button onClick={() => onNavigate('contact')} style={{ background: '#006090', color: '#fff', fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, padding: '10px 22px', borderRadius: 4, border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}>Learn More</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {[
               { icon: 'map-pin', label: 'Live GPS Dispatch' },
               { icon: 'file-text', label: 'Incident Reporting' },
-              { icon: 'monitor', label: 'Client Dashboard' },
-              { icon: 'bar-chart-2', label: 'Custom Analytics' },
+              { icon: 'shield', label: 'Post Order Compliance' },
+              { icon: 'bar-chart-2', label: 'Analytics & Reporting' },
             ].map(item => (
               <div key={item.label} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
                 <i data-lucide={item.icon} style={{ width: 18, height: 18, color: '#4A7FA8' }}></i>
@@ -1579,17 +1579,17 @@ const ServicesPage = ({ onNavigate }) => {
               <i data-lucide="cpu" style={{ width: 13, height: 13, color: '#4A7FA8' }}></i>
               <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4A7FA8' }}>The FPI Advantage</span>
             </div>
-            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 30 : 38, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>Technology We Built.<br />So You Benefit.</h2>
+            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 30 : 38, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>Built-In Technology.<br />Better Service Delivery.</h2>
             <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.75 }}>
-              Off-the-shelf security software wasn't good enough — so we built our own. Every tool in our platform was designed internally to match the way we actually serve clients. That means faster response, better visibility, and a program that's genuinely tailored to your property.
+              We build our tools in-house because off-the-shelf software wasn't built for how we operate. The result is a team that works more efficiently, responds faster, and delivers a more consistent experience at every property we serve.
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
-              { icon: 'map-pin', label: 'Real-Time GPS Dispatch', desc: 'Live tracking of all patrol units with automated routing.' },
-              { icon: 'file-text', label: 'Live Incident Reporting', desc: 'Photo-documented reports pushed to your dashboard instantly.' },
-              { icon: 'monitor', label: 'Client Dashboard', desc: '24/7 access to your security data, analytics, and post orders.' },
-              { icon: 'bar-chart-2', label: 'Custom Analytics', desc: 'Monthly reporting built around your property metrics.' },
+              { icon: 'map-pin', label: 'Live GPS Dispatch', desc: 'Real-time tracking and routing for every patrol unit.' },
+              { icon: 'file-text', label: 'Incident Reporting', desc: 'Photo-documented reports created on-site, in real time.' },
+              { icon: 'shield', label: 'Post Order Compliance', desc: 'Automated monitoring to ensure every shift runs to spec.' },
+              { icon: 'bar-chart-2', label: 'Analytics & Reporting', desc: 'Operational data that keeps us accountable to you.' },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                 <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(0,96,144,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -1864,16 +1864,16 @@ const TechSection = ({ direction = 'command' }) => {
             Built From the Ground Up for Security Operations
           </h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.75, marginBottom: 30 }}>
-            Off-the-shelf security software couldn't meet our standards. We built our own platform — every feature designed specifically for how we operate and what our clients need.
+            Off-the-shelf security software couldn't meet our standards. We build our tools in-house — so our team operates faster, documents more accurately, and delivers a better experience at every property we serve.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {[
               'Real-time GPS tracking for all patrol units',
               'Live incident reporting with photo documentation',
-              'Client-facing dashboard with 24/7 access',
               'Integrated dispatch with automated alerts',
               'Post order compliance monitoring',
               'Monthly and on-demand analytics reports',
+              'Built internally — designed around how we operate',
             ].map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 20, height: 20, background: 'rgba(0,96,144,0.25)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -1887,7 +1887,7 @@ const TechSection = ({ direction = 'command' }) => {
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr', gap: isMobile ? 12 : 16 }}>
           {[
-            { icon: 'monitor', label: 'Client Dashboard', desc: 'Real-time visibility across all your sites' },
+            { icon: 'monitor', label: 'Ops Visibility', desc: 'Real-time visibility across all active sites' },
             { icon: 'radio', label: 'Live Dispatch', desc: 'Instant officer communication and response' },
             { icon: 'file-text', label: 'Incident Reports', desc: 'Automated documentation with photos' },
             { icon: 'map-pin', label: 'GPS Tracking', desc: 'Live patrol routes and timestamps' },
