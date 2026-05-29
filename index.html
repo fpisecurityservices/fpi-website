@@ -739,7 +739,7 @@ const HeroCommand = ({ onNavigate }) => {
           </p>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <button onClick={() => onNavigate('contact')} style={{
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -817,7 +817,7 @@ const HeroClarity = ({ onNavigate }) => {
             FPI Security delivers fully customized security solutions — from private security guards and 24-hour patrols to remote surveillance and CCTV monitoring systems — backed by our proprietary tech platform.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
-            <button onClick={() => onNavigate('contact')} style={{
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -956,7 +956,7 @@ const AboutSection = ({ direction = 'command', onNavigate }) => {
               </div>
             ))}
           </div>
-          <button onClick={() => onNavigate('contact')} style={{
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
             padding: '12px 26px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -984,7 +984,7 @@ const CTAStrip = ({ onNavigate }) => {
           Tell us about your property and we'll build a custom security plan that fits your needs and budget. No contracts, no one-size-fits-all.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => onNavigate('contact')} style={{
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
             background: '#fff', color: '#006090',
             fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700,
             padding: '14px 34px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1251,7 +1251,7 @@ const AboutPage = ({ onNavigate }) => {
           <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 42, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Ready to Work Together?</h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>Tell us about your property and we will build a security program around it — typically within 24 hours.</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => onNavigate('contact')} style={{
+            <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
               background: '#006090', color: '#fff',
               fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
               padding: '14px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1347,18 +1347,6 @@ const SERVICES_DATA = [
     photoAlt: 'FPI autonomous security surveillance',
     seoKeywords: 'autonomous security robots South Florida, AI security surveillance Miami',
   },
-  {
-    id: 'tech',
-    icon: 'cpu',
-    title: 'Proprietary Tech Platform',
-    shortDesc: 'Our custom-built platform powers dispatch, reporting, real-time monitoring, and client dashboards — built for how we operate.',
-    fullDesc: 'We built our own technology platform because off-the-shelf software couldn\'t meet our standards. Every feature — from live GPS dispatch to client-facing reporting — was designed specifically for how FPI operates. Our clients get real-time visibility into their security programs.',
-    tags: ['Client Portal', 'Live Dashboard', 'GPS Dispatch', 'Custom Reports'],
-    bullets: ['Real-time GPS tracking for all patrol units', 'Live incident reporting with photo documentation', 'Client-facing dashboard with 24/7 access', 'Integrated dispatch with automated alerts', 'Post order compliance monitoring', 'Monthly and on-demand analytics reporting'],
-    photo: 'uploads/Virtual Guard-a9a7f0ee.png',
-    photoAlt: 'FPI Security virtual guard monitoring station',
-    seoKeywords: 'security technology platform, security management software, client security dashboard',
-  },
 ];
 
 /* ── Service Card ─────────────────────────────────────────── */
@@ -1433,6 +1421,34 @@ const ServicesSection = ({ onNavigate, direction = 'command' }) => {
             <ServiceCard key={s.id} service={s} direction={direction} onSelect={id => onNavigate('service-' + id)} />
           ))}
         </div>
+
+        {/* Tech differentiator callout */}
+        <div style={{ marginTop: 48, background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', borderRadius: 12, padding: isMobile ? '32px 24px' : '44px 52px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 48, alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,96,144,0.3)', borderRadius: 20, padding: '5px 14px', marginBottom: 14 }}>
+              <i data-lucide="cpu" style={{ width: 13, height: 13, color: '#4A7FA8' }}></i>
+              <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4A7FA8' }}>The FPI Advantage</span>
+            </div>
+            <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 28 : 36, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 12 }}>Technology We Built.<br />So You Benefit.</h3>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#7090B0', lineHeight: 1.75, marginBottom: 20 }}>
+              We build our tools internally — so every feature is designed around how we actually serve clients, not how a software vendor thinks security should work.
+            </p>
+            <button onClick={() => onNavigate('contact')} style={{ background: '#006090', color: '#fff', fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, padding: '10px 22px', borderRadius: 4, border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}>See It In Action</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            {[
+              { icon: 'map-pin', label: 'Live GPS Dispatch' },
+              { icon: 'file-text', label: 'Incident Reporting' },
+              { icon: 'monitor', label: 'Client Dashboard' },
+              { icon: 'bar-chart-2', label: 'Custom Analytics' },
+            ].map(item => (
+              <div key={item.label} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 8, padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+                <i data-lucide={item.icon} style={{ width: 18, height: 18, color: '#4A7FA8' }}></i>
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600, color: '#fff' }}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1481,7 +1497,7 @@ const ServiceDetailPage = ({ serviceId, onNavigate }) => {
               </div>
             ))}
           </div>
-          <button onClick={() => onNavigate('contact')} style={{
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
             padding: '13px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1542,6 +1558,38 @@ const ServicesPage = ({ onNavigate }) => {
           {SERVICES_DATA.map(s => (
             <ServiceCard key={s.id} service={s} direction="clarity" onSelect={id => onNavigate('service-' + id)} />
           ))}
+        </div>
+
+        {/* Tech differentiator callout */}
+        <div style={{ marginTop: 56, background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', borderRadius: 12, padding: isMobile ? '36px 28px' : '48px 56px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 28 : 56, alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,96,144,0.3)', borderRadius: 20, padding: '5px 14px', marginBottom: 16 }}>
+              <i data-lucide="cpu" style={{ width: 13, height: 13, color: '#4A7FA8' }}></i>
+              <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4A7FA8' }}>The FPI Advantage</span>
+            </div>
+            <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 30 : 38, fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>Technology We Built.<br />So You Benefit.</h2>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.75 }}>
+              Off-the-shelf security software wasn't good enough — so we built our own. Every tool in our platform was designed internally to match the way we actually serve clients. That means faster response, better visibility, and a program that's genuinely tailored to your property.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {[
+              { icon: 'map-pin', label: 'Real-Time GPS Dispatch', desc: 'Live tracking of all patrol units with automated routing.' },
+              { icon: 'file-text', label: 'Live Incident Reporting', desc: 'Photo-documented reports pushed to your dashboard instantly.' },
+              { icon: 'monitor', label: 'Client Dashboard', desc: '24/7 access to your security data, analytics, and post orders.' },
+              { icon: 'bar-chart-2', label: 'Custom Analytics', desc: 'Monthly reporting built around your property metrics.' },
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(0,96,144,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <i data-lucide={item.icon} style={{ width: 16, height: 16, color: '#4A7FA8' }}></i>
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 2 }}>{item.label}</div>
+                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#7090B0' }}>{item.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -1747,7 +1795,7 @@ const IndustriesPage = ({ onNavigate }) => {
                   <span key={s} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#E8EDF4', color: '#27516A', padding: '3px 8px', borderRadius: 4 }}>{s}</span>
                 ))}
               </div>
-              <button onClick={() => onNavigate('contact')} style={{
+              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
                 background: '#006090', color: '#fff',
                 fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600,
                 padding: '9px 20px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1770,7 +1818,7 @@ const IndustriesPage = ({ onNavigate }) => {
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Don't See Your Industry?</h2>
         <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', lineHeight: 1.7, marginBottom: 28 }}>We customize security programs for any property type. Tell us about your needs and we'll build a solution around you.</p>
-        <button onClick={() => onNavigate('contact')} style={{
+        <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
           background: '#006090', color: '#fff',
           fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 600,
           padding: '13px 32px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1934,7 +1982,7 @@ const LocationsPage = ({ onNavigate }) => {
                   {loc.email}
                 </a>
               </div>
-              <button onClick={() => onNavigate('contact')} style={{
+              <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
                 background: '#006090', color: '#fff', alignSelf: 'flex-start',
                 fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
                 padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1959,7 +2007,7 @@ const LocationsPage = ({ onNavigate }) => {
         <div style={{ maxWidth: 540, margin: '0 auto' }}>
           <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 38, fontWeight: 700, color: '#0F3554', marginBottom: 14 }}>Outside Our Coverage Area?</h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', lineHeight: 1.7, marginBottom: 28 }}>We're growing. Contact us to discuss whether we can serve your location.</p>
-          <button onClick={() => onNavigate('contact')} style={{
+          <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
             background: '#006090', color: '#fff',
             fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
             padding: '12px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -1980,31 +2028,14 @@ Object.assign(window, { TechSection, LocationsPage });
 <script type="text/babel">
 // FPI Security — Contact Page (enhanced)
 const SiteContact = ({ onNavigate }) => {
-  const { isMobile } = useResponsive();
   const [form, setForm] = React.useState({
     name: '', company: '', email: '', phone: '',
     service: '', industry: '', location: '', message: '', submitted: false,
   });
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
-  const submit = async e => {
+  const submit = e => {
     e.preventDefault();
-    try {
-      await fetch('https://fpisecurity.app.n8n.cloud/webhook/fpi-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          company: form.company,
-          email: form.email,
-          phone: form.phone,
-          service: form.service,
-          industry: form.industry,
-          location: form.location,
-          message: form.message,
-        }),
-      });
-    } catch (_) {}
     setForm(f => ({ ...f, submitted: true }));
   };
 
@@ -2212,7 +2243,7 @@ const StickyQuoteBtn = ({ onNavigate }) => {
     return () => window.removeEventListener('scroll', h);
   }, []);
   return (
-    <button onClick={() => onNavigate('contact')} style={{
+    <button onClick={() => window.location.href = 'mailto:info@fpisecurity.com'} style={{
       position: 'fixed', bottom: 28, right: 28, zIndex: 900,
       background: '#006090', color: '#fff',
       fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 700,
