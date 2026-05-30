@@ -15,6 +15,7 @@ const iconMap = {
 };
 
 const IndustriesPage = () => {
+  const navigate = useNavigate();
   const { isMobile } = useResponsive();
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
