@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Eye, Star, Users, Quote, Check } from 'lucide-react';
+import SEO from '../components/SEO';
 import useResponsive from '../hooks/useResponsive';
 
 const iconMap = { 'shield-check': ShieldCheck, eye: Eye, star: Star, users: Users };
@@ -30,15 +31,25 @@ const AboutPage = () => {
 
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      <SEO
+        title="About FPI Security | Licensed Security Company in Miami & Dallas"
+        description="FPI Security is a privately owned security company built on integrity and personal service. Learn about our team, values, and approach to commercial and residential security."
+        ogTitle="About FPI Security | Our Story, Values & Team"
+        ogDescription="FPI isn't a franchise — we're a privately owned security company focused on personal relationships, licensed officers, and security programs that actually fit your property."
+        ogUrl="https://www.fpisecurity.com/about"
+      />
       {/* Hero Banner */}
       <div style={{ position: 'relative', overflow: 'hidden', minHeight: isMobile ? 300 : 420, display: 'flex', alignItems: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('/uploads/Monitoring Center-5633d731.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(7,25,42,0.97) 0%, rgba(13,42,63,0.88) 50%, rgba(13,42,63,0.5) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto', padding: isMobile ? '60px 24px' : '80px 48px', width: '100%' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>About FPI Security</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 44 : 62, fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 18, maxWidth: 700 }}>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 44 : 62, fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 10, maxWidth: 700 }}>
             Built on Integrity.<br />Driven by Excellence.
           </h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, color: '#4A7FA8', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
+            A privately owned security company serving South Florida and Dallas since 2018
+          </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#8998B1', lineHeight: 1.7, maxWidth: 560 }}>
             FPI Security Services was founded on a simple belief — every property deserves a security program built specifically for it, backed by people who genuinely care about doing the job right.
           </p>
