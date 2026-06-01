@@ -1,6 +1,7 @@
 export const LOCATIONS_DATA = [
   {
     city: 'Pembroke Pines, FL',
+    h2Title: 'Security Services in Pembroke Pines & Greater Miami, FL',
     label: 'Headquarters',
     description: 'FPI Security Services is headquartered in Pembroke Pines, FL — centrally located to serve Miami-Dade, Broward, and Palm Beach counties. Our state-of-the-art operations center runs 24/7, dispatching officers, monitoring live feeds, and managing client programs across South Florida.',
     coverage: ['Pembroke Pines', 'Miami-Dade County', 'Broward County', 'Palm Beach County', 'Fort Lauderdale', 'Boca Raton', 'Coral Gables', 'Aventura'],
@@ -11,6 +12,7 @@ export const LOCATIONS_DATA = [
   },
   {
     city: 'Dallas, TX',
+    h2Title: 'Security Services in Dallas, TX',
     label: 'Regional Office',
     description: "FPI expanded to Dallas, TX in 2024, bringing the same personalized, tech-forward approach that made us South Florida's trusted security partner. We serve the greater DFW metroplex with the full suite of FPI services — from uniformed officers to mobile patrol and remote video monitoring.",
     coverage: ['Dallas', 'Fort Worth', 'Plano', 'Irving', 'Arlington', 'Frisco', 'McKinney', 'Garland'],
