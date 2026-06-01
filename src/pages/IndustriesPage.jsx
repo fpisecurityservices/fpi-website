@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Home, ShoppingBag, HardHat, Building2, HeartPulse, Warehouse, Car, Hotel } from 'lucide-react';
+import SEO from '../components/SEO';
 import useResponsive from '../hooks/useResponsive';
 import { INDUSTRIES_DATA } from '../data/industries';
 
