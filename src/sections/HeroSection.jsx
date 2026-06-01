@@ -3,7 +3,7 @@ import { Phone, MapPin, CheckCircle } from 'lucide-react';
 import useResponsive from '../hooks/useResponsive';
 
 export const HeroCommand = () => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const { isMobile, isTablet } = useResponsive();
   return (
     <section style={{
@@ -38,11 +38,19 @@ export const HeroCommand = () => {
             fontFamily: "'Rajdhani', sans-serif",
             fontSize: isMobile ? 52 : isTablet ? 62 : 76,
             fontWeight: 700, color: '#fff', lineHeight: 1.0,
-            letterSpacing: '-0.02em', marginBottom: 20, textWrap: 'balance',
+            letterSpacing: '-0.02em', marginBottom: 10, textWrap: 'balance',
           }}>
             Security Built<br />
             <span style={{ color: '#4A7FA8' }}>Around You.</span>
           </h1>
+
+          <p style={{
+            fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 12 : 13,
+            fontWeight: 700, color: '#4A7FA8', letterSpacing: '0.1em',
+            textTransform: 'uppercase', marginBottom: 16,
+          }}>
+            Private Security Services for Miami &amp; Dallas Businesses
+          </p>
 
           <p style={{
             fontFamily: "'Barlow', sans-serif",
