@@ -1,32 +1,7 @@
 {
-  "headers": [
-    {
-      "source": "/(.*).html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/services",
-      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
-    },
-    {
-      "source": "/industries",
-      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
-    },
-    {
-      "source": "/locations",
-      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
-    },
-    {
-      "source": "/about",
-      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
-    },
-    {
-      "source": "/contact",
-      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
-    }
-  ],
+  "buildCommand": "vite build && node scripts/generate-meta.js",
+  "outputDirectory": "dist",
+  "framework": null,
   "rewrites": [
     { "source": "/services", "destination": "/services/index.html" },
     { "source": "/services/(.*)", "destination": "/services/index.html" },
