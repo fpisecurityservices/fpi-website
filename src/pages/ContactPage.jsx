@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin, CheckCircle, Check } from 'lucide-react';
+import SEO from '../components/SEO';
 import useResponsive from '../hooks/useResponsive';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,6 +52,13 @@ const ContactPage = () => {
 
   return (
     <div style={{ background: '#F4F6F8', minHeight: '100vh', paddingTop: 68 }}>
+      <SEO
+        title="Contact FPI Security | Free Security Consultation | Miami & Dallas"
+        description="Request a free security consultation with FPI. We serve Miami, South Florida, and Dallas, TX — and we'll build a custom security plan around your property and budget."
+        ogTitle="Get a Free Security Consultation | FPI Security"
+        ogDescription="Tell us about your property and security needs. FPI will respond within one business day with a custom proposal — no pressure, no generic packages."
+        ogUrl="https://www.fpisecurity.com/contact"
+      />
       {/* Banner */}
       <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '48px 24px' : '64px 48px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
