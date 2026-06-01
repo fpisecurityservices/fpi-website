@@ -3,6 +3,7 @@ import { Phone, MapPin, CheckCircle } from 'lucide-react';
 import useResponsive from '../hooks/useResponsive';
 
 export const HeroCommand = () => {
+  const navigate = useNavigate();  
   const { isMobile, isTablet } = useResponsive();
   return (
     <section style={{
