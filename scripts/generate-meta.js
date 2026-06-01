@@ -4,6 +4,10 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
+const distFile = join(distDir, 'index-vite.html');
+
+console.log('generate-meta.js starting...');
+console.log('Looking for:', distFile);
 
 const PAGES = {
   '/': {
@@ -50,27 +54,33 @@ const PAGES = {
   },
 };
 
-const baseHtml = readFileSync(join(distDir, 'index-vite.html'), 'utf-8');
+try {
+  const baseHtml = readFileSync(distFile, 'utf-8');
+  console.log('Read index-vite.html successfully, length:', baseHtml.length);
 
-for (const [route, meta] of Object.entries(PAGES)) {
-  let html = baseHtml;
+  for (const [route, meta] of Object.entries(PAGES)) {
+    let html = baseHtml;
 
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`);
-  html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${meta.description}">`);
-  html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${meta.canonical}">`);
-  html = html.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${meta.ogTitle}">`);
-  html = html.replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${meta.ogDescription}">`);
-  html = html.replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${meta.canonical}">`);
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`);
+    html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${meta.description}">`);
+    html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${meta.canonical}">`);
+    html = html.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${meta.ogTitle}">`);
+    html = html.replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${meta.ogDescription}">`);
+    html = html.replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${meta.canonical}">`);
 
-  if (route === '/') {
-    writeFileSync(join(distDir, 'index-vite.html'), html);
-  } else {
-    const dir = join(distDir, route.slice(1));
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, 'index.html'), html);
+    if (route === '/') {
+      writeFileSync(distFile, html);
+      console.log('✓ / (index-vite.html updated)');
+    } else {
+      const dir = join(distDir, route.slice(1));
+      mkdirSync(dir, { recursive: true });
+      writeFileSync(join(dir, 'index.html'), html);
+      console.log(`✓ ${route}`);
+    }
   }
 
-  console.log(`✓ ${route}`);
+  console.log('Meta tags injected for all routes.');
+} catch (err) {
+  console.error('generate-meta.js failed:', err);
+  process.exit(1);
 }
-
-console.log('Meta tags injected for all routes.');
