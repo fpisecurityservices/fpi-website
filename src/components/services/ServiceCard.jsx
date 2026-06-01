@@ -11,7 +11,8 @@ const iconMap = {
   cpu: Cpu,
 };
 
-const ServiceCard = ({ service, direction = 'clarity' }) => {
+const ServiceCard = ({ service, direction = 'clarity', headingLevel = 'h3' }) => {
+  const Heading = headingLevel;
   const navigate = useNavigate();
   const isLight = direction === 'clarity';
   const [hovered, setHovered] = useState(false);
@@ -43,7 +44,7 @@ const ServiceCard = ({ service, direction = 'clarity' }) => {
         <IconComp size={22} style={{ color: '#006090' }} />
       </div>
       <div>
-        <h3 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 21, fontWeight: 700, color: headingColor, marginBottom: 8, lineHeight: 1.15 }}>{service.title}</h3>
+        <Heading style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 21, fontWeight: 700, color: headingColor, marginBottom: 8, lineHeight: 1.15 }}>{service.title}</Heading>
         <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: bodyColor, lineHeight: 1.65 }}>{service.shortDesc}</p>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
