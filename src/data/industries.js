@@ -2,7 +2,7 @@ export const INDUSTRIES_DATA = [
   {
     id: 'hoa',
     icon: 'home',
-    title: 'HOA & Residential Communities',
+    title: 'HOA & Residential Security in South Florida',
     shortDesc: 'Gate officers, patrol services, and access control for HOAs, condominiums, and gated communities across South Florida.',
     fullDesc: 'Residential communities require a security partner who understands the balance between safety and community feel. Our officers are trained in hospitality-forward security — professional, approachable, and effective.',
     keywords: 'HOA security South Florida, residential security Miami, gated community security officers',
@@ -22,7 +22,7 @@ export const INDUSTRIES_DATA = [
   {
     id: 'construction',
     icon: 'hard-hat',
-    title: 'Construction Sites',
+    title: 'Construction Site Security in Miami & Dallas',
     shortDesc: 'Overnight and weekend patrol for active construction sites — protecting equipment, materials, and your investment.',
     fullDesc: 'Construction sites are prime targets for theft and vandalism after hours. Our patrol officers and remote monitoring solutions protect your site around the clock, giving you peace of mind and protecting your project timeline.',
     keywords: 'construction site security South Florida, construction patrol Miami, site security Dallas TX',
