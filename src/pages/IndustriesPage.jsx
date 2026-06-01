@@ -20,13 +20,20 @@ const IndustriesPage = () => {
   const { isMobile } = useResponsive();
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      <SEO
+        title="Security for HOA, Retail, Healthcare & More | FPI Security"
+        description="FPI Security serves HOAs, retail centers, construction sites, hospitals, offices, warehouses, dealerships, and hotels in Miami and Dallas. Custom programs for every industry."
+        ogTitle="FPI Security | Industry-Specific Security Solutions"
+        ogDescription="Whether it's a residential community, shopping center, or healthcare facility — FPI builds security programs around your industry's specific risks and requirements."
+        ogUrl="https://www.fpisecurity.com/industries"
+      />
       {/* Hero banner */}
       <div style={{ position: 'relative', overflow: 'hidden', padding: isMobile ? '56px 24px' : '72px 48px' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('/assets/photo-lobby-team.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,42,63,0.96) 0%, rgba(15,53,84,0.88) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Industries Served</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>We Know Your Industry</h1>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Services for Every Industry in Miami &amp; Dallas</h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#7090B0', maxWidth: 560, lineHeight: 1.7 }}>
             Generic security programs don't work. We specialize in the unique demands of each property type — from luxury residences to warehouse logistics.
           </p>
