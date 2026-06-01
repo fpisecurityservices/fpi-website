@@ -1,4 +1,5 @@
 import { Phone, Mail } from 'lucide-react';
+import SEO from '../components/SEO';
 import useResponsive from '../hooks/useResponsive';
 import { LOCATIONS_DATA } from '../data/locations';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +9,18 @@ const LocationsPage = () => {
   const { isMobile } = useResponsive();
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
+      <SEO
+        title="Security Guard Services in Miami & Dallas, TX | FPI Security"
+        description="FPI Security operates in Pembroke Pines and greater Miami, FL and Dallas, TX — providing guards, patrol, and remote monitoring across both markets. Contact your local office."
+        ogTitle="FPI Security | Serving Miami, FL & Dallas, TX"
+        ogDescription="Locally operated security services in South Florida and the Dallas-Fort Worth area. Licensed guards, mobile patrol, and surveillance built for your market."
+        ogUrl="https://www.fpisecurity.com/locations"
+      />
       {/* Banner */}
       <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '56px 24px' : '72px 48px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Our Locations</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Where We Operate</h1>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Guard Company Serving Miami, FL &amp; Dallas, TX</h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 17, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>
             Headquartered in Pembroke Pines, FL with a growing presence in Dallas — personalized service in two of the country's most dynamic markets.
           </p>
@@ -37,7 +45,7 @@ const LocationsPage = () => {
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
                 <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: '#E8EDF4', color: '#006090', padding: '4px 10px', borderRadius: 4 }}>{loc.label}</span>
               </div>
-              <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#0F3554', marginBottom: 12, lineHeight: 1.05 }}>{loc.city}</h2>
+              <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 40, fontWeight: 700, color: '#0F3554', marginBottom: 12, lineHeight: 1.05 }}>{loc.h2Title || loc.city}</h2>
               <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.75, marginBottom: 22 }}>{loc.description}</p>
               <div style={{ marginBottom: 22 }}>
                 <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A96A8', marginBottom: 10 }}>Coverage Areas</div>
