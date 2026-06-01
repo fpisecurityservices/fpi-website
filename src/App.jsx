@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
 import StickyQuoteBtn from './components/StickyQuoteBtn';
@@ -37,6 +38,7 @@ const AppLayout = () => {
 const App = () => (
   <BrowserRouter>
     <AppLayout />
+    <Analytics />
   </BrowserRouter>
 );
 
