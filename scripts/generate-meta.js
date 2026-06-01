@@ -1,0 +1,76 @@
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const distDir = join(__dirname, '..', 'dist');
+
+const PAGES = {
+  '/': {
+    title: 'FPI Security | Private Security Guards in Miami & Dallas, TX',
+    description: 'FPI provides licensed security guards, remote video monitoring, and customized patrol for Miami and Dallas businesses. Request a free security assessment today.',
+    ogTitle: 'FPI Security | Guards, Patrol & Remote Monitoring | Miami & Dallas',
+    ogDescription: 'Licensed security guards, mobile patrol, and AI-assisted video monitoring for commercial, residential, and industrial properties across South Florida and DFW.',
+    canonical: 'https://www.fpisecurity.com/',
+  },
+  '/services': {
+    title: 'Security Guard & Monitoring Services | FPI Security | Miami & Dallas',
+    description: 'FPI offers security officers, mobile patrol, remote video monitoring, access control, and autonomous surveillance — tailored for Miami and Dallas properties.',
+    ogTitle: 'FPI Security Services | Guards, Patrol, Remote Monitoring & More',
+    ogDescription: 'From licensed guards to AI-powered surveillance, FPI delivers end-to-end security programs built around your property type and risk profile.',
+    canonical: 'https://www.fpisecurity.com/services',
+  },
+  '/industries': {
+    title: 'Security for HOA, Retail, Healthcare & More | FPI Security',
+    description: 'FPI Security serves HOAs, retail centers, construction sites, hospitals, offices, warehouses, dealerships, and hotels in Miami and Dallas. Custom programs for every industry.',
+    ogTitle: 'FPI Security | Industry-Specific Security Solutions',
+    ogDescription: "Whether it's a residential community, shopping center, or healthcare facility — FPI builds security programs around your industry's specific risks and requirements.",
+    canonical: 'https://www.fpisecurity.com/industries',
+  },
+  '/locations': {
+    title: 'Security Guard Services in Miami & Dallas, TX | FPI Security',
+    description: 'FPI Security operates in Pembroke Pines and greater Miami, FL and Dallas, TX — providing guards, patrol, and remote monitoring across both markets. Contact your local office.',
+    ogTitle: 'FPI Security | Serving Miami, FL & Dallas, TX',
+    ogDescription: 'Locally operated security services in South Florida and the Dallas-Fort Worth area. Licensed guards, mobile patrol, and surveillance built for your market.',
+    canonical: 'https://www.fpisecurity.com/locations',
+  },
+  '/about': {
+    title: 'About FPI Security | Licensed Security Company in Miami & Dallas',
+    description: 'FPI Security is a privately owned security company built on integrity and personal service. Learn about our team, values, and approach to commercial and residential security.',
+    ogTitle: 'About FPI Security | Our Story, Values & Team',
+    ogDescription: "FPI isn't a franchise — we're a privately owned security company focused on personal relationships, licensed officers, and security programs that actually fit your property.",
+    canonical: 'https://www.fpisecurity.com/about',
+  },
+  '/contact': {
+    title: 'Contact FPI Security | Free Security Consultation | Miami & Dallas',
+    description: "Request a free security consultation with FPI. We serve Miami, South Florida, and Dallas, TX — and we'll build a custom security plan around your property and budget.",
+    ogTitle: 'Get a Free Security Consultation | FPI Security',
+    ogDescription: 'Tell us about your property and security needs. FPI will respond within one business day with a custom proposal — no pressure, no generic packages.',
+    canonical: 'https://www.fpisecurity.com/contact',
+  },
+};
+
+const baseHtml = readFileSync(join(distDir, 'index-vite.html'), 'utf-8');
+
+for (const [route, meta] of Object.entries(PAGES)) {
+  let html = baseHtml;
+
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`);
+  html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${meta.description}">`);
+  html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${meta.canonical}">`);
+  html = html.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${meta.ogTitle}">`);
+  html = html.replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${meta.ogDescription}">`);
+  html = html.replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${meta.canonical}">`);
+
+  if (route === '/') {
+    writeFileSync(join(distDir, 'index-vite.html'), html);
+  } else {
+    const dir = join(distDir, route.slice(1));
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'index.html'), html);
+  }
+
+  console.log(`✓ ${route}`);
+}
+
+console.log('Meta tags injected for all routes.');
