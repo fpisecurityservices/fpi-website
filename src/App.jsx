@@ -11,6 +11,7 @@ import IndustriesPage from './pages/IndustriesPage';
 import LocationsPage from './pages/LocationsPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import OfficersPage from './pages/OfficersPage';
 
 const AppLayout = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const AppLayout = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/officers" element={<OfficersPage />} />
         <Route path="/services/:id" element={<ServiceDetailPage />} />
         <Route path="/industries" element={<IndustriesPage />} />
         <Route path="/locations" element={<LocationsPage />} />
