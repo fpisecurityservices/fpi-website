@@ -414,9 +414,9 @@ const OfficersPage = () => {
         <Body style={{ color: '#8A96A8', fontStyle: 'italic', fontSize: 13 }}>Real client testimonials to be added before publication.</Body>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
           {[
-            { placeholder: '[CLIENT NAME, TITLE, COMPANY — HOA or Residential]', quote: '"[FPI has transformed the safety and accountability of our community. The client portal alone has made our board's job significantly easier — we have documentation for everything.]"' },
-            { placeholder: '[CLIENT NAME, TITLE, COMPANY — Commercial or Industrial]', quote: '"[Since deploying FPI guards at our facility, we have seen a measurable reduction in unauthorized access incidents. The real-time reporting gives our management team the visibility we were missing.]"' },
-            { placeholder: '[CLIENT NAME, TITLE, COMPANY — Retail or Car Dealership]', quote: '"[Our dealership needed guards who understood the value of what they were protecting. FPI delivered professional, licensed officers with the documentation trail our insurance provider required.]"' },
+            { placeholder: '[CLIENT NAME, TITLE, COMPANY — HOA or Residential]', quote: '[FPI has transformed the safety and accountability of our community. The client portal alone has made our board’s job significantly easier — we have documentation for everything.]' },
+            { placeholder: '[CLIENT NAME, TITLE, COMPANY — Commercial or Industrial]', quote: '[Since deploying FPI guards at our facility, we have seen a measurable reduction in unauthorized access incidents. The real-time reporting gives our management team the visibility we were missing.]' },
+            { placeholder: '[CLIENT NAME, TITLE, COMPANY — Retail or Car Dealership]', quote: '[Our dealership needed guards who understood the value of what they were protecting. FPI delivered professional, licensed officers with the documentation trail our insurance provider required.]' },
           ].map((t, i) => (
             <div key={i} style={{ background: '#F4F6F8', borderRadius: 8, padding: '28px 24px', border: '1px solid #E2E6ED', borderLeft: '4px solid #006090' }}>
               <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.75, fontStyle: 'italic', marginBottom: 16 }}>{t.quote}</p>
