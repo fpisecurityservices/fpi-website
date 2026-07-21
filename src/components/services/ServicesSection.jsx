@@ -11,9 +11,9 @@ const ServicesSection = () => {
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div style={{ marginBottom: isMobile ? 36 : 52, textAlign: 'center' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>What We Offer</div>
-          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 48, fontWeight: 700, color: '#0F3554', marginBottom: 14, lineHeight: 1.05 }}>Comprehensive Security Solutions</h2>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-            Every engagement is built around your property. We combine people, technology, and intelligence for security that actually fits.
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 48, fontWeight: 700, color: '#0F3554', marginBottom: 14, lineHeight: 1.05 }}>Every Layer of Protection — Designed to Work Together</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#647184', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+            Trained officers, a proprietary technology platform, and live SOC monitoring — one connected program under one partner.
           </p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 18 }}>

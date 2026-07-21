@@ -17,10 +17,10 @@ const IndustriesStrip = () => {
           <div>
             <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>Industries We Serve</div>
             <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 34 : 44, fontWeight: 700, color: headingColor, marginBottom: 16, lineHeight: 1.05 }}>
-              Security for Every Property Type
+              Your Industry. Your Risks. Your Program.
             </h2>
             <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 24 }}>
-              From gated communities to construction sites, we understand the unique security challenges of each environment — and build programs specifically for them.
+              FPI builds each program around the specific risks of your industry — staffing, technology, and reporting included.
             </p>
             <button onClick={() => navigate('/industries')} style={{
               background: '#006090', color: '#fff',

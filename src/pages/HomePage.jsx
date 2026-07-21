@@ -6,6 +6,7 @@ import IndustriesStrip from '../components/industries/IndustriesStrip';
 import TechSection from '../sections/TechSection';
 import AboutSection from '../sections/AboutSection';
 import CTAStrip from '../sections/CTAStrip';
+import HomeFaq from '../sections/HomeFaq';
 
 const HomePage = () => (
   <>
@@ -19,9 +20,10 @@ const HomePage = () => (
     <HeroSection direction="command" />
     <TrustBar />
     <ServicesSection />
-    <IndustriesStrip />
-    <TechSection />
     <AboutSection />
+    <TechSection />
+    <IndustriesStrip />
+    <HomeFaq />
     <CTAStrip />
   </>
 );

@@ -88,11 +88,25 @@ const PAGES = {
     canonical: 'https://www.fpisecurity.com/locations',
   },
   '/about': {
-    title: 'About FPI Security | Licensed Security Company in Six States',
-    description: 'FPI Security is a privately owned security company built on integrity and personal service. Learn about our team, values, and approach to commercial and residential security.',
+    title: 'About FPI Security | Contract Security Company Since 1981',
+    description: 'FPI Security Services — a privately owned contract security company founded in 1981, now serving six states. Learn about our mission, values, and team.',
     ogTitle: 'About FPI Security | Our Story, Values & Team',
-    ogDescription: "FPI isn't a franchise — we're a privately owned security company focused on personal relationships, licensed officers, and security programs that actually fit your property.",
+    ogDescription: 'Founded in 1981 and privately owned — licensed officers, a proprietary technology platform, and security programs built from scratch for every property.',
     canonical: 'https://www.fpisecurity.com/about',
+  },
+  '/security-operations-center': {
+    title: "Security Operations Center | FPI's 24/7 Command Infrastructure",
+    description: 'FPI SOC delivers real-time alerts, AI video analytics, LPR & remote monitoring for businesses across six states. Smart protection. Contact us today!',
+    ogTitle: "Security Operations Center | FPI's 24/7 Command Infrastructure",
+    ogDescription: 'The 24/7 command infrastructure behind every FPI service — AI detection, live operators, and verified response across six states.',
+    canonical: 'https://www.fpisecurity.com/security-operations-center',
+  },
+  '/fpi-technology-platform': {
+    title: 'FPI Proprietary Security Platform | Built In-House',
+    description: 'FPI built its own security platform — client dashboard, GPS tracking, incident reporting & automated alerts. Real-time visibility for every property. See how it works.',
+    ogTitle: 'FPI Proprietary Security Platform | Built In-House',
+    ogDescription: 'Real-time GPS tracking, automated security incident reporting, and a 24/7 client dashboard — the platform behind every FPI service.',
+    canonical: 'https://www.fpisecurity.com/fpi-technology-platform',
   },
   '/contact': {
     title: 'Contact FPI Security | Free Security Consultation',

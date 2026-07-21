@@ -25,9 +25,9 @@ const SiteFooter = () => {
     { heading: 'Company', links: [
       { label: 'About FPI', path: '/about' },
       { label: 'Locations', path: '/locations' },
-      { label: 'Technology', path: '/services' },
+      { label: 'Proprietary Platform', path: '/fpi-technology-platform' },
+      { label: 'Security Operations Center', path: '/security-operations-center' },
       { label: 'Contact', path: '/contact' },
-      { label: 'Request a Quote', path: '/contact' },
     ]},
   ];
 

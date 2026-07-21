@@ -10,9 +10,9 @@ const CTAStrip = () => {
       <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('/uploads/Event Guards-ea496454.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,42,63,0.95) 0%, rgba(0,96,144,0.88) 100%)' }} />
       <div style={{ position: 'relative', zIndex: 2, maxWidth: 680, margin: '0 auto' }}>
-        <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 36 : 46, fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.05 }}>Ready to Elevate Your Security?</h2>
+        <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 36 : 46, fontWeight: 700, color: '#fff', marginBottom: 16, lineHeight: 1.05 }}>Tell Us About Your Property. We'll Build Your Security Plan.</h2>
         <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 14 : 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65, marginBottom: 32 }}>
-          Tell us about your property and we'll build a custom security plan that fits your needs and budget. No contracts, no one-size-fits-all.
+          Every consultation starts with a site assessment, a risk evaluation, and a custom program design. It's free, there's no obligation, and no contract is required to start.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <button onClick={() => navigate('/contact')} style={{

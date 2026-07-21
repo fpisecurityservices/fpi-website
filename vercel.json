@@ -12,6 +12,8 @@
     { "source": "/services/autonomous", "destination": "/services/autonomous/index.html" },
     { "source": "/services/maintenance", "destination": "/services/maintenance/index.html" },
     { "source": "/services/(.*)", "destination": "/services/index.html" },
+    { "source": "/security-operations-center", "destination": "/security-operations-center/index.html" },
+    { "source": "/fpi-technology-platform", "destination": "/fpi-technology-platform/index.html" },
     { "source": "/industries", "destination": "/industries/index.html" },
     { "source": "/locations", "destination": "/locations/index.html" },
     { "source": "/about", "destination": "/about/index.html" },

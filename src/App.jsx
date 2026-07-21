@@ -16,6 +16,8 @@ import PatrolPage from './pages/PatrolPage';
 import RemoteMonitoringPage from './pages/RemoteMonitoringPage';
 import SurveillancePage from './pages/SurveillancePage';
 import AccessControlPage from './pages/AccessControlPage';
+import SocPage from './pages/SocPage';
+import PlatformPage from './pages/PlatformPage';
 import AutonomousPage from './pages/AutonomousPage';
 import MaintenancePage from './pages/MaintenancePage';
 
@@ -38,6 +40,8 @@ const AppLayout = () => {
         <Route path="/services/autonomous" element={<AutonomousPage />} />
         <Route path="/services/maintenance" element={<MaintenancePage />} />
         <Route path="/services/:id" element={<ServiceDetailPage />} />
+        <Route path="/security-operations-center" element={<SocPage />} />
+        <Route path="/fpi-technology-platform" element={<PlatformPage />} />
         <Route path="/industries" element={<IndustriesPage />} />
         <Route path="/locations" element={<LocationsPage />} />
         <Route path="/about" element={<AboutPage />} />

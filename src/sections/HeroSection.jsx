@@ -49,16 +49,23 @@ export const HeroCommand = () => {
             fontWeight: 700, color: '#4A7FA8', letterSpacing: '0.1em',
             textTransform: 'uppercase', marginBottom: 16,
           }}>
-            Private Security Services for Businesses Across Six States
+            Most Security Companies Send Guards. FPI Builds Programs.
           </p>
 
           <p style={{
             fontFamily: "'Barlow', sans-serif",
             fontSize: isMobile ? 15 : 18,
-            color: '#8998B1', lineHeight: 1.65, marginBottom: 36, maxWidth: 480,
+            color: '#8998B1', lineHeight: 1.65, marginBottom: 28, maxWidth: 480,
           }}>
-            A trusted private security guard company serving Florida, Texas, Georgia, Arizona, Nevada, and California. Commercial security guards, 24-hour patrol, remote video surveillance, and a proprietary tech platform — all customized to your property.
+            FPI is a combined guard and technology company protecting properties in six states, from South Florida to Southern California. Our proprietary platform gives you live GPS patrol tracking, real-time incident reporting, and a 24/7 client dashboard.
           </p>
+
+          <div style={{ background: 'rgba(0,96,144,0.15)', border: '1px solid rgba(74,127,168,0.35)', borderRadius: 8, padding: '16px 20px', marginBottom: 32, maxWidth: 480 }}>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 30 : 36, fontWeight: 700, color: '#fff', lineHeight: 1 }}>$202,000</div>
+            <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#8998B1', lineHeight: 1.6, marginTop: 6 }}>
+              <strong style={{ color: '#B0BDD0' }}>The average cost of a single cargo theft incident (NICB, 2025).</strong> FPI prevents it before it happens.
+            </div>
+          </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button onClick={() => navigate('/contact')} style={{
@@ -88,8 +95,14 @@ export const HeroCommand = () => {
             </a>
           </div>
 
+          <div style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap' }}>
+            {['Licensed & Insured', 'State-Licensed Officers'].map(b => (
+              <span key={b} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#8998B1', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 4, padding: '6px 12px' }}>{b}</span>
+            ))}
+          </div>
+
           {!isMobile && (
-            <div style={{ display: 'flex', gap: 40, marginTop: 56, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 40, marginTop: 40, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap' }}>
               {[['24/7', 'Live Monitoring'], ['6', 'States Served'], ['6+', 'Service Lines'], ['100%', 'Custom Plans']].map(([val, lbl]) => (
                 <div key={lbl}>
                   <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 36, fontWeight: 700, color: '#fff', lineHeight: 1 }}>{val}</div>

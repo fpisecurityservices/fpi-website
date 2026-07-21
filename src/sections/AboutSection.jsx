@@ -29,16 +29,16 @@ const AboutSection = () => {
         <div>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: eyebrowColor, marginBottom: 12 }}>About FPI Security</div>
           <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 36 : 46, fontWeight: 700, color: headingColor, marginBottom: 20, lineHeight: 1.05 }}>
-            Personal Service.<br />Enterprise Capability.
+            Local Expertise.<br />Enterprise Standards.
           </h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 16 }}>
-            FPI Security Services is a leading private security company operating across six states — from South Florida to Southern California. We invest the time to understand your property, your people, and your risk profile — then build a fully customized security solution around it.
+            FPI Security Services is a private security company headquartered in Pembroke Pines, FL, with a regional office in Dallas, TX and operations across six states. No program is one-size-fits-all: every engagement combines trained officers with a proprietary technology platform, configured around your property's specific layout, hours, and risk profile.
           </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 36 }}>
-            Headquartered in Pembroke Pines, FL with regional operations in Texas, Georgia, Arizona, Nevada, and California, we combine highly trained private security guards with commercial security patrol services and a custom-built technology platform — delivering security systems that actually work.
+            The platform is the proof point. FPI built its own because off-the-shelf software couldn't meet its standards — giving clients real-time visibility that no other local provider offers: GPS patrol logs, incident reports as they happen, and a dashboard you can open any hour of the night.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 36, paddingBottom: 36, borderBottom: `1px solid ${isLight ? '#E2E6ED' : 'rgba(255,255,255,0.1)'}` }}>
-            {[['Pembroke Pines, FL', 'Headquarters'], ['6 States', 'Coast to Coast'], ['Proprietary', 'Tech Platform']].map(([v, l]) => (
+            {[['Since 1981', 'Privately Owned'], ['6 States', 'Coast to Coast'], ['Proprietary', 'Tech Platform']].map(([v, l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 16 : 20, fontWeight: 700, color: statValueColor }}>{v}</div>
                 <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: statLabelColor, marginTop: 3 }}>{l}</div>
