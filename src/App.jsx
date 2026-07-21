@@ -15,6 +15,7 @@ import OfficersPage from './pages/OfficersPage';
 import PatrolPage from './pages/PatrolPage';
 import RemoteMonitoringPage from './pages/RemoteMonitoringPage';
 import SurveillancePage from './pages/SurveillancePage';
+import AccessControlPage from './pages/AccessControlPage';
 import AutonomousPage from './pages/AutonomousPage';
 import MaintenancePage from './pages/MaintenancePage';
 
@@ -33,6 +34,7 @@ const AppLayout = () => {
         <Route path="/services/patrol" element={<PatrolPage />} />
         <Route path="/services/remote" element={<RemoteMonitoringPage />} />
         <Route path="/services/surveillance" element={<SurveillancePage />} />
+        <Route path="/services/access" element={<AccessControlPage />} />
         <Route path="/services/autonomous" element={<AutonomousPage />} />
         <Route path="/services/maintenance" element={<MaintenancePage />} />
         <Route path="/services/:id" element={<ServiceDetailPage />} />

@@ -8,6 +8,7 @@
     { "source": "/services/patrol", "destination": "/services/patrol/index.html" },
     { "source": "/services/remote", "destination": "/services/remote/index.html" },
     { "source": "/services/surveillance", "destination": "/services/surveillance/index.html" },
+    { "source": "/services/access", "destination": "/services/access/index.html" },
     { "source": "/services/autonomous", "destination": "/services/autonomous/index.html" },
     { "source": "/services/maintenance", "destination": "/services/maintenance/index.html" },
     { "source": "/services/(.*)", "destination": "/services/index.html" },

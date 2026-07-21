@@ -52,6 +52,13 @@ const PAGES = {
     ogDescription: 'Design, installation, and monitoring of commercial surveillance systems — IP, HD, thermal, and mobile trailer deployments.',
     canonical: 'https://www.fpisecurity.com/services/surveillance',
   },
+  '/services/access': {
+    title: 'Access Control Systems | Smart & Biometric Installation',
+    description: 'Access control systems for businesses with keycard, biometric, and cloud-based solutions. Enhance security and streamline visitor management today. Contact us!',
+    ogTitle: 'Smart Access Control Systems for Business | FPI Security',
+    ogDescription: 'Keycard, biometric, mobile, and cloud-based access control — installed, integrated, and managed by one partner.',
+    canonical: 'https://www.fpisecurity.com/services/access',
+  },
   '/services/autonomous': {
     title: 'Autonomous Security Robots | AI Patrol for Your Property',
     description: 'FPI autonomous security robots patrol 24/7, detect anomalies with AI & feed live data to our ops center. Extend coverage without adding headcount.',
