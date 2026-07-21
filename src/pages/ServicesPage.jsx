@@ -18,7 +18,7 @@ const ServicesPage = () => {
       <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '48px 24px' : '64px 48px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>What We Offer</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Private Security Services in Miami &amp; Dallas</h1>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Private Security Services Across Six States</h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>From on-site officers to autonomous surveillance — every service is customized to your property and risk profile.</p>
         </div>
       </div>

@@ -33,7 +33,7 @@ const IndustriesPage = () => {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,42,63,0.96) 0%, rgba(15,53,84,0.88) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Industries Served</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Services for Every Industry in Miami &amp; Dallas</h1>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Services for Every Industry We Protect</h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#7090B0', maxWidth: 560, lineHeight: 1.7 }}>
             Generic security programs don't work. We specialize in the unique demands of each property type — from luxury residences to warehouse logistics.
           </p>

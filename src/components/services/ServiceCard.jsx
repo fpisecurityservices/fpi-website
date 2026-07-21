@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Car, Video, Camera, Bot, Cpu, ArrowRight } from 'lucide-react';
+import { Shield, Car, Video, Camera, Bot, Cpu, Lock, ArrowRight } from 'lucide-react';
 
 const iconMap = {
   shield: Shield,
@@ -9,6 +9,7 @@ const iconMap = {
   camera: Camera,
   bot: Bot,
   cpu: Cpu,
+  lock: Lock,
 };
 
 const ServiceCard = ({ service, direction = 'clarity', headingLevel = 'h3' }) => {

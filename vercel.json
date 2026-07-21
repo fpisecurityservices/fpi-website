@@ -4,6 +4,12 @@
   "framework": null,
   "rewrites": [
     { "source": "/services", "destination": "/services/index.html" },
+    { "source": "/services/officers", "destination": "/services/officers/index.html" },
+    { "source": "/services/patrol", "destination": "/services/patrol/index.html" },
+    { "source": "/services/remote", "destination": "/services/remote/index.html" },
+    { "source": "/services/surveillance", "destination": "/services/surveillance/index.html" },
+    { "source": "/services/autonomous", "destination": "/services/autonomous/index.html" },
+    { "source": "/services/maintenance", "destination": "/services/maintenance/index.html" },
     { "source": "/services/(.*)", "destination": "/services/index.html" },
     { "source": "/industries", "destination": "/industries/index.html" },
     { "source": "/locations", "destination": "/locations/index.html" },
