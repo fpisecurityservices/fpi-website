@@ -14,6 +14,7 @@ const SiteHeader = () => {
     if (pathname === '/') return 'home';
     if (pathname.startsWith('/services') || ['/security-officers', '/mobile-patrol', '/remote-video-monitoring', '/surveillance-systems', '/access-control', '/autonomous-surveillance', '/service-maintenance'].includes(pathname)) return 'services';
     if (pathname.startsWith('/technology')) return 'technology';
+    if (pathname.startsWith('/insights') || pathname.startsWith('/case-studies')) return 'insights';
     if (pathname.startsWith('/industries')) return 'industries';
     if (pathname.startsWith('/locations')) return 'locations';
     if (pathname.startsWith('/about')) return 'about';
@@ -37,6 +38,7 @@ const SiteHeader = () => {
     { id: 'services', label: 'Services', path: '/services' },
     { id: 'industries', label: 'Industries', path: '/industries' },
     { id: 'technology', label: 'Technology', path: '/technology/soc' },
+    { id: 'insights', label: 'Case Studies', path: '/insights/case-studies' },
     { id: 'locations', label: 'Locations', path: '/locations' },
     { id: 'about', label: 'About', path: '/about' },
     { id: 'contact', label: 'Contact', path: '/contact' },

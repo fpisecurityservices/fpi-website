@@ -122,6 +122,57 @@ export const ServiceHero = ({ tags, title, intro, ctaText, onCta, isMobile }) =>
   </div>
 );
 
+export const QuickAnswer = ({ children, isMobile }) => (
+  <div style={{ background: '#EEF4F8', borderLeft: '4px solid #006090', borderRadius: 8, padding: isMobile ? '20px 20px' : '24px 28px', margin: isMobile ? '0 0 8px' : '0' }}>
+    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#006090', marginBottom: 8 }}>⚡ Quick Answer</div>
+    <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 16, color: '#0F3554', lineHeight: 1.7, margin: 0 }}>{children}</p>
+  </div>
+);
+
+export const ResultsTable = ({ headers, rows, isMobile }) => (
+  <div style={{ overflowX: 'auto', margin: '8px 0' }}>
+    <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: isMobile ? 520 : 'auto', fontFamily: "'Barlow', sans-serif" }}>
+      <thead>
+        <tr>
+          {headers.map((h, i) => (
+            <th key={h} style={{ textAlign: 'left', padding: '12px 16px', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: i === 0 ? '#0F3554' : '#fff', background: i === 0 ? '#E8EDF4' : (i === 1 ? '#8A96A8' : '#006090'), borderBottom: '2px solid #fff' }}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, ri) => (
+          <tr key={ri} style={{ background: ri % 2 === 0 ? '#F4F6F8' : '#fff' }}>
+            {row.map((cell, ci) => (
+              <td key={ci} style={{ padding: '12px 16px', fontSize: 13, lineHeight: 1.5, color: ci === 0 ? '#0F3554' : '#4E5A6E', fontWeight: ci === 0 ? 700 : 400, borderBottom: '1px solid #E2E6ED', verticalAlign: 'top' }}>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+export const Testimonial = ({ quote, attribution, isMobile }) => (
+  <div style={{ background: '#0F3554', borderRadius: 10, padding: isMobile ? '28px 24px' : '40px 44px' }}>
+    <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 48, fontWeight: 700, color: '#4A7FA8', lineHeight: 0.6, marginBottom: 8 }}>&ldquo;</div>
+    <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 16 : 18, color: '#fff', lineHeight: 1.7, marginBottom: 18, fontStyle: 'italic' }}>{quote}</p>
+    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600, color: '#4A7FA8' }}>— {attribution}</div>
+  </div>
+);
+
+export const BulletList = ({ items }) => (
+  <div style={{ margin: '4px 0 8px' }}>
+    {items.map((text, i) => (
+      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 10 }}>
+        <div style={{ width: 20, height: 20, background: '#E8EDF4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+          <Check size={11} style={{ color: '#006090' }} />
+        </div>
+        <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.65 }}>{text}</span>
+      </div>
+    ))}
+  </div>
+);
+
 export const FinalCTA = ({ title, body, ctaText, onCta, isMobile }) => (
   <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '48px 24px' : '64px 48px', textAlign: 'center' }}>
     <div style={{ maxWidth: 640, margin: '0 auto' }}>

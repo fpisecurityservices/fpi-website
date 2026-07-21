@@ -37,6 +37,9 @@
     { "source": "/locations", "destination": "/locations/index.html" },
     { "source": "/locations/pembroke-pines-fl", "destination": "/locations/pembroke-pines-fl/index.html" },
     { "source": "/locations/dallas-tx", "destination": "/locations/dallas-tx/index.html" },
+    { "source": "/insights/case-studies", "destination": "/insights/case-studies/index.html" },
+    { "source": "/case-studies/rosa-stops-theft-florida", "destination": "/case-studies/rosa-stops-theft-florida/index.html" },
+    { "source": "/case-studies/rio360-dealership-security-florida", "destination": "/case-studies/rio360-dealership-security-florida/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/contact", "destination": "/contact/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }

@@ -157,6 +157,27 @@ const PAGES = {
     ogDescription: 'Licensed guards, mobile patrol, and remote monitoring across the Dallas–Fort Worth metroplex.',
     canonical: 'https://www.fpisecurity.com/locations/dallas-tx',
   },
+  '/insights/case-studies': {
+    title: 'Case Studies | Real Security Results | FPI Security',
+    description: 'Real FPI Security deployments with measurable results — autonomous security, guard replacement, and theft prevention across Florida and Texas.',
+    ogTitle: 'FPI Security Case Studies | Real Deployments, Real Results',
+    ogDescription: "See how FPI's autonomous devices, officers, and technology solved real security problems for businesses across South Florida and Texas.",
+    canonical: 'https://www.fpisecurity.com/insights/case-studies',
+  },
+  '/case-studies/rosa-stops-theft-florida': {
+    title: 'Autonomous Security Stopped Theft | FPI Florida Case Study',
+    description: "FPI's ROSA autonomous device stopped water theft at a Florida gun store — cutting utility costs. Real AI protection, real results. Get your free assessment.",
+    ogTitle: 'How ROSA Stopped Water Theft at a Florida Gun Store | FPI Case Study',
+    ogDescription: 'FPI deployed ROSA at Florida Gun Center in Hialeah — within days it detected intruders, announced detection, and alerted law enforcement. They fled and did not return.',
+    canonical: 'https://www.fpisecurity.com/case-studies/rosa-stops-theft-florida',
+  },
+  '/case-studies/rio360-dealership-security-florida': {
+    title: 'Autonomous Security Replaced Our Guard | FPI Dealership Case',
+    description: 'FPI replaced a security guard with RIO360 at a Florida car dealership — cutting costs and delivering 24/7 autonomous lot coverage. Get your free assessment.',
+    ogTitle: 'Cutting Dealership Security Costs with Autonomous AI | FPI Case Study',
+    ogDescription: "FPI replaced a traditional guard at a Florida dealership's off-site lot with the solar-powered RIO360 — 24/7 coverage without staffing costs and zero incidents.",
+    canonical: 'https://www.fpisecurity.com/case-studies/rio360-dealership-security-florida',
+  },
   '/about': {
     title: 'About FPI Security | Contract Security Company Since 1981',
     description: 'FPI Security Services — a privately owned contract security company founded in 1981, now serving six states. Learn about our mission, values, and team.',

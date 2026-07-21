@@ -26,7 +26,7 @@ const SiteFooter = () => {
       { label: 'About FPI', path: '/about' },
       { label: 'Locations', path: '/locations' },
       { label: 'Proprietary Platform', path: '/technology/platform' },
-      { label: 'Security Operations Center', path: '/technology/soc' },
+      { label: 'Case Studies', path: '/insights/case-studies' },
       { label: 'Contact', path: '/contact' },
     ]},
   ];

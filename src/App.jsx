@@ -17,6 +17,9 @@ import CarDealershipPage from './pages/industries/CarDealershipPage';
 import WarehousePage from './pages/industries/WarehousePage';
 import RetailPage from './pages/industries/RetailPage';
 import HospitalityPage from './pages/industries/HospitalityPage';
+import CaseStudiesHub from './pages/casestudies/CaseStudiesHub';
+import RosaCaseStudy from './pages/casestudies/RosaCaseStudy';
+import Rio360CaseStudy from './pages/casestudies/Rio360CaseStudy';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import OfficersPage from './pages/OfficersPage';
@@ -79,6 +82,9 @@ const AppLayout = () => {
         <Route path="/industries/hotel-security-services" element={<HospitalityPage />} />
         <Route path="/locations" element={<LocationsPage />} />
         <Route path="/locations/:slug" element={<LocationDetailPage />} />
+        <Route path="/insights/case-studies" element={<CaseStudiesHub />} />
+        <Route path="/case-studies/rosa-stops-theft-florida" element={<RosaCaseStudy />} />
+        <Route path="/case-studies/rio360-dealership-security-florida" element={<Rio360CaseStudy />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
