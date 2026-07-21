@@ -26,7 +26,7 @@ const IndustryCard = ({ industry, direction = 'clarity' }) => {
 
   return (
     <div
-      onClick={() => navigate('/industries')}
+      onClick={() => navigate(industry.path || '/industries')}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

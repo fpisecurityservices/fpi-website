@@ -1,6 +1,7 @@
 export const INDUSTRIES_DATA = [
   {
     id: 'hoa',
+    path: '/industries/hoa-residential-security',
     icon: 'home',
     title: 'HOA & Residential Security',
     shortDesc: 'HOA boards need security that is documented, not just present. FPI provides GPS-verified patrol logs and a client portal that gives boards proof of coverage — before the next board meeting.',
@@ -21,6 +22,7 @@ export const INDUSTRIES_DATA = [
   },
   {
     id: 'construction',
+    path: '/industries/construction-site-security',
     icon: 'hard-hat',
     title: 'Construction Site Security',
     shortDesc: 'Construction sites lose an average of $53,000 per theft incident (National Equipment Register, 2024) — most of it overnight and on weekends. FPI deploys overnight patrol and solar surveillance trailers that need no power infrastructure.',
@@ -31,6 +33,7 @@ export const INDUSTRIES_DATA = [
   },
   {
     id: 'commercial',
+    path: '/industries/commercial-office-building-security',
     icon: 'building-2',
     title: 'Commercial Office Buildings',
     shortDesc: 'Office buildings need security that projects professionalism while maintaining strict access control and incident response. FPI manages lobby access, visitor management, and after-hours patrol as one integrated program.',
@@ -41,6 +44,7 @@ export const INDUSTRIES_DATA = [
   },
   {
     id: 'healthcare',
+    path: '/industries/healthcare-security-services',
     icon: 'heart-pulse',
     title: 'Healthcare & Medical',
     shortDesc: 'Healthcare environments require officers trained in patient privacy, de-escalation, and emergency response — not standard guard training. FPI deploys healthcare-specific officers before the first shift.',
@@ -62,6 +66,7 @@ export const INDUSTRIES_DATA = [
   },
   {
     id: 'dealership',
+    path: '/industries/car-dealership-security',
     icon: 'car',
     title: 'Car Dealerships',
     shortDesc: 'Autonomous surveillance and mobile patrol protecting vehicle inventory, lot perimeters, and after-hours dealership assets.',

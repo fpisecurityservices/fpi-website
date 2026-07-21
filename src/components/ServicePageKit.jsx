@@ -1,5 +1,22 @@
 import { Check, ChevronRight } from 'lucide-react';
 
+export const Breadcrumb = ({ trail, isMobile }) => (
+  <div style={{ background: '#F4F6F8', borderBottom: '1px solid #E2E6ED', padding: isMobile ? '10px 24px' : '12px 48px' }}>
+    <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontFamily: "'Barlow', sans-serif", fontSize: 13 }}>
+      {trail.map((item, i) => (
+        <span key={item.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          {i > 0 && <ChevronRight size={13} style={{ color: '#8A96A8' }} />}
+          {item.onClick ? (
+            <span onClick={item.onClick} style={{ color: '#006090', cursor: 'pointer' }}>{item.label}</span>
+          ) : (
+            <span style={{ color: '#647184' }}>{item.label}</span>
+          )}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
 export const Section = ({ children, bg = '#fff', py = '64px 48px', pyMobile = '48px 24px', isMobile }) => (
   <div style={{ background: bg, padding: isMobile ? pyMobile : py }}>
     <div style={{ maxWidth: 1280, margin: '0 auto' }}>{children}</div>

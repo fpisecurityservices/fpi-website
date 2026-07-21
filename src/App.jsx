@@ -9,6 +9,11 @@ import ServicesPage from './pages/ServicesPage';
 import IndustriesPage from './pages/IndustriesPage';
 import LocationsPage from './pages/LocationsPage';
 import LocationDetailPage from './pages/LocationDetailPage';
+import HoaResidentialPage from './pages/industries/HoaResidentialPage';
+import ConstructionPage from './pages/industries/ConstructionPage';
+import CommercialOfficePage from './pages/industries/CommercialOfficePage';
+import HealthcarePage from './pages/industries/HealthcarePage';
+import CarDealershipPage from './pages/industries/CarDealershipPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import OfficersPage from './pages/OfficersPage';
@@ -61,6 +66,11 @@ const AppLayout = () => {
         <Route path="/security-operations-center" element={<Navigate to="/technology/soc" replace />} />
         <Route path="/fpi-technology-platform" element={<Navigate to="/technology/platform" replace />} />
         <Route path="/industries" element={<IndustriesPage />} />
+        <Route path="/industries/hoa-residential-security" element={<HoaResidentialPage />} />
+        <Route path="/industries/construction-site-security" element={<ConstructionPage />} />
+        <Route path="/industries/commercial-office-building-security" element={<CommercialOfficePage />} />
+        <Route path="/industries/healthcare-security-services" element={<HealthcarePage />} />
+        <Route path="/industries/car-dealership-security" element={<CarDealershipPage />} />
         <Route path="/locations" element={<LocationsPage />} />
         <Route path="/locations/:slug" element={<LocationDetailPage />} />
         <Route path="/about" element={<AboutPage />} />

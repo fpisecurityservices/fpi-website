@@ -58,7 +58,7 @@ const IndustriesPage = () => {
                       <span key={s} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#E8EDF4', color: '#27516A', padding: '3px 8px', borderRadius: 4 }}>{s}</span>
                     ))}
                   </div>
-                  <button onClick={() => navigate('/contact')} style={{
+                  <button onClick={() => navigate(ind.path || '/contact')} style={{
                     background: '#006090', color: '#fff',
                     fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 600,
                     padding: '9px 20px', borderRadius: 4, border: 'none', cursor: 'pointer',
@@ -66,7 +66,7 @@ const IndustriesPage = () => {
                   }}
                   onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
                   onMouseLeave={e => e.currentTarget.style.background = '#006090'}
-                  >Get a Quote</button>
+                  >{ind.path ? 'Learn More' : 'Get a Quote'}</button>
                 </div>
                 <div style={{ overflow: 'hidden', minHeight: isMobile ? 200 : 240 }}>
                   <img src={ind.photo} alt={ind.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: ind.photoPosition || 'center', display: 'block', minHeight: isMobile ? 200 : 240 }} />
