@@ -9,6 +9,6 @@
     { "source": "/locations", "destination": "/locations/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/contact", "destination": "/contact/index.html" },
-    { "source": "/(.*)", "destination": "/index-vite.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

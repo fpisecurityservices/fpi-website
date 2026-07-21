@@ -9,8 +9,8 @@ const ServicesPage = () => {
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
       <SEO
-        title="Security Guard & Monitoring Services | FPI Security | Miami & Dallas"
-        description="FPI offers security officers, mobile patrol, remote video monitoring, access control, and autonomous surveillance — tailored for Miami and Dallas properties."
+        title="Security Guard & Monitoring Services | FPI Security"
+        description="FPI offers security officers, mobile patrol, remote video monitoring, access control, and autonomous surveillance — tailored for properties across six states."
         ogTitle="FPI Security Services | Guards, Patrol, Remote Monitoring & More"
         ogDescription="From licensed guards to AI-powered surveillance, FPI delivers end-to-end security programs built around your property type and risk profile."
         ogUrl="https://www.fpisecurity.com/services"

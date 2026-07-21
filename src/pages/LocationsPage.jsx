@@ -10,19 +10,19 @@ const LocationsPage = () => {
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
       <SEO
-        title="Security Guard Services in Miami & Dallas, TX | FPI Security"
-        description="FPI Security operates in Pembroke Pines and greater Miami, FL and Dallas, TX — providing guards, patrol, and remote monitoring across both markets. Contact your local office."
-        ogTitle="FPI Security | Serving Miami, FL & Dallas, TX"
-        ogDescription="Locally operated security services in South Florida and the Dallas-Fort Worth area. Licensed guards, mobile patrol, and surveillance built for your market."
+        title="Security Services in FL, TX, GA, AZ, NV & CA | FPI Security"
+        description="FPI Security operates across Florida, Texas, Georgia, Arizona, Nevada, and California — providing licensed guards, mobile patrol, and remote monitoring in every market we serve."
+        ogTitle="FPI Security | Serving Six States Coast to Coast"
+        ogDescription="Locally operated security services across six states. Licensed guards, mobile patrol, and surveillance built for your market."
         ogUrl="https://www.fpisecurity.com/locations"
       />
       {/* Banner */}
       <div style={{ background: 'linear-gradient(135deg, #0D2A3F, #0F3554)', padding: isMobile ? '56px 24px' : '72px 48px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Our Locations</div>
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Security Guard Company Serving Miami, FL &amp; Dallas, TX</h1>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 17, color: '#7090B0', maxWidth: 520, lineHeight: 1.7 }}>
-            Headquartered in Pembroke Pines, FL with a growing presence in Dallas — personalized service in two of the country's most dynamic markets.
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 40 : 56, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>One Security Partner. Six States.</h1>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 17, color: '#7090B0', maxWidth: 560, lineHeight: 1.7 }}>
+            Headquartered in Pembroke Pines, FL with operations across Florida, Texas, Georgia, Arizona, Nevada, and California — personalized service in some of the country's most dynamic markets.
           </p>
         </div>
       </div>
@@ -82,6 +82,31 @@ const LocationsPage = () => {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Expansion markets */}
+      <div style={{ background: '#0D2A3F', padding: isMobile ? '48px 24px' : '72px 48px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8', marginBottom: 12 }}>Our Newest Markets</div>
+          <h2 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 32 : 44, fontWeight: 700, color: '#fff', lineHeight: 1.05, marginBottom: 14 }}>Now Serving Georgia, Arizona, Nevada &amp; California</h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#7090B0', maxWidth: 560, margin: '0 auto 32px', lineHeight: 1.7 }}>
+            The same licensed officers, mobile patrol, and proprietary technology platform that built our reputation in Florida and Texas — now available in four new states.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+            {['Georgia', 'Arizona', 'Nevada', 'California'].map(state => (
+              <span key={state} style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 18 : 22, fontWeight: 700, color: '#fff', background: 'rgba(0,96,144,0.25)', border: '1px solid rgba(74,127,168,0.4)', padding: '10px 24px', borderRadius: 6 }}>{state}</span>
+            ))}
+          </div>
+          <button onClick={() => navigate('/contact')} style={{
+            background: '#006090', color: '#fff',
+            fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+            padding: '12px 28px', borderRadius: 4, border: 'none', cursor: 'pointer',
+            letterSpacing: '0.04em', transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+          onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+          >Request Service in Your State</button>
+        </div>
       </div>
 
       {/* Bottom CTA */}

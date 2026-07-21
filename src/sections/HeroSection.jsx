@@ -30,7 +30,7 @@ export const HeroCommand = () => {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
             <div style={{ width: 28, height: 2, background: '#006090' }} />
             <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#4A7FA8' }}>
-              Pembroke Pines, FL &amp; Dallas, TX
+              FL · TX · GA · AZ · NV · CA
             </span>
           </div>
 
@@ -49,7 +49,7 @@ export const HeroCommand = () => {
             fontWeight: 700, color: '#4A7FA8', letterSpacing: '0.1em',
             textTransform: 'uppercase', marginBottom: 16,
           }}>
-            Private Security Services for Miami &amp; Dallas Businesses
+            Private Security Services for Businesses Across Six States
           </p>
 
           <p style={{
@@ -57,7 +57,7 @@ export const HeroCommand = () => {
             fontSize: isMobile ? 15 : 18,
             color: '#8998B1', lineHeight: 1.65, marginBottom: 36, maxWidth: 480,
           }}>
-            A trusted private security guard company serving South Florida and Dallas, TX. Commercial security guards, 24-hour patrol, remote video surveillance, and a proprietary tech platform — all customized to your property.
+            A trusted private security guard company serving Florida, Texas, Georgia, Arizona, Nevada, and California. Commercial security guards, 24-hour patrol, remote video surveillance, and a proprietary tech platform — all customized to your property.
           </p>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -90,7 +90,7 @@ export const HeroCommand = () => {
 
           {!isMobile && (
             <div style={{ display: 'flex', gap: 40, marginTop: 56, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap' }}>
-              {[['24/7', 'Live Monitoring'], ['2', 'Locations'], ['6+', 'Service Lines'], ['100%', 'Custom Plans']].map(([val, lbl]) => (
+              {[['24/7', 'Live Monitoring'], ['6', 'States Served'], ['6+', 'Service Lines'], ['100%', 'Custom Plans']].map(([val, lbl]) => (
                 <div key={lbl}>
                   <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 36, fontWeight: 700, color: '#fff', lineHeight: 1 }}>{val}</div>
                   <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4A7FA8', marginTop: 5 }}>{lbl}</div>
@@ -124,7 +124,7 @@ export const HeroClarity = () => {
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#E8EDF4', borderRadius: 20, padding: '5px 14px', marginBottom: 22 }}>
             <MapPin size={12} style={{ color: '#006090' }} />
-            <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#006090' }}>Pembroke Pines, FL &amp; Dallas, TX</span>
+            <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#006090' }}>FL · TX · GA · AZ · NV · CA</span>
           </div>
           <h1 style={{
             fontFamily: "'Rajdhani', sans-serif",

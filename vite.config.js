@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 import fs from 'fs';
 import path from 'path';
 
@@ -29,8 +28,5 @@ export default defineConfig({
   publicDir: false,
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      input: resolve(__dirname, 'index-vite.html'),
-    },
   },
 });

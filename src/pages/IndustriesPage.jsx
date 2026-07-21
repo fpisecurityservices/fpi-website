@@ -22,7 +22,7 @@ const IndustriesPage = () => {
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
       <SEO
         title="Security for HOA, Retail, Healthcare & More | FPI Security"
-        description="FPI Security serves HOAs, retail centers, construction sites, hospitals, offices, warehouses, dealerships, and hotels in Miami and Dallas. Custom programs for every industry."
+        description="FPI Security serves HOAs, retail centers, construction sites, hospitals, offices, warehouses, dealerships, and hotels across six states. Custom programs for every industry."
         ogTitle="FPI Security | Industry-Specific Security Solutions"
         ogDescription="Whether it's a residential community, shopping center, or healthcare facility — FPI builds security programs around your industry's specific risks and requirements."
         ogUrl="https://www.fpisecurity.com/industries"

@@ -10,10 +10,10 @@ import CTAStrip from '../sections/CTAStrip';
 const HomePage = () => (
   <>
     <SEO
-      title="FPI Security | Private Security Guards in Miami & Dallas, TX"
-      description="FPI provides licensed security guards, remote video monitoring, and customized patrol for Miami and Dallas businesses. Request a free security assessment today."
-      ogTitle="FPI Security | Guards, Patrol & Remote Monitoring | Miami & Dallas"
-      ogDescription="Licensed security guards, mobile patrol, and AI-assisted video monitoring for commercial, residential, and industrial properties across South Florida and DFW."
+      title="FPI Security | Private Security Guards in FL, TX, GA, AZ, NV & CA"
+      description="FPI provides licensed security guards, remote video monitoring, and customized patrol across Florida, Texas, Georgia, Arizona, Nevada, and California. Request a free security assessment today."
+      ogTitle="FPI Security | Guards, Patrol & Remote Monitoring in Six States"
+      ogDescription="Licensed security guards, mobile patrol, and AI-assisted video monitoring for commercial, residential, and industrial properties — from South Florida to Southern California."
       ogUrl="https://www.fpisecurity.com/"
     />
     <HeroSection direction="command" />

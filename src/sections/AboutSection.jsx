@@ -32,13 +32,13 @@ const AboutSection = () => {
             Personal Service.<br />Enterprise Capability.
           </h2>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 16 }}>
-            FPI Security Services is a leading private security company serving Miami, South Florida, and Dallas, TX. We invest the time to understand your property, your people, and your risk profile — then build a fully customized security solution around it.
+            FPI Security Services is a leading private security company operating across six states — from South Florida to Southern California. We invest the time to understand your property, your people, and your risk profile — then build a fully customized security solution around it.
           </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: bodyColor, lineHeight: 1.75, marginBottom: 36 }}>
-            Headquartered in Pembroke Pines, FL with offices in Dallas, TX, we combine highly trained private security guards with commercial security patrol services and a custom-built technology platform — delivering security systems that actually work.
+            Headquartered in Pembroke Pines, FL with regional operations in Texas, Georgia, Arizona, Nevada, and California, we combine highly trained private security guards with commercial security patrol services and a custom-built technology platform — delivering security systems that actually work.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 36, paddingBottom: 36, borderBottom: `1px solid ${isLight ? '#E2E6ED' : 'rgba(255,255,255,0.1)'}` }}>
-            {[['Pembroke Pines, FL', 'Headquarters'], ['Dallas, TX', 'Regional Office'], ['Proprietary', 'Tech Platform']].map(([v, l]) => (
+            {[['Pembroke Pines, FL', 'Headquarters'], ['6 States', 'Coast to Coast'], ['Proprietary', 'Tech Platform']].map(([v, l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: isMobile ? 16 : 20, fontWeight: 700, color: statValueColor }}>{v}</div>
                 <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: statLabelColor, marginTop: 3 }}>{l}</div>

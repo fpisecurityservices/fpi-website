@@ -110,7 +110,7 @@ const OfficersPage = () => {
               Professional Security Guard Services: Reliable Protection
             </h1>
             <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 17, color: '#B0BDD0', lineHeight: 1.75, marginBottom: 32 }}>
-              FPI Security Services provides professional security guard services across South Florida and Texas — delivering armed and unarmed officers who protect your people, property, and operations around the clock. When it matters most, reliable security guard services are not a luxury — they are a business necessity.
+              FPI Security Services provides professional security guard services across Florida, Texas, Georgia, Arizona, Nevada, and California — delivering armed and unarmed officers who protect your people, property, and operations around the clock. When it matters most, reliable security guard services are not a luxury — they are a business necessity.
             </p>
             <CTAButton onClick={() => navigate('/contact')}>Get a Free Quote — Contact Our Team, Available 24/7</CTAButton>
           </div>
@@ -127,13 +127,13 @@ const OfficersPage = () => {
           <div>
             <H3>On-Site Security Guards for Businesses & Properties</H3>
             <Body>
-              On-site security guards provide a physical deterrent that cameras and alarms alone cannot replicate. FPI deploys professional security officers across South Florida and Texas who manage access control, monitor entry and exit points, respond to incidents in real time, and maintain a visible presence that discourages criminal activity before it starts. Whether you need coverage for a single location in Miami-Dade or multiple properties across Dallas–Fort Worth, our on-site guards integrate seamlessly with your existing operations.
+              On-site security guards provide a physical deterrent that cameras and alarms alone cannot replicate. FPI deploys professional security officers in every market we serve who manage access control, monitor entry and exit points, respond to incidents in real time, and maintain a visible presence that discourages criminal activity before it starts. Whether you need coverage for a single location or a portfolio of properties spanning multiple states, our on-site guards integrate seamlessly with your existing operations.
             </Body>
           </div>
           <div>
             <H3>Armed Security Guard Services</H3>
             <Body>
-              FPI provides armed security guard services through licensed officers who carry firearms in compliance with Florida Statute Chapter 493. Our armed security guards are deployed in high-risk environments — financial institutions, pharmaceutical warehouses, executive protection, and locations with elevated threat profiles. Armed officers respond immediately to security threats and maintain verified credentials through ongoing training. For properties that require the strongest deterrent,{' '}
+              FPI provides armed security guard services through licensed officers who carry firearms in full compliance with the licensing requirements of the state where they serve. Our armed security guards are deployed in high-risk environments — financial institutions, pharmaceutical warehouses, executive protection, and locations with elevated threat profiles. Armed officers respond immediately to security threats and maintain verified credentials through ongoing training. For properties that require the strongest deterrent,{' '}
               <span
                 onClick={() => navigate('/services/patrol')}
                 style={{ color: '#006090', cursor: 'pointer', textDecoration: 'underline' }}
@@ -247,7 +247,7 @@ const OfficersPage = () => {
 
           <StepCard number="3" title="Step 3 — Guard Deployment & Onboarding">
             <Body style={{ marginBottom: 0 }}>
-              Deployed guards receive a full site-specific briefing before their first shift. Every FPI officer is uniformed, background-checked, and licensed under Florida Statute Chapter 493. Officers are oriented to your property's specific protocols, emergency contacts, access procedures, and reporting standards — so there is no learning curve on day one.
+              Deployed guards receive a full site-specific briefing before their first shift. Every FPI officer is uniformed, background-checked, and licensed under the private security regulations of their state — such as Florida Statute Chapter 493. Officers are oriented to your property's specific protocols, emergency contacts, access procedures, and reporting standards — so there is no learning curve on day one.
             </Body>
           </StepCard>
 
@@ -271,7 +271,7 @@ const OfficersPage = () => {
           <div>
             <H3>Fully Licensed & Background-Checked Guards</H3>
             <Body>
-              Every FPI security officer is licensed under Florida Statute Chapter 493, the state's governing regulation for private security professionals. Officers undergo comprehensive background checks covering criminal history, employment verification, and identity confirmation. For your business, this matters directly — documented guard credentials reduce your liability exposure if an incident ever leads to a legal claim involving your security provider.
+              Every FPI security officer is licensed under their state's governing regulation for private security professionals — Florida Statute Chapter 493, the Texas Private Security Act, and their counterparts in Georgia, Arizona, Nevada, and California. Officers undergo comprehensive background checks covering criminal history, employment verification, and identity confirmation. For your business, this matters directly — documented guard credentials reduce your liability exposure if an incident ever leads to a legal claim involving your security provider.
             </Body>
           </div>
 
@@ -342,7 +342,7 @@ const OfficersPage = () => {
       {/* Section 6: Industries We Serve */}
       <Section bg="#F4F6F8" isMobile={isMobile}>
         <H2>Industries We Serve</H2>
-        <Body>FPI provides security guard services across a wide range of industries in Florida and Texas. Each deployment is tailored to the regulatory environment, operational schedule, and risk profile of your specific sector.</Body>
+        <Body>FPI provides security guard services across a wide range of industries in all six states we serve. Each deployment is tailored to the regulatory environment, operational schedule, and risk profile of your specific sector.</Body>
         <Divider />
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 40 }}>
@@ -438,11 +438,11 @@ const OfficersPage = () => {
           />
           <FAQItem
             question="What is the difference between armed and unarmed security guards?"
-            answer="Armed security guards carry licensed firearms in compliance with Florida Statute Chapter 493 and are deployed in high-risk environments where an immediate threat response capability is required. Unarmed security guards provide access control, regular patrols, and real-time incident reporting in lower-risk or customer-facing settings where a professional presence — not armed force — is the priority."
+            answer="Armed security guards carry licensed firearms in compliance with their state's firearm and security licensing requirements and are deployed in high-risk environments where an immediate threat response capability is required. Unarmed security guards provide access control, regular patrols, and real-time incident reporting in lower-risk or customer-facing settings where a professional presence — not armed force — is the priority."
           />
           <FAQItem
             question="Are your security officers licensed and insured?"
-            answer="Yes. All FPI security officers are licensed under Florida Statute Chapter 493 and undergo comprehensive background checks before deployment. FPI carries full commercial liability insurance on all guard operations. Documentation of officer licensing and company insurance coverage is available upon request for client records or insurance carrier requirements."
+            answer="Yes. All FPI security officers are licensed under the private security regulations of the state where they serve — such as Florida Statute Chapter 493 — and undergo comprehensive background checks before deployment. FPI carries full commercial liability insurance on all guard operations. Documentation of officer licensing and company insurance coverage is available upon request for client records or insurance carrier requirements."
           />
           <FAQItem
             question="Do you offer long-term and short-term contracts?"
@@ -453,8 +453,8 @@ const OfficersPage = () => {
             answer="FPI can deploy security guards rapidly following the initial property assessment and plan approval. Our 24/7 live dispatch team manages scheduling and deployment logistics through our proprietary platform, enabling faster onboarding than traditional security staffing processes. Contact us to discuss your timeline — we will confirm a realistic deployment schedule for your specific situation."
           />
           <FAQItem
-            question="Do you provide security guard services in Florida and Texas?"
-            answer="Yes. FPI Security Services operates throughout South Florida — including Miami-Dade County, Broward County, and Palm Beach County — and across the Dallas–Fort Worth metro area in Texas. Whether your property is in Miami, Fort Lauderdale, Boca Raton, or Dallas, our guards are licensed and operational in your market."
+            question="Which states do you provide security guard services in?"
+            answer="FPI Security Services operates in six states: Florida, Texas, Georgia, Arizona, Nevada, and California. Our roots are in South Florida — including Miami-Dade, Broward, and Palm Beach counties — and the Dallas–Fort Worth metro area, and every market we serve gets the same licensed officers, technology platform, and service standards."
           />
         </div>
 

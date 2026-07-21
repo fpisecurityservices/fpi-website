@@ -16,7 +16,7 @@ const AboutPage = () => {
   ];
   const stats = [
     { value: '24/7', label: 'Operations Center' },
-    { value: '2', label: 'Office Locations' },
+    { value: '6', label: 'States Served' },
     { value: '6+', label: 'Service Lines' },
     { value: '100%', label: 'Custom Programs' },
   ];
@@ -32,7 +32,7 @@ const AboutPage = () => {
   return (
     <div style={{ background: '#fff', minHeight: '100vh', paddingTop: 68 }}>
       <SEO
-        title="About FPI Security | Licensed Security Company in Miami & Dallas"
+        title="About FPI Security | Licensed Security Company in Six States"
         description="FPI Security is a privately owned security company built on integrity and personal service. Learn about our team, values, and approach to commercial and residential security."
         ogTitle="About FPI Security | Our Story, Values & Team"
         ogDescription="FPI isn't a franchise — we're a privately owned security company focused on personal relationships, licensed officers, and security programs that actually fit your property."
@@ -48,7 +48,7 @@ const AboutPage = () => {
             Built on Integrity.<br />Driven by Excellence.
           </h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, color: '#4A7FA8', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
-            A privately owned security company serving South Florida and Dallas since 2018
+            A privately owned security company founded in South Florida in 2018 — now serving six states
           </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: isMobile ? 15 : 17, color: '#8998B1', lineHeight: 1.7, maxWidth: 560 }}>
             FPI Security Services was founded on a simple belief — every property deserves a security program built specifically for it, backed by people who genuinely care about doing the job right.
@@ -75,7 +75,7 @@ const AboutPage = () => {
             FPI Security Services was built on the belief that the security industry needed a different kind of company — one small enough to care deeply about every client, and capable enough to deliver at an enterprise level.
           </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.8, marginBottom: 16 }}>
-            Headquartered in Pembroke Pines, FL, we serve Miami-Dade, Broward, and Palm Beach counties — and expanded to Dallas, TX in 2024.
+            Headquartered in Pembroke Pines, FL, we built our reputation serving Miami-Dade, Broward, and Palm Beach counties, then expanded to Dallas, TX in 2024. Today, FPI protects properties across six states — Florida, Texas, Georgia, Arizona, Nevada, and California.
           </p>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#4E5A6E', lineHeight: 1.8 }}>
             What sets us apart is our investment in technology. We built a proprietary platform from scratch — because off-the-shelf software couldn't meet our standards.

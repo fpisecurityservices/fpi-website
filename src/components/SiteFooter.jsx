@@ -38,7 +38,7 @@ const SiteFooter = () => {
           <div>
             <img src="/assets/logo-transparent.png" alt="FPI Security Services" style={{ height: 38, objectFit: 'contain', marginBottom: 14, filter: 'brightness(0) invert(1)' }} />
             <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#4A7FA8', lineHeight: 1.7, maxWidth: 260, marginBottom: 18 }}>
-              Personalized, tech-forward security solutions for properties across Pembroke Pines, FL and Dallas, TX.
+              Personalized, tech-forward security solutions for properties across Florida, Texas, Georgia, Arizona, Nevada, and California.
             </p>
             <a href="tel:8003744316" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#fff', fontFamily: "'Barlow', sans-serif", fontSize: 15, fontWeight: 700 }}>
               <Phone size={16} style={{ color: '#006090' }} />
@@ -62,8 +62,8 @@ const SiteFooter = () => {
           ))}
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>© 2025 FPI Security Services. All rights reserved. | Licensed & Insured</span>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>Pembroke Pines, FL · Dallas, TX</span>
+          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>© 2026 FPI Security Services. All rights reserved. | Licensed & Insured</span>
+          <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#3A5068' }}>FL · TX · GA · AZ · NV · CA</span>
         </div>
       </div>
     </footer>

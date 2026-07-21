@@ -46,15 +46,15 @@ const ContactPage = () => {
   const contactItems = [
     { Icon: Phone, label: 'Call Us Anytime', value: '(800) 374-4316', href: 'tel:8003744316' },
     { Icon: Mail, label: 'Email', value: 'info@fpisecurity.com', href: 'mailto:info@fpisecurity.com' },
-    { Icon: MapPin, label: 'Pembroke Pines, FL', value: 'Pembroke Pines, FL' },
-    { Icon: MapPin, label: 'Dallas Office', value: 'Dallas, TX' },
+    { Icon: MapPin, label: 'Headquarters', value: 'Pembroke Pines, FL' },
+    { Icon: MapPin, label: 'Service Area', value: 'FL · TX · GA · AZ · NV · CA' },
   ];
 
   return (
     <div style={{ background: '#F4F6F8', minHeight: '100vh', paddingTop: 68 }}>
       <SEO
-        title="Contact FPI Security | Free Security Consultation | Miami & Dallas"
-        description="Request a free security consultation with FPI. We serve Miami, South Florida, and Dallas, TX — and we'll build a custom security plan around your property and budget."
+        title="Contact FPI Security | Free Security Consultation"
+        description="Request a free security consultation with FPI. We serve Florida, Texas, Georgia, Arizona, Nevada, and California — and we'll build a custom security plan around your property and budget."
         ogTitle="Get a Free Security Consultation | FPI Security"
         ogDescription="Tell us about your property and security needs. FPI will respond within one business day with a custom proposal — no pressure, no generic packages."
         ogUrl="https://www.fpisecurity.com/contact"
@@ -194,7 +194,7 @@ const ContactPage = () => {
 
               <div>
                 <label style={labelStyle}>Location (City/State)</label>
-                <input style={inputStyle} value={form.location} onChange={set('location')} placeholder="e.g. Miami, FL or Dallas, TX"
+                <input style={inputStyle} value={form.location} onChange={set('location')} placeholder="e.g. Miami, FL · Dallas, TX · Phoenix, AZ"
                   onFocus={e=>e.target.style.borderColor='#006090'} onBlur={e=>e.target.style.borderColor='#C8D0DA'} />
               </div>
 

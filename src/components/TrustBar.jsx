@@ -9,7 +9,7 @@ const TrustBar = () => {
     { Icon: BadgeCheck, label: 'Armed & Unarmed Officers' },
     { Icon: Clock, label: '24/7 Operations' },
     { Icon: Phone, label: '(800) 374-4316' },
-    { Icon: MapPin, label: 'FL & TX' },
+    { Icon: MapPin, label: 'Serving 6 States' },
   ];
 
   if (isMobile) return null;
