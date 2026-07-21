@@ -29,7 +29,7 @@ const ServiceCard = ({ service, direction = 'clarity', headingLevel = 'h3' }) =>
 
   return (
     <div
-      onClick={() => navigate('/services/' + service.id)}
+      onClick={() => navigate(service.path || '/services/' + service.id)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

@@ -15,7 +15,7 @@ const SocPage = () => {
         description="FPI SOC delivers real-time alerts, AI video analytics, LPR & remote monitoring for businesses across six states. Smart protection. Contact us today!"
         ogTitle="Security Operations Center | FPI's 24/7 Command Infrastructure"
         ogDescription="The 24/7 command infrastructure behind every FPI service — AI detection, live operators, and verified response across six states."
-        ogUrl="https://www.fpisecurity.com/security-operations-center"
+        ogUrl="https://www.fpisecurity.com/technology/soc"
       />
 
       <ServiceHero
@@ -45,7 +45,7 @@ const SocPage = () => {
             <H3>SOC Services vs. Traditional Security Guards</H3>
             <Body>
               These layers complement each other — they don't compete. Guards provide on-site physical presence and human response; the SOC provides centralized intelligence, multi-site visibility, and verified response coordination. The SOC detects, verifies, and responds to threats before they escalate into incidents — and when a threat needs hands on-site, it coordinates with{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>FPI security guards</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/security-officers')}>FPI security guards</InlineLink>{' '}
               in the field.
             </Body>
           </div>
@@ -62,21 +62,21 @@ const SocPage = () => {
             <H3>AI Video Analytics & Intelligent Monitoring</H3>
             <Body>
               AI-powered devices detect suspicious behavior in monitored areas — loitering, perimeter breaches, unauthorized access — beyond simple motion triggers. This artificial intelligence security layer applies AI threat detection at a scale no human team can match, then hands each flag to an operator: the AI detects, the human decides. The result is proactive response without false alarm noise.{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>Learn more about our Remote Video Monitoring →</InlineLink>
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>Learn more about our Remote Video Monitoring →</InlineLink>
             </Body>
           </div>
           <div>
             <H3>Remote Video Monitoring</H3>
             <Body>
               FPI provides 24/7 remote monitoring from the SOC — operators watch live feeds from multiple client locations simultaneously. When AI flags an anomaly, the operator reviews the live feed and takes action: audio warning, police dispatch, or client notification. Around the clock, with no coverage gaps.{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>Explore our 24/7 Remote Video Monitoring →</InlineLink>
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>Explore our 24/7 Remote Video Monitoring →</InlineLink>
             </Body>
           </div>
           <div>
             <H3>Autonomous Response</H3>
             <Body>
               Autonomous security units stream live video to monitoring centers — and autonomous response systems execute pre-programmed deterrence actions the moment AI confirms a threat: activating lights, triggering audio warnings, or locking access points, with no human delay. The SOC oversees every automated action and escalates when judgment is needed.{' '}
-              <InlineLink onClick={() => navigate('/services/surveillance')}>See our Surveillance Systems →</InlineLink>
+              <InlineLink onClick={() => navigate('/surveillance-systems')}>See our Surveillance Systems →</InlineLink>
             </Body>
           </div>
           <div>
@@ -95,21 +95,21 @@ const SocPage = () => {
             <H3>Virtual Guarding</H3>
             <Body>
               Virtual guarding is remote officer-level oversight of a property via camera — no physical guard post required. SOC operators monitor the property exactly as an on-site guard would, with the ability to trigger audio warnings, contact emergency services, or notify on-site personnel. Cost-effective for large areas and after-hours coverage.{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>Compare with On-Site Security Guards →</InlineLink>
+              <InlineLink onClick={() => navigate('/security-officers')}>Compare with On-Site Security Guards →</InlineLink>
             </Body>
           </div>
           <div>
             <H3>License Plate Recognition (LPR)</H3>
             <Body>
               License plate recognition cameras log every vehicle entering and exiting monitored facilities, cross-referencing plate data against watchlists in real time. The SOC receives an instant alert for any flagged plate. With Miami-Dade County alone projecting $69.3 million in vehicle theft costs in 2025 (CrimeGrade, 2025), LPR is critical for dealerships, warehouses, gated communities, and logistics facilities.{' '}
-              <InlineLink onClick={() => navigate('/services/surveillance')}>Explore our Surveillance Camera Technology →</InlineLink>
+              <InlineLink onClick={() => navigate('/surveillance-systems')}>Explore our Surveillance Camera Technology →</InlineLink>
             </Body>
           </div>
           <div>
             <H3>Access Control Solutions</H3>
             <Body>
               The SOC monitors access control events in real time — door opens, denied credentials, after-hours entry attempts. When access control triggers an alert, the SOC operator pulls the camera at that door and responds before the situation escalates. The badge reader and the camera stop being separate systems.{' '}
-              <InlineLink onClick={() => navigate('/services/access')}>Learn about our Access Control Systems →</InlineLink>
+              <InlineLink onClick={() => navigate('/access-control')}>Learn about our Access Control Systems →</InlineLink>
             </Body>
           </div>
         </div>
@@ -144,7 +144,7 @@ const SocPage = () => {
             <H3>Connected to the FPI Technology Platform</H3>
             <Body>
               Everything the SOC detects and documents is accessible to you in real time through the FPI Technology Platform — live camera feeds, incident reports, GPS patrol logs, and alert history. The SOC is the engine; the platform is the dashboard.{' '}
-              <InlineLink onClick={() => navigate('/fpi-technology-platform')}>See what you access in the FPI Platform →</InlineLink>
+              <InlineLink onClick={() => navigate('/technology/platform')}>See what you access in the FPI Platform →</InlineLink>
             </Body>
           </div>
         </div>

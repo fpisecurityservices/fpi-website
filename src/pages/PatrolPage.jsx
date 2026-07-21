@@ -15,7 +15,7 @@ const PatrolPage = () => {
         description="FPI security patrol services provide fast response, visible deterrence & reliable overnight coverage. Protect your property today."
         ogTitle="Security Patrol Services | GPS-Verified Mobile Patrol | FPI Security"
         ogDescription="Risk-based mobile patrol with GPS-verified coverage, randomized routes, and documented proof of every visit — across six states."
-        ogUrl="https://www.fpisecurity.com/services/patrol"
+        ogUrl="https://www.fpisecurity.com/mobile-patrol"
       />
 
       <ServiceHero
@@ -63,7 +63,7 @@ const PatrolPage = () => {
             <H3>Mobile patrol vs. on-site guard — when each makes sense</H3>
             <Body>
               Mobile patrol fits large areas, after-hours windows, and multi-site portfolios where a fixed post cannot justify its cost. An on-site guard fits high-risk locations, client-facing posts, and 24/7 fixed coverage. Many FPI clients combine both. If you are weighing a dedicated officer, see our{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>security guard services</InlineLink>.
+              <InlineLink onClick={() => navigate('/security-officers')}>security guard services</InlineLink>.
             </Body>
           </div>
         </div>
@@ -186,7 +186,7 @@ const PatrolPage = () => {
           <Body style={{ maxWidth: 760 }}>
             A marked patrol vehicle actively circulating a property is a moving signal of active security. Active security programs reduce property crimes by 16% compared to gate-only setups (TechPro Security, 2025).
           </Body>
-          <CTAButton variant="secondary" onClick={() => navigate('/services/officers')}>Compare Patrol vs. On-Site Guard Options</CTAButton>
+          <CTAButton variant="secondary" onClick={() => navigate('/security-officers')}>Compare Patrol vs. On-Site Guard Options</CTAButton>
         </div>
       </Section>
 

@@ -12,7 +12,8 @@ const SiteHeader = () => {
   const pathname = location.pathname;
   const getActivePage = () => {
     if (pathname === '/') return 'home';
-    if (pathname.startsWith('/services')) return 'services';
+    if (pathname.startsWith('/services') || ['/security-officers', '/mobile-patrol', '/remote-video-monitoring', '/surveillance-systems', '/access-control', '/autonomous-surveillance', '/service-maintenance'].includes(pathname)) return 'services';
+    if (pathname.startsWith('/technology')) return 'technology';
     if (pathname.startsWith('/industries')) return 'industries';
     if (pathname.startsWith('/locations')) return 'locations';
     if (pathname.startsWith('/about')) return 'about';
@@ -35,6 +36,7 @@ const SiteHeader = () => {
     { id: 'home', label: 'Home', path: '/' },
     { id: 'services', label: 'Services', path: '/services' },
     { id: 'industries', label: 'Industries', path: '/industries' },
+    { id: 'technology', label: 'Technology', path: '/technology/soc' },
     { id: 'locations', label: 'Locations', path: '/locations' },
     { id: 'about', label: 'About', path: '/about' },
     { id: 'contact', label: 'Contact', path: '/contact' },

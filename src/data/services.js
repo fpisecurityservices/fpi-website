@@ -1,6 +1,7 @@
 export const SERVICES_DATA = [
   {
     id: 'officers',
+    path: '/security-officers',
     icon: 'shield',
     title: 'Security Officers',
     shortDesc: "Armed and unarmed officers — state-licensed, background-checked, and deployed with live GPS dispatch. Visible deterrence backed by documented coverage on every shift.",
@@ -13,6 +14,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'patrol',
+    path: '/mobile-patrol',
     icon: 'car',
     title: 'Mobile Patrol',
     shortDesc: 'GPS-tracked patrol vehicles cover perimeter and multi-site properties on randomized schedules. Every visit is logged with timestamp and photo — accessible in the client portal.',
@@ -25,6 +27,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'remote',
+    path: '/remote-video-monitoring',
     icon: 'video',
     title: 'Remote Video Monitoring',
     shortDesc: 'Live operators monitor CCTV feeds 24/7, verify threats before dispatching police, and issue real-time audio warnings. Video verification eliminates false alarms and improves police response priority.',
@@ -37,6 +40,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'surveillance',
+    path: '/surveillance-systems',
     icon: 'camera',
     title: 'Surveillance Systems & Installation',
     shortDesc: 'Design, installation, and management of commercial surveillance systems — IP, HD, and thermal cameras plus rapid-deployment mobile surveillance trailers.',
@@ -49,6 +53,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'access',
+    path: '/access-control',
     icon: 'lock',
     title: 'Access Control Systems',
     shortDesc: 'Access control installation and management — keypad, card-reader, fob, mobile credential, and biometric entry systems designed and maintained by our in-house technical team.',
@@ -61,6 +66,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'autonomous',
+    path: '/autonomous-surveillance',
     icon: 'bot',
     title: 'Autonomous Surveillance',
     shortDesc: "AI-powered autonomous patrol robots extend coverage to large areas at a fraction of the cost of additional guards. Robots patrol defined routes, detect anomalies, and stream live footage to FPI's Security Operations Center.",
@@ -73,6 +79,7 @@ export const SERVICES_DATA = [
   },
   {
     id: 'maintenance',
+    path: '/service-maintenance',
     icon: 'cpu',
     title: 'Service & Maintenance',
     shortDesc: 'FPI maintains all installed security systems — cameras, access control, and autonomous devices — under tiered maintenance agreements. Firmware patching, health monitoring, and remote diagnostics keep infrastructure at peak performance.',

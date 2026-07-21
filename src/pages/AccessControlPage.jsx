@@ -19,7 +19,7 @@ const AccessControlPage = () => {
         description="Access control systems for businesses with keycard, biometric, and cloud-based solutions. Enhance security and streamline visitor management today. Contact us!"
         ogTitle="Smart Access Control Systems for Business | FPI Security"
         ogDescription="Keycard, biometric, mobile, and cloud-based access control — installed, integrated, and managed by one partner across six states."
-        ogUrl="https://www.fpisecurity.com/services/access"
+        ogUrl="https://www.fpisecurity.com/access-control"
       />
 
       <ServiceHero
@@ -127,7 +127,7 @@ const AccessControlPage = () => {
             <H3>How Access Control Systems Integrate with Surveillance and Alarms</H3>
             <Body>
               FPI integrates access control with existing security infrastructure, so an access event triggers a camera pull at the same door — a denied badge swipe at 2 AM arrives as an alert with footage attached. Paired with{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>remote video monitoring</InlineLink>, the access log and the video record become one system.
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>remote video monitoring</InlineLink>, the access log and the video record become one system.
             </Body>
           </div>
         </div>
@@ -202,7 +202,7 @@ const AccessControlPage = () => {
           <H4>Integrations with video surveillance and alarms</H4>
           <Body>
             Access events can trigger camera pulls, alarm alerts, and visitor log entries — the integration layer that turns a standalone door reader into a full security ecosystem, connected to{' '}
-            <InlineLink onClick={() => navigate('/services/remote')}>live monitoring</InlineLink>{' '}
+            <InlineLink onClick={() => navigate('/remote-video-monitoring')}>live monitoring</InlineLink>{' '}
             when you want humans watching the events that matter.
           </Body>
         </div>
@@ -248,7 +248,7 @@ const AccessControlPage = () => {
             <H3>Ongoing Maintenance, Credential Management, and Remote Support</H3>
             <Body>
               FPI manages ongoing credential updates and remote access support across all our markets: access level changes, system health monitoring, firmware updates, and remote troubleshooting — covered under FPI{' '}
-              <InlineLink onClick={() => navigate('/services/maintenance')}>maintenance plans</InlineLink>.
+              <InlineLink onClick={() => navigate('/service-maintenance')}>maintenance plans</InlineLink>.
             </Body>
           </div>
         </div>
@@ -256,7 +256,7 @@ const AccessControlPage = () => {
           <H3>Integration with Existing Surveillance Cameras and Alarm Systems</H3>
           <Body>
             FPI integrates access control with existing security infrastructure: an access event pulls the camera at that door, and an unauthorized attempt raises an alert — with{' '}
-            <InlineLink onClick={() => navigate('/services/remote')}>remote video monitoring</InlineLink>{' '}
+            <InlineLink onClick={() => navigate('/remote-video-monitoring')}>remote video monitoring</InlineLink>{' '}
             adding a live operator to verify what the system flagged.
           </Body>
           <CTAButton onClick={() => navigate('/contact')}>See How FPI Manages Your Full Access Control Deployment</CTAButton>

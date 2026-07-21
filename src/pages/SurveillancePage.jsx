@@ -15,7 +15,7 @@ const SurveillancePage = () => {
         description="FPI installs surveillance systems with HD, IP & thermal cameras for businesses. Expert installation & advanced security technology. Learn more today."
         ogTitle="Smart Surveillance Systems for Business | FPI Security"
         ogDescription="Design, installation, and monitoring of commercial surveillance systems — IP, HD, thermal, and mobile trailer deployments across six states."
-        ogUrl="https://www.fpisecurity.com/services/surveillance"
+        ogUrl="https://www.fpisecurity.com/surveillance-systems"
       />
 
       <ServiceHero
@@ -58,7 +58,7 @@ const SurveillancePage = () => {
             <H3>Cameras Without Monitoring Are Just Expensive Hard Drives</H3>
             <Body>
               Recorded footage documents crime after it happens. Without live monitoring or AI detection, the camera's only job is confirming what was lost — after it is gone. Pairing hardware with{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>remote video monitoring</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>remote video monitoring</InlineLink>{' '}
               is what turns a recording system into a prevention system.
             </Body>
           </div>
@@ -210,7 +210,7 @@ const SurveillancePage = () => {
             <H3>Surveillance Services with 24/7 Remote Monitoring</H3>
             <Body>
               Cameras without monitoring are documentation tools. FPI pairs surveillance hardware with live operator coverage, so CCTV cameras monitor facilities in real time — with audio warnings and video-verified dispatch behind them. See{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>remote video monitoring</InlineLink>.
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>remote video monitoring</InlineLink>.
             </Body>
           </div>
           <div>
@@ -223,7 +223,7 @@ const SurveillancePage = () => {
             <H3>Ongoing Maintenance Plans for Video Surveillance and Monitoring</H3>
             <Body>
               FPI manages ongoing surveillance system maintenance across all our markets: firmware updates, camera health checks, storage verification, lens cleaning, and remote diagnostics. See{' '}
-              <InlineLink onClick={() => navigate('/services/maintenance')}>maintenance plans</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/service-maintenance')}>maintenance plans</InlineLink>{' '}
               for the full scope.
             </Body>
           </div>
@@ -393,7 +393,7 @@ const SurveillancePage = () => {
           <H3>Transparent Pricing with No Hidden Maintenance Costs</H3>
           <Body>
             FPI{' '}
-            <InlineLink onClick={() => navigate('/services/maintenance')}>maintenance plans</InlineLink>{' '}
+            <InlineLink onClick={() => navigate('/service-maintenance')}>maintenance plans</InlineLink>{' '}
             cover firmware updates, hardware health monitoring, and remote diagnostics — a fixed line item instead of surprise service calls.
           </Body>
           <CTAButton onClick={() => navigate('/contact')}>Compare Your Current System to FPI Standards</CTAButton>
@@ -440,7 +440,7 @@ const SurveillancePage = () => {
             <H3>Do You Need Active Monitoring or Is Recording Enough?</H3>
             <Body>
               Recording captures evidence. Active monitoring prevents incidents. For high-value properties and overnight coverage,{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>monitoring</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>monitoring</InlineLink>{' '}
               is the layer that turns a camera system into a prevention system.
             </Body>
           </div>

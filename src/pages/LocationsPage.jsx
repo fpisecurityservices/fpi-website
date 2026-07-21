@@ -65,15 +65,26 @@ const LocationsPage = () => {
                   {loc.email}
                 </a>
               </div>
-              <button onClick={() => navigate('/contact')} style={{
-                background: '#006090', color: '#fff', alignSelf: 'flex-start',
-                fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
-                padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
-                letterSpacing: '0.04em', transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
-              onMouseLeave={e => e.currentTarget.style.background = '#006090'}
-              >Request a Quote in {loc.city}</button>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <button onClick={() => navigate(`/locations/${loc.slug}`)} style={{
+                  background: '#006090', color: '#fff',
+                  fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+                  padding: '11px 24px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                  letterSpacing: '0.04em', transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = '#00507A'}
+                onMouseLeave={e => e.currentTarget.style.background = '#006090'}
+                >View {loc.city} Office</button>
+                <button onClick={() => navigate('/contact')} style={{
+                  background: '#fff', color: '#006090',
+                  fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600,
+                  padding: '11px 24px', borderRadius: 4, border: '1.5px solid #006090', cursor: 'pointer',
+                  letterSpacing: '0.04em', transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = '#EEF4F8'}
+                onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+                >Request a Quote</button>
+              </div>
             </div>
             {(isMobile || i % 2 === 0) && (
               <div style={{ overflow: 'hidden', minHeight: isMobile ? 240 : 'unset' }}>

@@ -29,7 +29,7 @@ const PlatformPage = () => {
         description="FPI built its own security platform — client dashboard, GPS tracking, incident reporting & automated alerts. Real-time visibility for every property. See how it works."
         ogTitle="FPI Proprietary Security Platform | Built In-House"
         ogDescription="Real-time GPS tracking, automated security incident reporting, and a 24/7 client dashboard — the platform behind every FPI service."
-        ogUrl="https://www.fpisecurity.com/fpi-technology-platform"
+        ogUrl="https://www.fpisecurity.com/technology/platform"
       />
 
       <ServiceHero
@@ -63,7 +63,7 @@ const PlatformPage = () => {
             <H3>Patrol Verification Needed to Be Unfakeable</H3>
             <Body>
               Paper patrol logs can be completed in advance. GPS-logged patrol routes with timestamps cannot. FPI needed a system where every{' '}
-              <InlineLink onClick={() => navigate('/services/patrol')}>patrol visit</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/mobile-patrol')}>patrol visit</InlineLink>{' '}
               is documented with GPS coordinates, time, and photo — so clients hold proof that rounds were completed, not just a guard's word that they were.
             </Body>
           </div>
@@ -86,7 +86,7 @@ const PlatformPage = () => {
             <ModuleHeader icon="Radio">Live Dispatch — Instant Officer Communication & Response</ModuleHeader>
             <Body>
               Live dispatch connects FPI's command center directly to every officer in the field — real-time deployment, route adjustments, and incident response without radio delays. When the{' '}
-              <InlineLink onClick={() => navigate('/security-operations-center')}>Security Operations Center</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/technology/soc')}>Security Operations Center</InlineLink>{' '}
               detects an anomaly, dispatch reaches the closest officer immediately, and every dispatch event is logged with timestamp and outcome.
             </Body>
           </div>
@@ -106,7 +106,7 @@ const PlatformPage = () => {
             <ModuleHeader icon="Bell">Automated Alerts — Push Notifications for Critical Events</ModuleHeader>
             <Body>
               When a defined security event occurs — an access control breach, a{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>camera anomaly</InlineLink>, a patrol gap, or a filed incident report — the platform pushes a notification to designated contacts instantly. The property manager gets the alert on their phone before they check email. Thresholds are configured per property and per event type.
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>camera anomaly</InlineLink>, a patrol gap, or a filed incident report — the platform pushes a notification to designated contacts instantly. The property manager gets the alert on their phone before they check email. Thresholds are configured per property and per event type.
             </Body>
           </div>
           <div>
@@ -123,7 +123,7 @@ const PlatformPage = () => {
         <H2>How the Platform Connects to FPI's Security Operations Center</H2>
         <Body style={{ maxWidth: 860 }}>
           The FPI platform is what clients see — the{' '}
-          <InlineLink onClick={() => navigate('/security-operations-center')}>Security Operations Center</InlineLink>{' '}
+          <InlineLink onClick={() => navigate('/technology/soc')}>Security Operations Center</InlineLink>{' '}
           is what acts on it. When the platform detects an anomaly through AI cameras, access control events, or GPS patrol gaps, the alert reaches a live SOC operator who reviews and responds in real time. The platform and the SOC are two layers of the same system — one shows you everything, the other makes sure something is done about it.
         </Body>
         <Divider />

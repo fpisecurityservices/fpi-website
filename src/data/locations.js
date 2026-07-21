@@ -1,6 +1,9 @@
 export const LOCATIONS_DATA = [
   {
+    slug: 'pembroke-pines-fl',
     city: 'Pembroke Pines, FL',
+    metaTitle: 'Security Services in Pembroke Pines & South Florida | FPI Security',
+    metaDescription: 'FPI Security Services headquarters in Pembroke Pines, FL — licensed guards, mobile patrol, and remote monitoring for Miami-Dade, Broward, and Palm Beach County.',
     h2Title: 'Security Services in Pembroke Pines & Greater Miami, FL',
     label: 'Headquarters',
     description: 'FPI Security Services is headquartered in Pembroke Pines, FL — centrally located to serve Miami-Dade, Broward, and Palm Beach counties. Our state-of-the-art operations center runs 24/7, dispatching officers, monitoring live feeds, and managing client programs across South Florida.',
@@ -11,7 +14,10 @@ export const LOCATIONS_DATA = [
     keywords: 'security services Pembroke Pines, security guards South Florida, security company Fort Lauderdale, security services Broward County',
   },
   {
+    slug: 'dallas-tx',
     city: 'Dallas, TX',
+    metaTitle: 'Security Services in Dallas–Fort Worth, TX | FPI Security',
+    metaDescription: 'FPI Security Services regional office in Dallas, TX — licensed guards, mobile patrol, and remote monitoring across the DFW metroplex, from Fort Worth to Plano.',
     h2Title: 'Security Services in Dallas, TX',
     label: 'Regional Office',
     description: "FPI expanded to Dallas, TX in 2024, bringing the same personalized, tech-forward approach that made us South Florida's trusted security partner. We serve the greater DFW metroplex with the full suite of FPI services — from uniformed officers to mobile patrol and remote video monitoring.",

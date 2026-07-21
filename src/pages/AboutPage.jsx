@@ -173,7 +173,7 @@ const AboutPage = () => {
                 </div>
               ))}
             </div>
-            <button onClick={() => navigate('/security-operations-center')} style={{
+            <button onClick={() => navigate('/technology/soc')} style={{
               display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 24,
               background: 'none', border: 'none', cursor: 'pointer', padding: 0,
               fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600, color: '#4A7FA8',

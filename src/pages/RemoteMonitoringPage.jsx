@@ -15,7 +15,7 @@ const RemoteMonitoringPage = () => {
         description="Remote video monitoring service with 24/7 live protection, video verification, and real-time alerts. Upgrade your security monitoring services today."
         ogTitle="Remote Video Monitoring | AI Detection + Live Human Response | FPI Security"
         ogDescription="24/7 remote video monitoring with AI detection and a live human operator reviewing every alert before police are called. Serving six states."
-        ogUrl="https://www.fpisecurity.com/services/remote"
+        ogUrl="https://www.fpisecurity.com/remote-video-monitoring"
       />
 
       <ServiceHero
@@ -92,7 +92,7 @@ const RemoteMonitoringPage = () => {
             <H3>Virtual Security Guard / Virtual Perimeter Guard</H3>
             <Body>
               A virtual guard monitors a defined perimeter via camera and issues real-time audio warnings to trespassers — at a fraction of the cost of a physical guard post. For posts that need a human on the ground, compare our{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>security guard services</InlineLink>.
+              <InlineLink onClick={() => navigate('/security-officers')}>security guard services</InlineLink>.
             </Body>
           </div>
           <div>
@@ -111,7 +111,7 @@ const RemoteMonitoringPage = () => {
             <H3>Video Intercom Systems & Access Control Integration</H3>
             <Body>
               Video intercoms let operators verify visitor identity before granting access — integrating monitoring with{' '}
-              <InlineLink onClick={() => navigate('/services/access')}>access control</InlineLink>. Every intercom event is recorded to the NVR, creating a visual log of who requested entry and what was decided.
+              <InlineLink onClick={() => navigate('/access-control')}>access control</InlineLink>. Every intercom event is recorded to the NVR, creating a visual log of who requested entry and what was decided.
             </Body>
           </div>
           <div>
@@ -231,7 +231,7 @@ const RemoteMonitoringPage = () => {
             <H3>Remote Video Monitoring vs. On-Site Security Guards: Cost & Effectiveness</H3>
             <Body>
               Remote monitoring covers more square footage per operator hour at a significantly lower cost — one operator watches zones that would take multiple fixed posts. Guards remain irreplaceable for high-contact situations: lobbies, access points, incident response. Most FPI clients treat this as a complementary decision, pairing monitoring with{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>on-site guards</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/security-officers')}>on-site guards</InlineLink>{' '}
               where human presence matters.
             </Body>
           </div>

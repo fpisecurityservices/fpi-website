@@ -15,7 +15,7 @@ const AutonomousPage = () => {
         description="FPI autonomous security robots patrol 24/7, detect anomalies with AI & feed live data to our ops center. Extend coverage without adding headcount."
         ogTitle="Autonomous Security Robots | AI-Powered Patrol | FPI Security"
         ogDescription="AI-powered mobile patrol robots that extend security coverage without adding headcount — managed, monitored, and integrated by FPI across six states."
-        ogUrl="https://www.fpisecurity.com/services/autonomous"
+        ogUrl="https://www.fpisecurity.com/autonomous-surveillance"
       />
 
       <ServiceHero
@@ -78,7 +78,7 @@ const AutonomousPage = () => {
             <H3>Real-Time Video & Audio Feeds to the FPI SOC</H3>
             <Body>
               Autonomous security units stream live video to monitoring centers — every frame the robot captures flows into FPI's Security Operations Center (SOC), where trained operators watch, verify, and respond through our{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>remote monitoring operation</InlineLink>. The robot detects; the human decides.
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>remote monitoring operation</InlineLink>. The robot detects; the human decides.
             </Body>
           </div>
           <div>
@@ -91,7 +91,7 @@ const AutonomousPage = () => {
             <H3>Direct Integration with FPI's Surveillance Platform</H3>
             <Body>
               FPI integrates autonomous devices with surveillance systems: robot footage feeds the same platform as{' '}
-              <InlineLink onClick={() => navigate('/services/surveillance')}>fixed cameras</InlineLink>{' '}
+              <InlineLink onClick={() => navigate('/surveillance-systems')}>fixed cameras</InlineLink>{' '}
               and patrol GPS logs — one unified security picture instead of another siloed feed.
             </Body>
           </div>
@@ -139,7 +139,7 @@ const AutonomousPage = () => {
             <H3>The Force Multiplier Model — 1 Guard + 1 Robot</H3>
             <Body>
               The most effective deployment pairs the robot with{' '}
-              <InlineLink onClick={() => navigate('/services/officers')}>on-site security guards</InlineLink>: the human handles access points, visitor interaction, and incident response while the robot patrols the perimeter, parking areas, and secondary zones simultaneously. One guard plus one robot covers ground that would otherwise take three posts.
+              <InlineLink onClick={() => navigate('/security-officers')}>on-site security guards</InlineLink>: the human handles access points, visitor interaction, and incident response while the robot patrols the perimeter, parking areas, and secondary zones simultaneously. One guard plus one robot covers ground that would otherwise take three posts.
             </Body>
           </div>
         </div>

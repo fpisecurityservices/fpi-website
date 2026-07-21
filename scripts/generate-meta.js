@@ -24,54 +24,54 @@ const PAGES = {
     ogDescription: 'From licensed guards to AI-powered surveillance, FPI delivers end-to-end security programs built around your property type and risk profile.',
     canonical: 'https://www.fpisecurity.com/services',
   },
-  '/services/officers': {
+  '/security-officers': {
     title: 'Security Officer Services | Professional & Licensed Guards',
     description: 'Need trusted security officer services? Our armed & unarmed guards protect your business 24/7. Licensed, professional & reliable — Contact Us Today!',
     ogTitle: 'Security Officer Services | Professional & Licensed Guards | FPI Security',
     ogDescription: 'Armed and unarmed security guards, licensed and background-checked, with live GPS dispatch and real-time reporting.',
-    canonical: 'https://www.fpisecurity.com/services/officers',
+    canonical: 'https://www.fpisecurity.com/security-officers',
   },
-  '/services/patrol': {
+  '/mobile-patrol': {
     title: 'Security Patrol Services: Smarter Protection That Works',
     description: 'FPI security patrol services provide fast response, visible deterrence & reliable overnight coverage. Protect your property today.',
     ogTitle: 'Security Patrol Services | GPS-Verified Mobile Patrol | FPI Security',
     ogDescription: 'Risk-based mobile patrol with GPS-verified coverage, randomized routes, and documented proof of every visit — across six states.',
-    canonical: 'https://www.fpisecurity.com/services/patrol',
+    canonical: 'https://www.fpisecurity.com/mobile-patrol',
   },
-  '/services/remote': {
+  '/remote-video-monitoring': {
     title: 'Remote Video Monitoring Service | 24/7 Live Protection',
     description: 'Remote video monitoring service with 24/7 live protection, video verification, and real-time alerts. Upgrade your security monitoring services today.',
     ogTitle: 'Remote Video Monitoring | AI Detection + Live Human Response | FPI Security',
     ogDescription: '24/7 remote video monitoring with AI detection and a live human operator reviewing every alert before police are called.',
-    canonical: 'https://www.fpisecurity.com/services/remote',
+    canonical: 'https://www.fpisecurity.com/remote-video-monitoring',
   },
-  '/services/surveillance': {
+  '/surveillance-systems': {
     title: 'Surveillance Systems | Mobile Trailers & Business Cameras',
     description: 'FPI installs surveillance systems with HD, IP & thermal cameras for businesses. Expert installation & advanced security technology. Learn more today.',
     ogTitle: 'Smart Surveillance Systems for Business | FPI Security',
     ogDescription: 'Design, installation, and monitoring of commercial surveillance systems — IP, HD, thermal, and mobile trailer deployments.',
-    canonical: 'https://www.fpisecurity.com/services/surveillance',
+    canonical: 'https://www.fpisecurity.com/surveillance-systems',
   },
-  '/services/access': {
+  '/access-control': {
     title: 'Access Control Systems | Smart & Biometric Installation',
     description: 'Access control systems for businesses with keycard, biometric, and cloud-based solutions. Enhance security and streamline visitor management today. Contact us!',
     ogTitle: 'Smart Access Control Systems for Business | FPI Security',
     ogDescription: 'Keycard, biometric, mobile, and cloud-based access control — installed, integrated, and managed by one partner.',
-    canonical: 'https://www.fpisecurity.com/services/access',
+    canonical: 'https://www.fpisecurity.com/access-control',
   },
-  '/services/autonomous': {
+  '/autonomous-surveillance': {
     title: 'Autonomous Security Robots | AI Patrol for Your Property',
     description: 'FPI autonomous security robots patrol 24/7, detect anomalies with AI & feed live data to our ops center. Extend coverage without adding headcount.',
     ogTitle: 'Autonomous Security Robots | AI-Powered Patrol | FPI Security',
     ogDescription: 'AI-powered mobile patrol robots that extend security coverage without adding headcount — managed, monitored, and integrated by FPI.',
-    canonical: 'https://www.fpisecurity.com/services/autonomous',
+    canonical: 'https://www.fpisecurity.com/autonomous-surveillance',
   },
-  '/services/maintenance': {
+  '/service-maintenance': {
     title: 'Security System Maintenance Services | Trusted Pros',
     description: 'Expert security system maintenance services to keep your cameras, alarms & surveillance running 24/7. Protect your investment — Contact FPI today!',
     ogTitle: 'Security System Maintenance Services | FPI Security',
     ogDescription: 'Proactive maintenance for cameras, alarms, and access control — including cybersecurity firmware patching — across six states.',
-    canonical: 'https://www.fpisecurity.com/services/maintenance',
+    canonical: 'https://www.fpisecurity.com/service-maintenance',
   },
   '/industries': {
     title: 'Security for HOA, Retail, Healthcare & More | FPI Security',
@@ -87,6 +87,20 @@ const PAGES = {
     ogDescription: 'Locally operated security services across six states. Licensed guards, mobile patrol, and surveillance built for your market.',
     canonical: 'https://www.fpisecurity.com/locations',
   },
+  '/locations/pembroke-pines-fl': {
+    title: 'Security Services in Pembroke Pines & South Florida | FPI Security',
+    description: 'FPI Security Services headquarters in Pembroke Pines, FL — licensed guards, mobile patrol, and remote monitoring for Miami-Dade, Broward, and Palm Beach County.',
+    ogTitle: 'FPI Security | Pembroke Pines, FL Headquarters',
+    ogDescription: 'Licensed guards, mobile patrol, and remote monitoring across South Florida — headquartered in Pembroke Pines.',
+    canonical: 'https://www.fpisecurity.com/locations/pembroke-pines-fl',
+  },
+  '/locations/dallas-tx': {
+    title: 'Security Services in Dallas–Fort Worth, TX | FPI Security',
+    description: 'FPI Security Services regional office in Dallas, TX — licensed guards, mobile patrol, and remote monitoring across the DFW metroplex, from Fort Worth to Plano.',
+    ogTitle: 'FPI Security | Dallas, TX Regional Office',
+    ogDescription: 'Licensed guards, mobile patrol, and remote monitoring across the Dallas–Fort Worth metroplex.',
+    canonical: 'https://www.fpisecurity.com/locations/dallas-tx',
+  },
   '/about': {
     title: 'About FPI Security | Contract Security Company Since 1981',
     description: 'FPI Security Services — a privately owned contract security company founded in 1981, now serving six states. Learn about our mission, values, and team.',
@@ -94,19 +108,19 @@ const PAGES = {
     ogDescription: 'Founded in 1981 and privately owned — licensed officers, a proprietary technology platform, and security programs built from scratch for every property.',
     canonical: 'https://www.fpisecurity.com/about',
   },
-  '/security-operations-center': {
+  '/technology/soc': {
     title: "Security Operations Center | FPI's 24/7 Command Infrastructure",
     description: 'FPI SOC delivers real-time alerts, AI video analytics, LPR & remote monitoring for businesses across six states. Smart protection. Contact us today!',
     ogTitle: "Security Operations Center | FPI's 24/7 Command Infrastructure",
     ogDescription: 'The 24/7 command infrastructure behind every FPI service — AI detection, live operators, and verified response across six states.',
-    canonical: 'https://www.fpisecurity.com/security-operations-center',
+    canonical: 'https://www.fpisecurity.com/technology/soc',
   },
-  '/fpi-technology-platform': {
+  '/technology/platform': {
     title: 'FPI Proprietary Security Platform | Built In-House',
     description: 'FPI built its own security platform — client dashboard, GPS tracking, incident reporting & automated alerts. Real-time visibility for every property. See how it works.',
     ogTitle: 'FPI Proprietary Security Platform | Built In-House',
     ogDescription: 'Real-time GPS tracking, automated security incident reporting, and a 24/7 client dashboard — the platform behind every FPI service.',
-    canonical: 'https://www.fpisecurity.com/fpi-technology-platform',
+    canonical: 'https://www.fpisecurity.com/technology/platform',
   },
   '/contact': {
     title: 'Contact FPI Security | Free Security Consultation',

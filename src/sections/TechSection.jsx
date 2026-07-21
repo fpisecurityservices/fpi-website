@@ -14,7 +14,7 @@ const TechSection = () => {
     { Icon: MapPin, label: 'GPS Tracking', desc: 'Live patrol routes and timestamps' },
     { Icon: Bell, label: 'Automated Alerts', desc: 'Push notifications for critical events' },
     { Icon: Lock, label: 'Access Control', desc: 'Integrated entry management and audit logs' },
-    { Icon: ShieldCheck, label: 'Security Operations Center', desc: '24/7 command infrastructure monitored by trained operators', path: '/security-operations-center' },
+    { Icon: ShieldCheck, label: 'Security Operations Center', desc: '24/7 command infrastructure monitored by trained operators', path: '/technology/soc' },
   ];
 
   return (
@@ -71,7 +71,7 @@ const TechSection = () => {
               </div>
             ))}
           </div>
-          <button onClick={() => navigate('/fpi-technology-platform')} style={{
+          <button onClick={() => navigate('/technology/platform')} style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 20,
             background: 'none', border: 'none', cursor: 'pointer', padding: 0,
             fontFamily: "'Barlow', sans-serif", fontSize: 14, fontWeight: 600, color: '#4A7FA8',

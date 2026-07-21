@@ -15,7 +15,7 @@ const OfficersPage = () => {
         description="Need trusted security officer services? Our armed & unarmed guards protect your business 24/7. Licensed, professional & reliable — Contact Us Today!"
         ogTitle="Security Officer Services | Professional & Licensed Guards | FPI Security"
         ogDescription="Need trusted security officer services? Our armed & unarmed guards protect your business 24/7. Licensed, professional & reliable — Contact Us Today!"
-        ogUrl="https://www.fpisecurity.com/services/officers"
+        ogUrl="https://www.fpisecurity.com/security-officers"
       />
 
       {/* Hero */}
@@ -56,7 +56,7 @@ const OfficersPage = () => {
             <Body>
               FPI provides armed security guard services through licensed officers who carry firearms in full compliance with the licensing requirements of the state where they serve. Our armed security guards are deployed in high-risk environments — financial institutions, pharmaceutical warehouses, executive protection, and locations with elevated threat profiles. Armed officers respond immediately to security threats and maintain verified credentials through ongoing training. For properties that require the strongest deterrent,{' '}
               <span
-                onClick={() => navigate('/services/patrol')}
+                onClick={() => navigate('/mobile-patrol')}
                 style={{ color: '#006090', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 explore our armed guard services
@@ -69,7 +69,7 @@ const OfficersPage = () => {
             <Body>
               FPI's unarmed security guards conduct regular patrols inside facilities, monitor access points, and report incidents in real time through our proprietary client portal. Every unarmed officer carries out documented patrol rounds, logs observations, and escalates issues immediately when needed. For environments that require a professional presence without a visible firearm, our unarmed guards deliver accountability and deterrence. Learn more about our{' '}
               <span
-                onClick={() => navigate('/services/officers')}
+                onClick={() => navigate('/security-officers')}
                 style={{ color: '#006090', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 unarmed security guard options
@@ -307,7 +307,7 @@ const OfficersPage = () => {
             <Body>
               California, Florida, and Texas account for 54% of all U.S. cargo theft, with total losses up 60% in 2025 to $725 million (NICB, 2025). FPI deploys armed security guards at industrial facilities and warehouses to protect perimeter access, monitor loading dock activity, and provide overnight coverage when cargo risk is highest. Our industrial security program integrates with{' '}
               <span
-                onClick={() => navigate('/services/remote')}
+                onClick={() => navigate('/remote-video-monitoring')}
                 style={{ color: '#006090', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 remote video monitoring

@@ -28,7 +28,7 @@ const MaintenancePage = () => {
         description="Expert security system maintenance services to keep your cameras, alarms & surveillance running 24/7. Protect your investment — Contact FPI today!"
         ogTitle="Security System Maintenance Services | FPI Security"
         ogDescription="Proactive maintenance for cameras, alarms, and access control — including cybersecurity firmware patching — across six states."
-        ogUrl="https://www.fpisecurity.com/services/maintenance"
+        ogUrl="https://www.fpisecurity.com/service-maintenance"
       />
 
       <ServiceHero
@@ -70,14 +70,14 @@ const MaintenancePage = () => {
             <H3>Access Control System Upkeep</H3>
             <Body>
               Technical teams service access control systems on a regular schedule: reader and controller health checks, credential audits that catch inactive users who still have working badges, lock mechanism testing, and software updates across your{' '}
-              <InlineLink onClick={() => navigate('/services/access')}>access control infrastructure</InlineLink>.
+              <InlineLink onClick={() => navigate('/access-control')}>access control infrastructure</InlineLink>.
             </Body>
           </div>
           <div>
             <H3>Remote Monitoring & System Health Checks</H3>
             <Body>
               Remote diagnostics detect system degradation before equipment failure occurs. FPI monitors system health remotely — catching offline cameras, storage failures, and network drops as they happen, and pairing naturally with{' '}
-              <InlineLink onClick={() => navigate('/services/remote')}>24/7 remote video monitoring</InlineLink>.
+              <InlineLink onClick={() => navigate('/remote-video-monitoring')}>24/7 remote video monitoring</InlineLink>.
             </Body>
           </div>
         </div>
@@ -189,8 +189,8 @@ const MaintenancePage = () => {
         <H2>The FPI Difference: Proactive, Not Reactive</H2>
         <Body style={{ maxWidth: 860 }}>
           Most security maintenance providers show up when something breaks. FPI builds a maintenance program designed to prevent the break from happening. That is the whole philosophy: scheduled inspections, remote diagnostics, and firmware patching catch degradation while it is still cheap and invisible — because maintenance contracts reduce equipment failure in security installations, and failure is always more expensive than prevention. Cybersecurity is a standard layer of every FPI plan, not an add-on: a maintained system is patched, not just dusted. And because FPI maintains what FPI installed, there is no learning curve and no third-party handoff — the team servicing your system is the team that designed it. Maintenance is how your{' '}
-          <InlineLink onClick={() => navigate('/services/surveillance')}>surveillance</InlineLink>,{' '}
-          <InlineLink onClick={() => navigate('/services/access')}>access control</InlineLink>, and monitoring investments keep earning their keep, year after year.
+          <InlineLink onClick={() => navigate('/surveillance-systems')}>surveillance</InlineLink>,{' '}
+          <InlineLink onClick={() => navigate('/access-control')}>access control</InlineLink>, and monitoring investments keep earning their keep, year after year.
         </Body>
       </Section>
 
