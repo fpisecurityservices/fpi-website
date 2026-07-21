@@ -115,6 +115,27 @@ const PAGES = {
     ogDescription: 'Autonomous solar surveillance towers, live 3 AM SOC monitoring, GPS patrol logs, and LPR — theft prevention built for open dealership lots.',
     canonical: 'https://www.fpisecurity.com/industries/car-dealership-security',
   },
+  '/industries/warehouse-industrial-security': {
+    title: 'Warehouse & Industrial Security Services | FPI',
+    description: 'FPI provides warehouse security: armed guards, perimeter patrol, AI surveillance & 24/7 monitoring for industrial facilities in FL & TX. Free assessment.',
+    ogTitle: 'Warehouse & Industrial Security Services | FPI',
+    ogDescription: 'Armed guards, GPS patrol, autonomous solar surveillance, and 24/7 SOC monitoring — one integrated warehouse security program for FL & TX.',
+    canonical: 'https://www.fpisecurity.com/industries/warehouse-industrial-security',
+  },
+  '/industries/retail-shopping-center-security': {
+    title: 'Retail Loss Prevention & Mall Security Services | FPI',
+    description: 'FPI provides retail loss prevention, mall security & surveillance cameras for stores and shopping centers in FL & TX. Free assessment.',
+    ogTitle: 'Retail Loss Prevention & Mall Security Services | FPI',
+    ogDescription: 'Hospitality-forward loss prevention officers, actively monitored store surveillance cameras, parking enforcement, and 24/7 SOC monitoring.',
+    canonical: 'https://www.fpisecurity.com/industries/retail-shopping-center-security',
+  },
+  '/industries/hotel-security-services': {
+    title: 'Security for Hotels & Hospitality Properties | FPI',
+    description: 'FPI provides security for hotels & hospitality properties in FL & TX — CARE Ambassador officers, surveillance cameras & 24/7 monitoring. Free assessment.',
+    ogTitle: 'Security for Hotels & Hospitality Properties | FPI',
+    ogDescription: 'CARE Ambassador officers who protect the property while representing the brand, hotel surveillance cameras, parking patrol, and 24/7 monitoring.',
+    canonical: 'https://www.fpisecurity.com/industries/hotel-security-services',
+  },
   '/locations': {
     title: 'Security Services in FL, TX, GA, AZ, NV & CA | FPI Security',
     description: 'FPI Security operates across Florida, Texas, Georgia, Arizona, Nevada, and California — providing licensed guards, mobile patrol, and remote monitoring in every market we serve.',

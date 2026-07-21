@@ -14,6 +14,9 @@ import ConstructionPage from './pages/industries/ConstructionPage';
 import CommercialOfficePage from './pages/industries/CommercialOfficePage';
 import HealthcarePage from './pages/industries/HealthcarePage';
 import CarDealershipPage from './pages/industries/CarDealershipPage';
+import WarehousePage from './pages/industries/WarehousePage';
+import RetailPage from './pages/industries/RetailPage';
+import HospitalityPage from './pages/industries/HospitalityPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import OfficersPage from './pages/OfficersPage';
@@ -71,6 +74,9 @@ const AppLayout = () => {
         <Route path="/industries/commercial-office-building-security" element={<CommercialOfficePage />} />
         <Route path="/industries/healthcare-security-services" element={<HealthcarePage />} />
         <Route path="/industries/car-dealership-security" element={<CarDealershipPage />} />
+        <Route path="/industries/warehouse-industrial-security" element={<WarehousePage />} />
+        <Route path="/industries/retail-shopping-center-security" element={<RetailPage />} />
+        <Route path="/industries/hotel-security-services" element={<HospitalityPage />} />
         <Route path="/locations" element={<LocationsPage />} />
         <Route path="/locations/:slug" element={<LocationDetailPage />} />
         <Route path="/about" element={<AboutPage />} />
