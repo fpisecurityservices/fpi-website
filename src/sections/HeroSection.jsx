@@ -1,3 +1,4 @@
+'use client';
 import { useNavigate } from 'react-router-dom';
 import { Phone, MapPin, CheckCircle } from 'lucide-react';
 import useResponsive from '../hooks/useResponsive';

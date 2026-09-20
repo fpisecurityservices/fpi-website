@@ -1,3 +1,4 @@
+'use client';
 import useResponsive from '../hooks/useResponsive';
 import { Section, H2, Divider, FAQItem } from '../components/ServicePageKit';
 
