@@ -5,6 +5,8 @@ import {
 } from '../ServicePageKit';
 
 const bgOf = (b) => (b === 'gray' ? '#F4F6F8' : '#fff');
+const mediaUrl = (m) => (m && typeof m === 'object' ? m.url : null);
+const mediaAlt = (m) => (m && typeof m === 'object' ? m.alt || '' : '');
 const colsOf = (n, isMobile) => {
   if (isMobile) return '1fr';
   if (n === '3') return 'repeat(3, 1fr)';
@@ -220,6 +222,44 @@ const pricingTiers = ({ block, isMobile, navigate }) => (
   </Section>
 );
 
+const imageBlock = ({ block, isMobile }) => {
+  const url = mediaUrl(block.image);
+  const maxWidth = block.width === 'full' ? '100%' : block.width === 'narrow' ? 680 : 1040;
+  return (
+    <Section bg={bgOf(block.background)} isMobile={isMobile}>
+      <figure style={{ margin: '0 auto', maxWidth }}>
+        {url && <img src={url} alt={mediaAlt(block.image)} style={{ width: '100%', height: 'auto', borderRadius: 8, display: 'block' }} />}
+        {block.caption && (
+          <figcaption style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#8A96A8', marginTop: 8, textAlign: 'center' }}>{block.caption}</figcaption>
+        )}
+      </figure>
+    </Section>
+  );
+};
+
+const imageText = ({ block, isMobile, navigate }) => {
+  const url = mediaUrl(block.image);
+  const imgEl = (
+    <div style={{ flex: 1, width: '100%' }}>
+      {url && <img src={url} alt={mediaAlt(block.image)} style={{ width: '100%', height: 'auto', borderRadius: 10, display: 'block', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }} />}
+    </div>
+  );
+  const txtEl = (
+    <div style={{ flex: 1 }}>
+      {block.heading && <H2>{block.heading}</H2>}
+      <Prose text={block.body} />
+      {block.ctaText && <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>}
+    </div>
+  );
+  return (
+    <Section bg={bgOf(block.background)} isMobile={isMobile}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 24 : 48, alignItems: 'center' }}>
+        {isMobile ? <>{txtEl}{imgEl}</> : block.imagePosition === 'left' ? <>{imgEl}{txtEl}</> : <>{txtEl}{imgEl}</>}
+      </div>
+    </Section>
+  );
+};
+
 export const serviceRenderers = {
   serviceHero,
   contentSection,
@@ -230,4 +270,6 @@ export const serviceRenderers = {
   faq,
   finalCta,
   pricingTiers,
+  image: imageBlock,
+  imageText,
 };

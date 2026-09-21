@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
+import { s3Storage } from '@payloadcms/storage-s3';
 import sharp from 'sharp';
 
 import { Users } from './collections/Users';
@@ -17,6 +17,14 @@ import { SiteSettings } from './globals/SiteSettings';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const R2_ENABLED = Boolean(
+  process.env.R2_ACCESS_KEY_ID &&
+    process.env.R2_SECRET_ACCESS_KEY &&
+    process.env.R2_BUCKET &&
+    process.env.R2_ENDPOINT,
+);
+const R2_PUBLIC_BASE_URL = (process.env.R2_PUBLIC_BASE_URL || '').replace(/\/$/, '');
 
 export default buildConfig({
   admin: {
@@ -38,16 +46,33 @@ export default buildConfig({
     },
   }),
   sharp,
-  // Only load the Vercel Blob storage plugin once a token exists. Loading it
-  // without one registers a client component that isn't in the importMap,
-  // which Next throws on while rendering the admin. Until then, uploads use
-  // the local filesystem (fine for local dev; we switch to Blob before deploy).
-  plugins: process.env.BLOB_READ_WRITE_TOKEN
+  // Cloudflare R2 (S3-compatible) media storage. Only loads once R2 credentials
+  // exist; without them uploads use the local filesystem (fine for local dev).
+  // Vercel's filesystem is ephemeral, so R2 is required before production.
+  plugins: R2_ENABLED
     ? [
-        vercelBlobStorage({
-          enabled: true,
-          collections: { media: true },
-          token: process.env.BLOB_READ_WRITE_TOKEN,
+        s3Storage({
+          collections: {
+            media: R2_PUBLIC_BASE_URL
+              ? {
+                  // Serve images straight from R2's public URL (Cloudflare CDN,
+                  // free egress) instead of proxying through the Next server.
+                  disablePayloadAccessControl: true,
+                  generateFileURL: ({ filename, prefix }) =>
+                    prefix ? `${R2_PUBLIC_BASE_URL}/${prefix}/${filename}` : `${R2_PUBLIC_BASE_URL}/${filename}`,
+                }
+              : true,
+          },
+          bucket: process.env.R2_BUCKET,
+          config: {
+            endpoint: process.env.R2_ENDPOINT,
+            region: 'auto',
+            credentials: {
+              accessKeyId: process.env.R2_ACCESS_KEY_ID,
+              secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+            },
+            forcePathStyle: true,
+          },
         }),
       ]
     : [],

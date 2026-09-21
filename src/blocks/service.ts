@@ -231,6 +231,48 @@ export const PricingTiers: Block = {
   ],
 };
 
+export const ImageBlock: Block = {
+  slug: 'image',
+  labels: { singular: 'Image', plural: 'Images' },
+  fields: [
+    bgField,
+    { name: 'image', type: 'upload', relationTo: 'media', required: true },
+    { name: 'caption', type: 'text' },
+    {
+      name: 'width',
+      type: 'select',
+      defaultValue: 'wide',
+      options: [
+        { label: 'Full width', value: 'full' },
+        { label: 'Wide', value: 'wide' },
+        { label: 'Narrow', value: 'narrow' },
+      ],
+    },
+  ],
+};
+
+export const ImageText: Block = {
+  slug: 'imageText',
+  labels: { singular: 'Image + Text', plural: 'Image + Text Sections' },
+  fields: [
+    bgField,
+    { name: 'image', type: 'upload', relationTo: 'media', required: true },
+    {
+      name: 'imagePosition',
+      type: 'select',
+      defaultValue: 'right',
+      options: [
+        { label: 'Image on left', value: 'left' },
+        { label: 'Image on right', value: 'right' },
+      ],
+    },
+    { name: 'heading', type: 'text' },
+    { name: 'body', type: 'textarea' },
+    { name: 'ctaText', type: 'text' },
+    { name: 'ctaLink', type: 'text', defaultValue: '/contact' },
+  ],
+};
+
 export const serviceBlocks: Block[] = [
   ServiceHeroBlock,
   ContentSection,
@@ -241,4 +283,6 @@ export const serviceBlocks: Block[] = [
   FAQBlock,
   FinalCTABlock,
   PricingTiers,
+  ImageText,
+  ImageBlock,
 ];
