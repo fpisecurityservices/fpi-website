@@ -48,6 +48,8 @@ export const ContentSection: Block = {
         { name: 'wide', type: 'checkbox', label: 'Full width' },
       ],
     },
+    { name: 'afterHeading', type: 'text', admin: { description: 'Optional heading shown below the grid (e.g. a highlighted sub-point).' } },
+    { name: 'afterBody', type: 'textarea' },
     { name: 'ctaText', type: 'text' },
     { name: 'ctaLink', type: 'text', defaultValue: '/contact' },
     {
@@ -57,6 +59,15 @@ export const ContentSection: Block = {
       options: [
         { label: 'Left', value: 'left' },
         { label: 'Center', value: 'center' },
+      ],
+    },
+    {
+      name: 'ctaVariant',
+      type: 'select',
+      defaultValue: 'primary',
+      options: [
+        { label: 'Primary (filled)', value: 'primary' },
+        { label: 'Secondary (outline)', value: 'secondary' },
       ],
     },
   ],
@@ -107,6 +118,8 @@ export const StepsBlock: Block = {
         { name: 'body', type: 'textarea' },
       ],
     },
+    { name: 'afterHeading', type: 'text' },
+    { name: 'afterBody', type: 'textarea' },
     { name: 'ctaText', type: 'text' },
     { name: 'ctaLink', type: 'text', defaultValue: '/contact' },
   ],

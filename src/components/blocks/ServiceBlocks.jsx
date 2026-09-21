@@ -30,26 +30,40 @@ const serviceHero = ({ block, isMobile, navigate }) => (
   />
 );
 
-const contentSection = ({ block, isMobile, navigate }) => (
-  <Section bg={bgOf(block.background)} isMobile={isMobile}>
-    {block.heading && <H2>{block.heading}</H2>}
-    {block.intro && <Body>{block.intro}</Body>}
-    {(block.heading || block.intro) && <Divider />}
-    <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
-      {(block.items || []).map((it, i) => (
-        <div key={i} style={it.wide && !isMobile ? { gridColumn: '1 / -1' } : undefined}>
-          {it.heading && <H3>{it.heading}</H3>}
-          <Prose text={it.body} />
+const contentSection = ({ block, isMobile, navigate }) => {
+  const items = block.items || [];
+  const hasAfter = block.afterHeading || block.afterBody;
+  return (
+    <Section bg={bgOf(block.background)} isMobile={isMobile}>
+      {block.heading && <H2>{block.heading}</H2>}
+      {block.intro && <Body>{block.intro}</Body>}
+      {items.length > 0 && (block.heading || block.intro) && <Divider />}
+      {items.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
+          {items.map((it, i) => (
+            <div key={i} style={it.wide && !isMobile ? { gridColumn: '1 / -1' } : undefined}>
+              {it.heading && <H3>{it.heading}</H3>}
+              <Prose text={it.body} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-    {block.ctaText && (
-      <div style={{ marginTop: 36, textAlign: block.ctaAlign === 'center' && !isMobile ? 'center' : 'left' }}>
-        <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>
-      </div>
-    )}
-  </Section>
-);
+      )}
+      {hasAfter ? (
+        <div style={{ maxWidth: 760, marginTop: 8 }}>
+          {block.afterHeading && <H3>{block.afterHeading}</H3>}
+          <Prose text={block.afterBody} />
+          {block.ctaText && <CTAButton variant={block.ctaVariant || 'primary'} onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>}
+        </div>
+      ) : (
+        block.ctaText && (
+          <div style={{ marginTop: 36, textAlign: block.ctaAlign === 'center' && !isMobile ? 'center' : 'left' }}>
+            <CTAButton variant={block.ctaVariant || 'primary'} onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>
+          </div>
+        )
+      )}
+    </Section>
+  );
+};
 
 const compareSection = ({ block, isMobile }) => (
   <Section bg={bgOf(block.background)} isMobile={isMobile}>
@@ -92,13 +106,19 @@ const steps = ({ block, isMobile, navigate }) => (
     {block.heading && <H2>{block.heading}</H2>}
     {block.intro && <Body>{block.intro}</Body>}
     <Divider />
-    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 24, marginBottom: 40 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 24, marginBottom: block.afterHeading || block.afterBody ? 32 : 40 }}>
       {(block.steps || []).map((s, i) => (
         <StepCard key={i} number={String(i + 1)} title={s.title}>
           <Body style={{ marginBottom: 0 }}>{s.body}</Body>
         </StepCard>
       ))}
     </div>
+    {(block.afterHeading || block.afterBody) && (
+      <div style={{ maxWidth: 760 }}>
+        {block.afterHeading && <H3>{block.afterHeading}</H3>}
+        <Prose text={block.afterBody} />
+      </div>
+    )}
     {block.ctaText && <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>}
   </Section>
 );
