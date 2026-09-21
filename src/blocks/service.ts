@@ -208,6 +208,29 @@ export const FinalCTABlock: Block = {
   ],
 };
 
+export const PricingTiers: Block = {
+  slug: 'pricingTiers',
+  labels: { singular: 'Pricing Tiers', plural: 'Pricing Tiers' },
+  fields: [
+    bgField,
+    { name: 'heading', type: 'text' },
+    { name: 'intro', type: 'textarea' },
+    {
+      name: 'tiers',
+      type: 'array',
+      fields: [
+        { name: 'name', type: 'text' },
+        { name: 'tagline', type: 'text' },
+        { name: 'bullets', type: 'array', fields: [{ name: 'text', type: 'text' }] },
+        { name: 'bestFor', type: 'textarea' },
+      ],
+    },
+    { name: 'afterBody', type: 'textarea' },
+    { name: 'ctaText', type: 'text' },
+    { name: 'ctaLink', type: 'text', defaultValue: '/contact' },
+  ],
+};
+
 export const serviceBlocks: Block[] = [
   ServiceHeroBlock,
   ContentSection,
@@ -217,4 +240,5 @@ export const serviceBlocks: Block[] = [
   TestimonialsBlock,
   FAQBlock,
   FinalCTABlock,
+  PricingTiers,
 ];

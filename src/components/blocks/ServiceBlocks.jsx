@@ -1,7 +1,7 @@
 'use client';
 import { Phone } from 'lucide-react';
 import {
-  ServiceHero, Section, H2, H3, Body, CTAButton, Divider, StatBox, StepCard, FAQItem, FinalCTA,
+  ServiceHero, Section, H2, H3, Body, CTAButton, Divider, StatBox, StepCard, FAQItem, FinalCTA, BulletItem,
 } from '../ServicePageKit';
 
 const bgOf = (b) => (b === 'gray' ? '#F4F6F8' : '#fff');
@@ -36,7 +36,9 @@ const contentSection = ({ block, isMobile, navigate }) => {
   return (
     <Section bg={bgOf(block.background)} isMobile={isMobile}>
       {block.heading && <H2>{block.heading}</H2>}
-      {block.intro && <Body>{block.intro}</Body>}
+      {block.intro && (
+        items.length > 0 ? <Prose text={block.intro} /> : <div style={{ maxWidth: 860 }}><Prose text={block.intro} /></div>
+      )}
       {items.length > 0 && (block.heading || block.intro) && <Divider />}
       {items.length > 0 && (
         <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
@@ -194,6 +196,30 @@ const finalCta = ({ block, isMobile, navigate }) => (
   />
 );
 
+const pricingTiers = ({ block, isMobile, navigate }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.intro && <Body>{block.intro}</Body>}
+    <Divider />
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20, marginBottom: 32 }}>
+      {(block.tiers || []).map((t, i) => (
+        <div key={i} style={{ background: '#fff', borderRadius: 10, padding: isMobile ? '28px 22px' : '36px 30px', border: '1px solid #E2E6ED', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column' }}>
+          <H3 style={{ marginBottom: 4 }}>{t.name}</H3>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#006090', marginBottom: 18 }}>{t.tagline}</div>
+          <div style={{ flex: 1 }}>
+            {(t.bullets || []).map((b, j) => <BulletItem key={j} text={b.text} />)}
+          </div>
+          <div style={{ marginTop: 18, paddingTop: 18, borderTop: '1px solid #E2E6ED', fontFamily: "'Barlow', sans-serif", fontSize: 13, color: '#647184', lineHeight: 1.6 }}>
+            <strong style={{ color: '#0F3554' }}>Best for:</strong> {t.bestFor}
+          </div>
+        </div>
+      ))}
+    </div>
+    {block.afterBody && <Body style={{ maxWidth: 760 }}>{block.afterBody}</Body>}
+    {block.ctaText && <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>}
+  </Section>
+);
+
 export const serviceRenderers = {
   serviceHero,
   contentSection,
@@ -203,4 +229,5 @@ export const serviceRenderers = {
   testimonials,
   faq,
   finalCta,
+  pricingTiers,
 };
