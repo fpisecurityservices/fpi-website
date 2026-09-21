@@ -185,6 +185,7 @@ export const FAQBlock: Block = {
   labels: { singular: 'FAQ', plural: 'FAQ Sections' },
   fields: [
     bgField,
+    { name: 'eyebrow', type: 'text' },
     { name: 'heading', type: 'text' },
     {
       name: 'items',

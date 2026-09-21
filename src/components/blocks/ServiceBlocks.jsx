@@ -173,6 +173,7 @@ const testimonials = ({ block, isMobile }) => (
 
 const faq = ({ block, isMobile }) => (
   <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.eyebrow && <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>{block.eyebrow}</div>}
     {block.heading && <H2>{block.heading}</H2>}
     <Divider />
     <div style={{ maxWidth: 860 }}>

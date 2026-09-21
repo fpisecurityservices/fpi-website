@@ -1,5 +1,6 @@
 import type { Block } from 'payload';
 import { serviceBlocks } from './service';
+import { homeBlocks } from './home';
 
 // A constrained icon set (lucide-react names already used across the site).
 const ICON_OPTIONS = [
@@ -84,6 +85,7 @@ export const StatBand: Block = {
 };
 
 export const layoutBlocks: Block[] = [
+  ...homeBlocks,
   ...serviceBlocks,
   Hero,
   RichTextBlock,

@@ -4,6 +4,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react';
 import useResponsive from '../../hooks/useResponsive';
 import { Section, H2, H3, Body, CTAButton, Divider } from '../ServicePageKit';
 import { serviceRenderers } from './ServiceBlocks';
+import { homeRenderers } from './HomeBlocks';
 
 const mediaUrl = (m) => (m && typeof m === 'object' ? m.url : null);
 
@@ -101,13 +102,18 @@ const RENDERERS = {
   statBand: StatBandBlock,
   cta: CTABlockRender,
   ...serviceRenderers,
+  ...homeRenderers,
 };
+
+// These blocks manage their own space below the fixed header (full-bleed hero).
+const SELF_TOP = new Set(['homeHero']);
 
 export default function RenderBlocks({ blocks = [] }) {
   const { isMobile, isTablet } = useResponsive();
   const navigate = useNavigate();
+  const topPad = SELF_TOP.has(blocks[0]?.blockType) ? 0 : 68;
   return (
-    <div style={{ paddingTop: 68 }}>
+    <div style={{ paddingTop: topPad }}>
       {blocks.map((block, i) => {
         const Comp = RENDERERS[block.blockType];
         if (!Comp) return null;
