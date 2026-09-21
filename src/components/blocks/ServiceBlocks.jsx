@@ -1,0 +1,186 @@
+'use client';
+import { Phone } from 'lucide-react';
+import {
+  ServiceHero, Section, H2, H3, Body, CTAButton, Divider, StatBox, StepCard, FAQItem, FinalCTA,
+} from '../ServicePageKit';
+
+const bgOf = (b) => (b === 'gray' ? '#F4F6F8' : '#fff');
+const colsOf = (n, isMobile) => {
+  if (isMobile) return '1fr';
+  if (n === '3') return 'repeat(3, 1fr)';
+  if (n === '1') return '1fr';
+  return '1fr 1fr';
+};
+// Split a textarea value into paragraphs so multi-paragraph copy renders like the original.
+const paras = (text) => String(text || '').split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
+
+const Prose = ({ text, style }) =>
+  paras(text).map((p, i) => (
+    <Body key={i} style={i === paras(text).length - 1 ? style : undefined}>{p}</Body>
+  ));
+
+const serviceHero = ({ block, isMobile, navigate }) => (
+  <ServiceHero
+    isMobile={isMobile}
+    tags={(block.tags || []).map((t) => t.tag)}
+    title={block.heading}
+    intro={block.intro}
+    ctaText={block.ctaText}
+    onCta={() => navigate(block.ctaLink || '/contact')}
+  />
+);
+
+const contentSection = ({ block, isMobile, navigate }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.intro && <Body>{block.intro}</Body>}
+    {(block.heading || block.intro) && <Divider />}
+    <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
+      {(block.items || []).map((it, i) => (
+        <div key={i} style={it.wide && !isMobile ? { gridColumn: '1 / -1' } : undefined}>
+          {it.heading && <H3>{it.heading}</H3>}
+          <Prose text={it.body} />
+        </div>
+      ))}
+    </div>
+    {block.ctaText && (
+      <div style={{ marginTop: 36, textAlign: block.ctaAlign === 'center' && !isMobile ? 'center' : 'left' }}>
+        <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>
+      </div>
+    )}
+  </Section>
+);
+
+const compareSection = ({ block, isMobile }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.intro && <Body>{block.intro}</Body>}
+    <Divider />
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 40, marginBottom: 40 }}>
+      {(block.columns || []).map((col, i) => (
+        <div key={i}>
+          {col.heading && <H3>{col.heading}</H3>}
+          {col.intro && <Body>{col.intro}</Body>}
+          <ul style={{ paddingLeft: 20, margin: 0 }}>
+            {(col.bullets || []).map((b, j) => (
+              <li key={j} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.7, marginBottom: 8 }}>{b.text}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    {(block.lists || []).length > 0 && (
+      <div>
+        {block.listsHeading && <H3>{block.listsHeading}</H3>}
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 24 }}>
+          {block.lists.map((list, i) => (
+            <div key={i} style={{ background: '#fff', borderRadius: 8, padding: '20px 24px', border: '1px solid #E2E6ED' }}>
+              <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#006090', marginBottom: 12 }}>{list.label}</div>
+              {(list.items || []).map((it, j) => (
+                <div key={j} style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', padding: '6px 0', borderBottom: j < list.items.length - 1 ? '1px solid #F0F2F5' : 'none' }}>{it.text}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </Section>
+);
+
+const steps = ({ block, isMobile, navigate }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.intro && <Body>{block.intro}</Body>}
+    <Divider />
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 24, marginBottom: 40 }}>
+      {(block.steps || []).map((s, i) => (
+        <StepCard key={i} number={String(i + 1)} title={s.title}>
+          <Body style={{ marginBottom: 0 }}>{s.body}</Body>
+        </StepCard>
+      ))}
+    </div>
+    {block.ctaText && <CTAButton onClick={() => navigate(block.ctaLink || '/contact')}>{block.ctaText}</CTAButton>}
+  </Section>
+);
+
+const statsSection = ({ block, isMobile }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.intro && <Body>{block.intro}</Body>}
+    <Divider />
+    {(block.stats || []).length > 0 && (
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 32, marginBottom: 48 }}>
+        {block.stats.map((s, i) => (
+          <StatBox key={i} stat={s.stat} label={s.label} source={s.source} />
+        ))}
+      </div>
+    )}
+    <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
+      {(block.items || []).map((it, i) => (
+        <div key={i}>
+          {it.heading && <H3>{it.heading}</H3>}
+          <Prose text={it.body} />
+        </div>
+      ))}
+    </div>
+  </Section>
+);
+
+const testimonials = ({ block, isMobile }) => (
+  <Section isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    {block.note && <Body style={{ color: '#8A96A8', fontStyle: 'italic', fontSize: 13 }}>{block.note}</Body>}
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
+      {(block.items || []).map((t, i) => (
+        <div key={i} style={{ background: '#F4F6F8', borderRadius: 8, padding: '28px 24px', border: '1px solid #E2E6ED', borderLeft: '4px solid #006090' }}>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 14, color: '#4E5A6E', lineHeight: 1.75, fontStyle: 'italic', marginBottom: 16 }}>{t.quote}</p>
+          <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: 12, fontWeight: 700, color: '#8A96A8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t.attribution}</div>
+        </div>
+      ))}
+    </div>
+  </Section>
+);
+
+const faq = ({ block, isMobile }) => (
+  <Section bg={bgOf(block.background)} isMobile={isMobile}>
+    {block.heading && <H2>{block.heading}</H2>}
+    <Divider />
+    <div style={{ maxWidth: 860 }}>
+      {(block.items || []).map((f, i) => (
+        <FAQItem key={i} question={f.question} answer={f.answer} />
+      ))}
+    </div>
+    {block.contactText && (
+      <div style={{ marginTop: 32, background: '#fff', borderRadius: 8, padding: '24px 28px', border: '1px solid #E2E6ED', display: 'inline-flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: 15, color: '#0F3554', fontWeight: 600 }}>{block.contactText}</span>
+        {block.phone && (
+          <a href={`tel:${String(block.phone).replace(/\D/g, '')}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#006090', fontFamily: "'Barlow', sans-serif", fontSize: 16, fontWeight: 700 }}>
+            <Phone size={18} />
+            {block.phone}
+          </a>
+        )}
+      </div>
+    )}
+  </Section>
+);
+
+const finalCta = ({ block, isMobile, navigate }) => (
+  <FinalCTA
+    isMobile={isMobile}
+    title={block.heading}
+    body={block.body}
+    ctaText={block.ctaText}
+    onCta={() => navigate(block.ctaLink || '/contact')}
+  />
+);
+
+export const serviceRenderers = {
+  serviceHero,
+  contentSection,
+  compareSection,
+  steps,
+  statsSection,
+  testimonials,
+  faq,
+  finalCta,
+};
