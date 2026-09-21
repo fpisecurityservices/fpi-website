@@ -1,7 +1,7 @@
 'use client';
 import { Phone } from 'lucide-react';
 import {
-  ServiceHero, Section, H2, H3, Body, CTAButton, Divider, StatBox, StepCard, FAQItem, FinalCTA, BulletItem,
+  ServiceHero, Section, H2, H3, Body, CTAButton, Divider, StatBox, StepCard, FAQItem, FinalCTA, BulletItem, Breadcrumb,
 } from '../ServicePageKit';
 
 const bgOf = (b) => (b === 'gray' ? '#F4F6F8' : '#fff');
@@ -42,6 +42,12 @@ const contentSection = ({ block, isMobile, navigate }) => {
         items.length > 0 ? <Prose text={block.intro} /> : <div style={{ maxWidth: 860 }}><Prose text={block.intro} /></div>
       )}
       {items.length > 0 && (block.heading || block.intro) && <Divider />}
+      {(block.preHeading || block.preBody) && (
+        <div style={{ marginBottom: 24 }}>
+          {block.preHeading && <H3>{block.preHeading}</H3>}
+          <Prose text={block.preBody} />
+        </div>
+      )}
       {items.length > 0 && (
         <div style={{ display: 'grid', gridTemplateColumns: colsOf(block.columns, isMobile), gap: 40 }}>
           {items.map((it, i) => (
@@ -260,7 +266,15 @@ const imageText = ({ block, isMobile, navigate }) => {
   );
 };
 
+const breadcrumb = ({ block, isMobile, navigate }) => (
+  <Breadcrumb
+    isMobile={isMobile}
+    trail={(block.items || []).map((it) => (it.path ? { label: it.label, onClick: () => navigate(it.path) } : { label: it.label }))}
+  />
+);
+
 export const serviceRenderers = {
+  breadcrumb,
   serviceHero,
   contentSection,
   compareSection,

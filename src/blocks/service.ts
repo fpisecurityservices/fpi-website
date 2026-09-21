@@ -39,6 +39,8 @@ export const ContentSection: Block = {
         { label: '3 columns', value: '3' },
       ],
     },
+    { name: 'preHeading', type: 'text', admin: { description: 'Optional heading shown above the grid.' } },
+    { name: 'preBody', type: 'textarea' },
     {
       name: 'items',
       type: 'array',
@@ -273,7 +275,23 @@ export const ImageText: Block = {
   ],
 };
 
+export const BreadcrumbBlock: Block = {
+  slug: 'breadcrumb',
+  labels: { singular: 'Breadcrumb', plural: 'Breadcrumbs' },
+  fields: [
+    {
+      name: 'items',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'path', type: 'text', admin: { description: 'Leave blank for the current (last) item.' } },
+      ],
+    },
+  ],
+};
+
 export const serviceBlocks: Block[] = [
+  BreadcrumbBlock,
   ServiceHeroBlock,
   ContentSection,
   CompareSection,
