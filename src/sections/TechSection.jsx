@@ -1,3 +1,4 @@
+'use client';
 import { Monitor, Radio, FileText, MapPin, Bell, Lock, Check, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useResponsive from '../hooks/useResponsive';

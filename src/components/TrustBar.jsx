@@ -1,3 +1,4 @@
+'use client';
 import { ShieldCheck, BadgeCheck, Clock, Phone, MapPin } from 'lucide-react';
 import useResponsive from '../hooks/useResponsive';
 

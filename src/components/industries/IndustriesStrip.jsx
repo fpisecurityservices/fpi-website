@@ -1,3 +1,4 @@
+'use client';
 import { useNavigate } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
 import { INDUSTRIES_DATA } from '../../data/industries';

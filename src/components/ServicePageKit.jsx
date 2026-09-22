@@ -1,3 +1,4 @@
+'use client';
 import { Check, ChevronRight } from 'lucide-react';
 
 export const Breadcrumb = ({ trail, isMobile }) => (

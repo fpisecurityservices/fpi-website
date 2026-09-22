@@ -1,5 +1,13 @@
 node_modules/
 dist/
+.next/
 .DS_Store
 *.log
 .vercel
+
+# Secrets / local env
+.env
+.env*.local
+.env.local
+
+# Payload generated types

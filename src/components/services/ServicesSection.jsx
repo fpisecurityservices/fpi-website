@@ -1,3 +1,4 @@
+'use client';
 import useResponsive from '../../hooks/useResponsive';
 import { SERVICES_DATA } from '../../data/services';
 import ServiceCard from './ServiceCard';
